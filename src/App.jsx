@@ -13,6 +13,7 @@ import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminForgotPasswordPage from './pages/admin/AdminForgotPasswordPage';
 import AdminResetPasswordPage from './pages/admin/AdminResetPasswordPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminPlaceholderModule from './pages/admin/AdminPlaceholderModule';
 import AdminRouteGuard from './components/admin/AdminRouteGuard';
 import { AuthProvider } from './context/AuthContext';
 import { refreshScrollTrigger } from './utils/gsapConfig';
@@ -87,6 +88,38 @@ export default function App() {
               element={
                 <AdminRouteGuard>
                   <AdminDashboardPage />
+                </AdminRouteGuard>
+              }
+            />
+            <Route
+              path="/admin/projects"
+              element={
+                <AdminRouteGuard>
+                  <AdminPlaceholderModule moduleKey="projects" />
+                </AdminRouteGuard>
+              }
+            />
+            <Route
+              path="/admin/categories"
+              element={
+                <AdminRouteGuard>
+                  <AdminPlaceholderModule moduleKey="categories" />
+                </AdminRouteGuard>
+              }
+            />
+            <Route
+              path="/admin/media"
+              element={
+                <AdminRouteGuard>
+                  <AdminPlaceholderModule moduleKey="media" />
+                </AdminRouteGuard>
+              }
+            />
+            <Route
+              path="/admin/settings"
+              element={
+                <AdminRouteGuard>
+                  <AdminPlaceholderModule moduleKey="settings" />
                 </AdminRouteGuard>
               }
             />
