@@ -1,6 +1,6 @@
 import React from 'react';
 import WhatsAppIcon from './WhatsAppIcon';
-import { getWhatsAppUrl } from '../../data/designer';
+import { COMPANY_INFO, getWhatsAppUrl } from '../../data/designer';
 import './WhatsAppButton.css';
 
 /**
@@ -9,7 +9,7 @@ import './WhatsAppButton.css';
  */
 export default function WhatsAppButton() {
   const whatsappUrl = getWhatsAppUrl(
-    "Hi Rajabul, I came across your interior portfolio and would like to discuss a project in Delhi NCR."
+    `Hi ${COMPANY_INFO.name}, I came across ${COMPANY_INFO.domain} and would like to discuss an interior project in Delhi NCR.`
   );
 
   return (
@@ -19,8 +19,8 @@ export default function WhatsAppButton() {
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-floating-btn"
-        aria-label="Chat directly with Rajabul Saifi on WhatsApp"
-        title="Chat directly with Rajabul Saifi on WhatsApp"
+        aria-label={`Chat directly with ${COMPANY_INFO.name} on WhatsApp`}
+        title={`Chat directly with ${COMPANY_INFO.name} on WhatsApp`}
       >
         <span className="whatsapp-pulse" aria-hidden="true"></span>
         <WhatsAppIcon size={28} className="whatsapp-icon" />

@@ -33,7 +33,7 @@ export default function Navbar() {
   }, [mobileMenuOpen]);
 
   const whatsappNavUrl = getWhatsAppUrl(
-    "Hi Rajabul, I would like to enquire about your interior design & site execution services."
+    "Hi Saifi Interior Hub, I would like to enquire about your interior design and interior work services."
   );
 
   const phoneTel = `tel:${DESIGNER_INFO.contact.phone.replace(/\s+/g, '')}`;
@@ -44,7 +44,7 @@ export default function Navbar() {
         {/* Brand / Logo */}
         <Link to="/" className="brand-logo" onClick={closeMenu} aria-label={`${DESIGNER_INFO.name} - Home`}>
           <span className="brand-name">{DESIGNER_INFO.name}</span>
-          <span className="brand-subtitle">Interior Architecture • 10+ Years Exp</span>
+          <span className="brand-subtitle">Interior Design & Work • 10+ Years Exp</span>
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -82,7 +82,7 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-whatsapp header-cta"
-            aria-label="Chat with Rajabul Saifi on WhatsApp"
+            aria-label={`Chat with ${DESIGNER_INFO.name} on WhatsApp`}
             title="Chat on WhatsApp"
           >
             <WhatsAppIcon size={18} />
@@ -116,7 +116,7 @@ export default function Navbar() {
           >
             <div className="mobile-drawer-header">
               <span className="mobile-drawer-brand">{DESIGNER_INFO.name}</span>
-              <span className="mobile-drawer-tagline">10+ Years of Craftsmanship</span>
+              <span className="mobile-drawer-tagline">10+ Years of Interior Design Experience</span>
             </div>
 
             <nav className="mobile-nav-links">

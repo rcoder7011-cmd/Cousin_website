@@ -88,7 +88,8 @@
   border: 1px solid var(--color-accent-border);
 }
 
-.contact-method-icon-map {
+.contact-method-icon-map,
+.contact-method-icon-web {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-sm);
@@ -99,6 +100,19 @@
   justify-content: center;
   flex-shrink: 0;
   border: 1px solid var(--color-border);
+}
+
+.contact-method-val-web {
+  font-size: clamp(0.92rem, 1.3vw, 1.02rem);
+  font-weight: 700;
+  color: var(--color-accent);
+  display: inline-block;
+  padding: 0.1rem 0;
+  text-decoration: none;
+}
+
+.contact-method-val-web:hover {
+  text-decoration: underline;
 }
 
 .contact-method-label {

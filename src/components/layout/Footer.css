@@ -131,7 +131,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.15rem;
 }
 
 .footer-areas-list li {
@@ -145,6 +145,49 @@
 .area-icon {
   color: var(--color-accent);
   flex-shrink: 0;
+}
+
+.footer-web-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-web-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #a4abb8;
+}
+
+.web-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.footer-domain-link,
+.footer-email-link {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.footer-domain-link:hover,
+.footer-email-link:hover {
+  text-decoration: underline;
+}
+
+.footer-credit-domain {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.footer-credit-domain:hover {
+  text-decoration: underline;
 }
 
 .footer-subtext {

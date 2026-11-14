@@ -118,11 +118,11 @@ export default function ProjectsPage() {
           <div className="page-header-inner">
             <span className="badge">
               <Award size={14} className="badge-icon" />
-              <span>10+ Years of Execution • Verified Portfolio</span>
+              <span>Saifi Interior Hub • 10+ Years Experience</span>
             </span>
-            <h1 className="page-main-title">Completed Interior Executions</h1>
+            <h1 className="page-main-title">Completed Interior Work Portfolio</h1>
             <p className="page-main-desc">
-              Explore 100+ real site photographs directly supervised and executed across Gurugram, Delhi, and Noida. Every project represents genuine craftsmanship by our in-house trade specialists.
+              Explore 100+ real site photographs directly supervised and executed by Saifi Interior Hub across Gurugram, Delhi, and Noida (saifiinteriorhub.in). Every project represents genuine craftsmanship by our in-house trade specialists.
             </p>
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function ProjectsPage() {
             const isPriority = index < 6;
             const photoTitle = `${photo.category} Execution #${String(index + 1).padStart(2, '0')}`;
             const enquiryUrl = getWhatsAppUrl(
-              `Hi Rajabul, I saw your ${photo.category} interior work (${photo.src}) on your website and would like similar execution for my space.`
+              `Hi Saifi Interior Hub, I saw your ${photo.category} interior work (${photo.src}) on saifiinteriorhub.in and would like similar execution for my space.`
             );
 
             return (
@@ -271,7 +271,7 @@ export default function ProjectsPage() {
                 )}
               </div>
               <a
-                href={getWhatsAppUrl(`Hi Rajabul, I saw your ${activePhoto.category} project (${activePhoto.src}) and would like to discuss a similar interior execution.`)}
+                href={getWhatsAppUrl(`Hi Saifi Interior Hub, I saw your ${activePhoto.category} project (${activePhoto.src}) on saifiinteriorhub.in and would like to discuss a similar interior execution.`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-whatsapp lightbox-whatsapp-btn"

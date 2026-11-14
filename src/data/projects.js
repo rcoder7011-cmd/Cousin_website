@@ -1,7 +1,7 @@
 /**
  * Portfolio Projects & Real Site Photographs Data
  *
- * Real site executions managed and supervised directly by Rajabul Saifi
+ * Real site executions managed and supervised directly by Saifi Interior Hub (saifiinteriorhub.in)
  * across Gurugram, Delhi, and Noida.
  *
  * Folder mappings preserve exact case and folder names:

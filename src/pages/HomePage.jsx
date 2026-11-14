@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, ArrowRight, CheckCircle2, MapPin, Hammer, ShieldCheck, Award, Sparkles } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
-import { DESIGNER_INFO, getWhatsAppUrl } from '../data/designer';
+import ExperienceShowcaseGSAP from '../components/common/ExperienceShowcaseGSAP';
+import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
 import { SERVICES } from '../data/services';
 import { PROJECTS } from '../data/projects';
 import './HomePage.css';
 
 export default function HomePage() {
-  const heroWhatsApp = getWhatsAppUrl("Hi Rajabul, I am interested in interior design and execution for my flat/home in Delhi NCR.");
+  const heroWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I am interested in interior design and interior work for my flat/home in Delhi NCR.`);
 
   // Highlight key 6 categories requested
   const primaryServices = SERVICES.slice(0, 6);
@@ -21,7 +22,7 @@ export default function HomePage() {
           <div className="hero-content">
             <div className="badge hero-badge">
               <Award size={14} className="hero-badge-icon" aria-hidden="true" />
-              <span>10+ Years of Craftsmanship • Delhi NCR</span>
+              <span>{COMPANY_INFO.name} • 10+ Years Experience • Delhi NCR</span>
             </div>
 
             <h1 className="hero-title">
@@ -29,7 +30,7 @@ export default function HomePage() {
             </h1>
 
             <p className="hero-subtitle">
-              With over 10 years of experience in interior design, <strong>{DESIGNER_INFO.name}</strong> leads a specialized studio and an in-house team of master craftsmen. We transform concepts into refined residential and commercial spaces across Gurugram, Delhi, and Noida with direct personal site supervision.
+              With over 10 years of experience in interior design and interior work, <strong>{COMPANY_INFO.name}</strong> pairs refined aesthetic vision with a dedicated team of master craftsmen. We transform concepts into refined residential and commercial spaces across Gurugram, Delhi, and Noida with direct personal site supervision.
             </p>
 
             <div className="hero-actions">
@@ -38,7 +39,7 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-whatsapp hero-whatsapp-btn"
-                aria-label="Enquire with Rajabul Saifi on WhatsApp"
+                aria-label={`Enquire with ${COMPANY_INFO.name} on WhatsApp`}
               >
                 <WhatsAppIcon size={20} />
                 <span>Enquire on WhatsApp</span>
@@ -50,12 +51,12 @@ export default function HomePage() {
               </Link>
 
               <a
-                href={`tel:${DESIGNER_INFO.contact.phone.replace(/\s+/g, '')}`}
+                href={`tel:${COMPANY_INFO.contact.phone.replace(/\s+/g, '')}`}
                 className="btn btn-outline hero-call-btn"
-                aria-label={`Call ${DESIGNER_INFO.name}`}
+                aria-label={`Call ${COMPANY_INFO.name}`}
               >
                 <Phone size={16} aria-hidden="true" />
-                <span>{DESIGNER_INFO.contact.phone}</span>
+                <span>{COMPANY_INFO.contact.phone}</span>
               </a>
             </div>
 
@@ -71,7 +72,7 @@ export default function HomePage() {
               </div>
               <div className="trust-item">
                 <CheckCircle2 size={16} className="trust-icon" aria-hidden="true" />
-                <span>10+ Years Proven Track Record</span>
+                <span>10+ Years Company Experience</span>
               </div>
             </div>
           </div>
@@ -81,7 +82,7 @@ export default function HomePage() {
             <div className="hero-image-wrapper hero-primary-image">
               <img
                 src="/images/projects/Living Room/78d10c45-348b-4c86-90f8-942b36a10bc9.png"
-                alt="Luxury living room interior execution with custom wood panelling and ambient lighting by Rajabul Saifi"
+                alt="Luxury living room interior work executed by Saifi Interior Hub"
                 className="hero-image"
                 fetchPriority="high"
                 decoding="async"
@@ -92,7 +93,7 @@ export default function HomePage() {
                 <Award size={24} className="card-icon" aria-hidden="true" />
                 <div>
                   <div className="card-title">10+ Years Industry Experience</div>
-                  <div className="card-text">Direct site supervision & master craftsmanship</div>
+                  <div className="card-text">{COMPANY_INFO.name} • Direct site supervision</div>
                 </div>
               </div>
             </div>
@@ -101,7 +102,7 @@ export default function HomePage() {
             <div className="hero-secondary-card">
               <img
                 src="/images/projects/Bedroom/34b5c063-c931-45f9-ab44-d4bfd075c02f.png"
-                alt="Master bedroom detail with curved walnut headboard and ambient cove lighting"
+                alt="Master bedroom detail executed by Saifi Interior Hub with curved walnut headboard"
                 className="hero-secondary-img"
                 loading="lazy"
                 decoding="async"
@@ -116,22 +117,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. ABOUT & EXPERIENCE SECTION (Task 7 Requirement) */}
+      {/* 2. ABOUT & EXPERIENCE SECTION (Task 7 Requirement + GSAP Animation) */}
       <section className="experience-section" aria-label="About our experience">
         <div className="container">
           <div className="experience-grid">
             <div className="experience-content">
-              <span className="section-eyebrow">Studio Heritage</span>
+              <span className="section-eyebrow">Company Experience</span>
               <h2 className="experience-title">Over a Decade of Creating Beautiful Spaces</h2>
               <p className="experience-lead">
                 With over 10 years of experience in interior design, we focus on creating beautiful, functional and thoughtfully designed spaces.
               </p>
               <p className="experience-body">
-                Unlike corporate interior firms that sub-contract your dream home to anonymous third parties, Rajabul Saifi operates with a dedicated team of master carpenters, false-ceiling artisans, painters, and electricians. Every layout, joinery cut, and stone finish is supervised on the ground, delivering superior craftsmanship without inflated overhead margins.
+                Unlike corporate interior firms that sub-contract your dream home to anonymous third parties, <strong>{COMPANY_INFO.name}</strong> operates with a dedicated in-house team of master carpenters, false-ceiling artisans, painters, and electricians. Every layout, joinery cut, and stone finish is supervised on the ground, delivering superior craftsmanship without inflated overhead margins.
               </p>
 
               <div className="experience-pillars">
-                {DESIGNER_INFO.strengths.map((item, idx) => (
+                {COMPANY_INFO.strengths.map((item, idx) => (
                   <div key={idx} className="pillar-item">
                     <div className="pillar-icon-box" aria-hidden="true">
                       {idx === 0 && <Award size={20} />}
@@ -159,7 +160,7 @@ export default function HomePage() {
               <div className="experience-visual-main">
                 <img
                   src="/images/projects/OFFICE/619a0583-75a7-4f10-a6b5-811d0b650f0a.png"
-                  alt="Executive corporate office suite with precision walnut wall panelling and brass inlays"
+                  alt="Executive corporate office suite with precision walnut wall panelling by Saifi Interior Hub"
                   className="experience-img-main"
                   loading="lazy"
                   decoding="async"
@@ -168,14 +169,14 @@ export default function HomePage() {
                 />
                 <div className="experience-badge-overlay">
                   <span className="exp-number">10+</span>
-                  <span className="exp-label">Years of Direct Site Execution</span>
+                  <span className="exp-label">Years of Company Experience</span>
                 </div>
               </div>
 
               <div className="experience-visual-accent">
                 <img
                   src="/images/projects/Pop Ceiling/4c617dfa-40ad-4b7b-b8c0-f8d909091b8a.png"
-                  alt="POP false ceiling with magnetic track illumination and cove detailing"
+                  alt="POP false ceiling with magnetic track illumination by Saifi Interior Hub"
                   className="experience-img-accent"
                   loading="lazy"
                   decoding="async"
@@ -185,6 +186,9 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
+          {/* GSAP-Animated Experience Showcase Component */}
+          <ExperienceShowcaseGSAP />
         </div>
       </section>
 
@@ -196,7 +200,7 @@ export default function HomePage() {
               <span className="section-eyebrow">Portfolio Showcase</span>
               <h2>Signature Completed Projects</h2>
               <p className="section-description">
-                Explore real residential and corporate spaces delivered across Gurugram, Delhi, and Noida.
+                Explore real residential and corporate spaces delivered by {COMPANY_INFO.name} across Gurugram, Delhi, and Noida.
               </p>
             </div>
             <Link to="/projects" className="btn btn-outline preview-all-btn">
@@ -211,7 +215,7 @@ export default function HomePage() {
                 <div className="project-image-box">
                   <img
                     src={project.coverImage}
-                    alt={project.title}
+                    alt={`${project.title} - ${COMPANY_INFO.name}`}
                     loading="lazy"
                     decoding="async"
                     width="600"
@@ -234,7 +238,7 @@ export default function HomePage() {
                   </div>
                   <div className="project-card-action">
                     <a
-                      href={getWhatsAppUrl(`Hi Rajabul, I saw your project "${project.title}" in ${project.location} and would like similar interior work done.`)}
+                      href={getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I saw your project "${project.title}" in ${project.location} on saifiinteriorhub.in and would like similar interior work done.`)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="project-enquire-link"
@@ -256,9 +260,9 @@ export default function HomePage() {
         <div className="container">
           <div className="section-header text-center">
             <span className="section-eyebrow">Comprehensive Capabilities</span>
-            <h2>Tailored Interior Services & Execution Trades</h2>
+            <h2>Interior Design and Interior Work Services</h2>
             <p className="section-description">
-              From individual rooms to full flat and villa renovations, our master craftsmen execute every trade under direct studio supervision.
+              From individual rooms to full flat and villa renovations, {COMPANY_INFO.name}'s master craftsmen execute every trade under direct studio supervision.
             </p>
           </div>
 
@@ -268,7 +272,7 @@ export default function HomePage() {
                 <div className="service-card-media">
                   <img
                     src={service.coverImage}
-                    alt={service.title}
+                    alt={`${service.title} - ${COMPANY_INFO.name}`}
                     loading="lazy"
                     decoding="async"
                     width="500"
@@ -293,7 +297,7 @@ export default function HomePage() {
 
                   <div className="service-card-footer">
                     <a
-                      href={getWhatsAppUrl(`Hi Rajabul, I would like to enquire about ${service.title} for my home/site.`)}
+                      href={getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I would like to enquire about ${service.title} for my space.`)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="service-whatsapp-link"
@@ -321,10 +325,10 @@ export default function HomePage() {
         <div className="container">
           <div className="cta-banner-card">
             <div className="cta-banner-content">
-              <span className="cta-banner-eyebrow">Direct Designer Collaboration</span>
+              <span className="cta-banner-eyebrow">Direct Collaboration</span>
               <h2>Have a Flat, Villa or Commercial Site Ready for Work?</h2>
               <p>
-                Connect directly with Rajabul Saifi. Benefit from more than 10 years of on-site execution experience. We provide practical architectural advice, material clarity, and transparent estimates across Gurugram, Delhi, and Noida.
+                Connect directly with <strong>{COMPANY_INFO.name}</strong> ({COMPANY_INFO.domain}). Benefit from more than 10 years of on-site execution experience. We provide practical architectural advice, material clarity, and transparent estimates across Gurugram, Delhi, and Noida.
               </p>
             </div>
             <div className="cta-banner-actions">
@@ -333,18 +337,18 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-whatsapp cta-big-btn"
-                aria-label="Chat directly with Rajabul Saifi on WhatsApp"
+                aria-label={`Chat directly with ${COMPANY_INFO.name} on WhatsApp`}
               >
                 <WhatsAppIcon size={22} />
                 <span>Chat Directly on WhatsApp</span>
               </a>
               <a
-                href={`tel:${DESIGNER_INFO.contact.phone.replace(/\s+/g, '')}`}
+                href={`tel:${COMPANY_INFO.contact.phone.replace(/\s+/g, '')}`}
                 className="btn btn-outline cta-phone-btn"
-                aria-label={`Call Rajabul Saifi at ${DESIGNER_INFO.contact.phone}`}
+                aria-label={`Call ${COMPANY_INFO.name} at ${COMPANY_INFO.contact.phone}`}
               >
                 <Phone size={18} aria-hidden="true" />
-                <span>Call {DESIGNER_INFO.contact.phone}</span>
+                <span>Call {COMPANY_INFO.contact.phone}</span>
               </a>
             </div>
           </div>

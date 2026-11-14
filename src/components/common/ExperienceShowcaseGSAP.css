@@ -1,0 +1,158 @@
+/* ==========================================================================
+   GSAP Experience Showcase Styles - Saifi Interior Hub
+   ========================================================================== */
+
+.experience-gsap-container {
+  width: 100%;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-6);
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  background-color: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.experience-gsap-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: flex-start;
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+@media (min-width: 860px) {
+  .experience-gsap-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+  }
+}
+
+.gsap-badge-glow {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.35rem;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(179, 136, 56, 0.4);
+  box-shadow: 0 8px 24px rgba(18, 19, 22, 0.15);
+  flex-shrink: 0;
+}
+
+.gsap-badge-icon {
+  color: var(--color-accent);
+}
+
+.gsap-counter-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.gsap-counter-number {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-accent);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.gsap-counter-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #e5e7eb;
+  margin-top: 2px;
+}
+
+.gsap-header-desc {
+  font-size: 0.92rem;
+  line-height: 1.68;
+  color: var(--color-text-muted);
+  max-width: 620px;
+}
+
+.gsap-header-desc strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* 4 Key Metrics Grid */
+.gsap-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+@media (min-width: 540px) {
+  .gsap-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+}
+
+@media (min-width: 992px) {
+  .gsap-stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+  }
+}
+
+.gsap-stat-card {
+  background-color: var(--color-bg-white);
+  padding: 1.35rem 1.15rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.gsap-stat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-accent-border);
+  box-shadow: var(--shadow-md);
+}
+
+.gsap-stat-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-xs);
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.65rem;
+}
+
+.gsap-stat-num {
+  font-family: var(--font-serif);
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.15;
+  margin-bottom: 0.25rem;
+}
+
+.gsap-stat-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.01em;
+}
+
+.gsap-stat-desc {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}

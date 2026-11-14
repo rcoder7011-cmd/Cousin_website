@@ -1,14 +1,8 @@
 /**
- * Services Configuration
+ * Services Configuration - Saifi Interior Hub (saifiinteriorhub.in)
  * 
- * Reusable data structure for services offered by Rajabul Saifi and his labour team.
- */
-
-/**
- * Services Configuration
- * 
- * Reusable data structure for interior design and execution services offered by Rajabul Saifi.
- * Covers full-scope residential and commercial execution with 10+ years of craftsmanship.
+ * Reusable data structure for interior design and interior work services offered by Saifi Interior Hub.
+ * Covers full-scope residential and commercial execution with 10+ years of company experience.
  */
 
 export const SERVICES = [

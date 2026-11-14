@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, ShieldCheck, Award } from 'lucide-react';
+import { MapPin, Phone, ShieldCheck, Award, Globe, Mail } from 'lucide-react';
 import WhatsAppIcon from '../common/WhatsAppIcon';
-import { DESIGNER_INFO, getWhatsAppUrl } from '../../data/designer';
+import { COMPANY_INFO, getWhatsAppUrl } from '../../data/designer';
 import './Footer.css';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
 export default function Footer() {
-  const footerWhatsApp = getWhatsAppUrl("Hi Rajabul, I am contacting you through your website for an interior consultation.");
+  const footerWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I am contacting you through saifiinteriorhub.in for an interior design consultation.`);
 
   return (
     <footer className="site-footer">
@@ -16,16 +16,16 @@ export default function Footer() {
         {/* Brand & Experience Focus */}
         <div className="footer-col brand-col">
           <div className="footer-brand-header">
-            <h3 className="footer-brand-title">{DESIGNER_INFO.name}</h3>
-            <span className="footer-brand-tagline">Interior Architecture & Site Execution</span>
+            <h3 className="footer-brand-title">{COMPANY_INFO.name}</h3>
+            <span className="footer-brand-tagline">Interior Design and Interior Work</span>
           </div>
           <p className="footer-brand-desc">
-            With over 10 years of experience in interior design, we focus on creating beautiful, functional, and thoughtfully designed spaces with direct on-site supervision across Gurugram, Delhi, and Noida.
+            With over 10 years of experience in interior design and interior work, <strong>{COMPANY_INFO.name}</strong> focuses on creating beautiful, functional, and thoughtfully designed residential and commercial spaces across Gurugram, Delhi, and Noida with direct on-site supervision.
           </p>
           <div className="footer-trust-tags">
             <div className="footer-trust-tag">
               <Award size={16} className="trust-tag-icon" />
-              <span>10+ Years of Craftsmanship</span>
+              <span>10+ Years Company Experience</span>
             </div>
             <div className="footer-trust-tag">
               <ShieldCheck size={16} className="trust-tag-icon" />
@@ -46,18 +46,31 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Coverage Areas */}
+        {/* Coverage Areas & Official Web Info */}
         <div className="footer-col">
           <h4 className="footer-heading">Service Regions</h4>
           <ul className="footer-areas-list">
-            {DESIGNER_INFO.serviceAreas.map((area, idx) => (
+            {COMPANY_INFO.serviceAreas.map((area, idx) => (
               <li key={idx}>
                 <MapPin size={15} className="area-icon" />
                 <span>{area}</span>
               </li>
             ))}
           </ul>
-          <p className="footer-subtext">On-site measurements and personal design consultations available across all listed regions.</p>
+          <div className="footer-web-details">
+            <div className="footer-web-item">
+              <Globe size={14} className="web-icon" />
+              <a href={COMPANY_INFO.websiteUrl} className="footer-domain-link">
+                {COMPANY_INFO.domain}
+              </a>
+            </div>
+            <div className="footer-web-item">
+              <Mail size={14} className="web-icon" />
+              <a href={`mailto:${COMPANY_INFO.contact.email}`} className="footer-email-link">
+                {COMPANY_INFO.contact.email}
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Direct Contact */}
@@ -70,18 +83,18 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-whatsapp footer-btn"
-              aria-label="Send WhatsApp message to Rajabul Saifi"
+              aria-label={`Send WhatsApp message to ${COMPANY_INFO.name}`}
             >
               <WhatsAppIcon size={20} />
               <span>Chat on WhatsApp</span>
             </a>
             <a
-              href={`tel:${DESIGNER_INFO.contact.phone.replace(/\s+/g, '')}`}
+              href={`tel:${COMPANY_INFO.contact.phone.replace(/\s+/g, '')}`}
               className="btn btn-outline footer-btn footer-btn-call"
-              aria-label={`Call Rajabul Saifi at ${DESIGNER_INFO.contact.phone}`}
+              aria-label={`Call ${COMPANY_INFO.name} at ${COMPANY_INFO.contact.phone}`}
             >
               <Phone size={16} />
-              <span>{DESIGNER_INFO.contact.phone}</span>
+              <span>{COMPANY_INFO.contact.phone}</span>
             </a>
           </div>
         </div>
@@ -91,7 +104,7 @@ export default function Footer() {
       <div className="footer-bottom">
         <div className="container footer-bottom-inner">
           <p className="footer-credits">
-            © {CURRENT_YEAR} {DESIGNER_INFO.name} — Interior Architecture & Turnkey Execution. 10+ Years of Experience.
+            © {CURRENT_YEAR} {COMPANY_INFO.name} (<a href={COMPANY_INFO.websiteUrl} className="footer-credit-domain">{COMPANY_INFO.domain}</a>) — 10+ Years of Interior Design and Interior Work Experience.
           </p>
           <p className="footer-location-tag">
             Gurugram • Delhi • Noida

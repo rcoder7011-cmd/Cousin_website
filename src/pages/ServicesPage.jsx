@@ -3,11 +3,11 @@ import { CheckCircle2, Award, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { SERVICES } from '../data/services';
-import { getWhatsAppUrl } from '../data/designer';
+import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
 import './ServicesPage.css';
 
 export default function ServicesPage() {
-  const consultWhatsApp = getWhatsAppUrl("Hi Rajabul, I would like to schedule an interior design and execution consultation.");
+  const consultWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I would like to schedule an interior design and interior work consultation through saifiinteriorhub.in.`);
 
   return (
     <div className="services-page">
@@ -17,11 +17,11 @@ export default function ServicesPage() {
           <div className="page-header-inner">
             <span className="badge">
               <Award size={14} className="badge-icon" />
-              <span>10+ Years Experience • All Trades In-House</span>
+              <span>{COMPANY_INFO.name} • 10+ Years Experience</span>
             </span>
-            <h1 className="page-main-title">Interior Design & Execution Trades</h1>
+            <h1 className="page-main-title">Interior Design and Interior Work Services</h1>
             <p className="page-main-desc">
-              From signature living spaces and modular kitchens to full turnkey flat and villa execution across Gurugram, Delhi, and Noida. Supervised directly on-site by Rajabul Saifi.
+              From signature living spaces and modular kitchens to full turnkey flat and villa execution across Gurugram, Delhi, and Noida ({COMPANY_INFO.domain}). Supervised directly on-site by {COMPANY_INFO.name}'s master craftsmen.
             </p>
           </div>
         </div>
@@ -31,7 +31,7 @@ export default function ServicesPage() {
         <div className="services-list-grid" aria-label="Execution services list">
           {SERVICES.map((service, index) => {
             const serviceWhatsAppUrl = getWhatsAppUrl(
-              `Hi Rajabul, I would like to enquire about "${service.title}" services for my site in Delhi NCR.`
+              `Hi ${COMPANY_INFO.name}, I would like to enquire about "${service.title}" services for my site in Delhi NCR.`
             );
 
             return (
@@ -40,7 +40,7 @@ export default function ServicesPage() {
                   <div className="service-detail-media">
                     <img
                       src={service.coverImage}
-                      alt={service.title}
+                      alt={`${service.title} - ${COMPANY_INFO.name}`}
                       loading="lazy"
                       decoding="async"
                       width="600"
@@ -78,7 +78,7 @@ export default function ServicesPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn btn-whatsapp service-card-btn"
-                      aria-label={`Enquire with Rajabul Saifi about ${service.title}`}
+                      aria-label={`Enquire with ${COMPANY_INFO.name} about ${service.title}`}
                     >
                       <WhatsAppIcon size={18} />
                       <span>Enquire for this Service</span>
@@ -95,7 +95,7 @@ export default function ServicesPage() {
           <div className="services-consult-text">
             <h3>Need a Custom Combination of Services?</h3>
             <p>
-              Whether you need only modular woodwork and false ceiling or full turnkey delivery from bare shell, we customize execution to your exact floor plan and budget.
+              Whether you need modular woodwork and false ceiling or full turnkey delivery from bare shell, {COMPANY_INFO.name} customizes execution to your exact floor plan and budget.
             </p>
           </div>
           <div className="services-consult-actions">
