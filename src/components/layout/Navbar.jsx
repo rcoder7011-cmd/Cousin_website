@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import WhatsAppIcon from '../common/WhatsAppIcon';
 import { DESIGNER_INFO, getWhatsAppUrl } from '../../data/designer';
 import './Navbar.css';
@@ -36,13 +36,15 @@ export default function Navbar() {
     "Hi Rajabul, I would like to enquire about your interior design & site execution services."
   );
 
+  const phoneTel = `tel:${DESIGNER_INFO.contact.phone.replace(/\s+/g, '')}`;
+
   return (
     <header className="site-header">
       <div className="container header-inner">
         {/* Brand / Logo */}
         <Link to="/" className="brand-logo" onClick={closeMenu} aria-label={`${DESIGNER_INFO.name} - Home`}>
           <span className="brand-name">{DESIGNER_INFO.name}</span>
-          <span className="brand-subtitle">Interiors & Execution</span>
+          <span className="brand-subtitle">Interior Architecture • 10+ Years Exp</span>
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -67,6 +69,15 @@ export default function Navbar() {
         {/* Header Actions */}
         <div className="header-actions">
           <a
+            href={phoneTel}
+            className="header-phone-link"
+            aria-label={`Call ${DESIGNER_INFO.name} at ${DESIGNER_INFO.contact.phone}`}
+          >
+            <Phone size={15} className="phone-icon" aria-hidden="true" />
+            <span className="phone-text">{DESIGNER_INFO.contact.phone}</span>
+          </a>
+
+          <a
             href={whatsappNavUrl}
             target="_blank"
             rel="noopener noreferrer"
@@ -74,7 +85,7 @@ export default function Navbar() {
             aria-label="Chat with Rajabul Saifi on WhatsApp"
             title="Chat on WhatsApp"
           >
-            <WhatsAppIcon size={20} />
+            <WhatsAppIcon size={18} />
             <span className="header-cta-text">WhatsApp</span>
           </a>
 
@@ -87,7 +98,7 @@ export default function Navbar() {
             aria-controls="mobile-nav-drawer"
             aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Navigation Menu'}
           >
-            {mobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
+            {mobileMenuOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
           </button>
         </div>
       </div>
@@ -103,21 +114,26 @@ export default function Navbar() {
             aria-modal="true"
             aria-label="Mobile Navigation Menu"
           >
+            <div className="mobile-drawer-header">
+              <span className="mobile-drawer-brand">{DESIGNER_INFO.name}</span>
+              <span className="mobile-drawer-tagline">10+ Years of Craftsmanship</span>
+            </div>
+
             <nav className="mobile-nav-links">
               <NavLink to="/" end className="mobile-link" onClick={closeMenu}>
                 Home
               </NavLink>
               <NavLink to="/projects" className="mobile-link" onClick={closeMenu}>
-                Projects
+                Completed Projects
               </NavLink>
               <NavLink to="/services" className="mobile-link" onClick={closeMenu}>
-                Services
+                Services & Trades
               </NavLink>
               <NavLink to="/about" className="mobile-link" onClick={closeMenu}>
-                About
+                About Studio
               </NavLink>
               <NavLink to="/contact" className="mobile-link" onClick={closeMenu}>
-                Contact
+                Contact & Enquiries
               </NavLink>
             </nav>
 
@@ -129,11 +145,21 @@ export default function Navbar() {
                 className="btn btn-whatsapp mobile-whatsapp-full"
                 onClick={closeMenu}
               >
-                <WhatsAppIcon size={22} />
+                <WhatsAppIcon size={20} />
                 <span>Chat on WhatsApp</span>
               </a>
+
+              <a
+                href={phoneTel}
+                className="btn btn-outline mobile-call-full"
+                onClick={closeMenu}
+              >
+                <Phone size={17} />
+                <span>Call {DESIGNER_INFO.contact.phone}</span>
+              </a>
+
               <div className="mobile-area-note">
-                Serving: Gurugram • Delhi • Noida
+                Supervised Execution in Gurugram • Delhi • Noida
               </div>
             </div>
           </div>

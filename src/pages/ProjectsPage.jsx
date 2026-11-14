@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { AlertCircle, X } from 'lucide-react';
+import { AlertCircle, X, Award, Eye } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { PROJECT_PHOTOS, PROJECT_CATEGORIES } from '../data/projects';
 import { getWhatsAppUrl } from '../data/designer';
@@ -55,21 +55,20 @@ export default function ProjectsPage() {
     : PROJECT_PHOTOS.filter(photo => photo.category.toLowerCase() === selectedCategory.toLowerCase());
 
   const handleCategoryChange = (category) => {
-    // If the visitor selects the already-active category, avoid unnecessary scrolling
     if (category === selectedCategory) return;
 
     setSelectedCategory(category);
 
-    // Scroll smoothly to the beginning of the gallery, positioned below sticky navbar & filter bar
+    // Scroll smoothly to gallery top positioned below sticky header
     if (galleryContainerRef.current) {
       const navbar = document.querySelector('.site-header');
-      const navbarHeight = navbar ? navbar.offsetHeight : 72;
+      const navbarHeight = navbar ? navbar.offsetHeight : 76;
       const filterBar = filterToolbarRef.current;
       const filterHeight = filterBar ? filterBar.offsetHeight : 56;
       const stickyOffset = navbarHeight + filterHeight;
 
       const elementTop = galleryContainerRef.current.getBoundingClientRect().top + window.scrollY;
-      const targetScrollY = Math.max(0, elementTop - stickyOffset - 8);
+      const targetScrollY = Math.max(0, elementTop - stickyOffset - 12);
 
       window.scrollTo({
         top: targetScrollY,
@@ -108,16 +107,22 @@ export default function ProjectsPage() {
     };
   }, [activePhoto]);
 
+  // Compute active photo index for lightbox counter
+  const activeIndex = activePhoto ? filteredPhotos.findIndex(p => p.id === activePhoto.id) : -1;
+
   return (
     <div className="projects-page">
       {/* Header Banner */}
       <section className="page-header-wrapper" aria-label="Portfolio header">
         <div className="container">
           <div className="page-header-inner">
-            <span className="badge">Portfolio</span>
-            <h1 className="page-main-title">Completed Interior Projects</h1>
+            <span className="badge">
+              <Award size={14} className="badge-icon" />
+              <span>10+ Years of Execution • Verified Portfolio</span>
+            </span>
+            <h1 className="page-main-title">Completed Interior Executions</h1>
             <p className="page-main-desc">
-              Real site executions managed and supervised directly by Rajabul Saifi across Gurugram, Delhi, and Noida.
+              Explore 100+ real site photographs directly supervised and executed across Gurugram, Delhi, and Noida. Every project represents genuine craftsmanship by our in-house trade specialists.
             </p>
           </div>
         </div>
@@ -134,7 +139,7 @@ export default function ProjectsPage() {
                 role="tab"
                 aria-selected={selectedCategory === category}
                 onClick={() => handleCategoryChange(category)}
-                className={`btn category-filter-btn ${selectedCategory === category ? 'btn-primary' : 'btn-outline'}`}
+                className={`category-filter-btn ${selectedCategory === category ? 'is-active' : ''}`}
               >
                 {category}
               </button>
@@ -144,21 +149,21 @@ export default function ProjectsPage() {
       </div>
 
       <div ref={galleryContainerRef} className="container">
-
         {/* Gallery Status Header */}
         <div className="portfolio-gallery-header">
           <p className="portfolio-count-text">
-            Showing <strong>{filteredPhotos.length}</strong> {selectedCategory === "All Projects" ? "total photographs" : `${selectedCategory} photographs`}
+            Displaying <strong>{filteredPhotos.length}</strong> {selectedCategory === "All Projects" ? "verified execution photographs" : `${selectedCategory} installations`}
           </p>
         </div>
 
-        {/* Gallery Grid */}
+        {/* Gallery Masonry Grid */}
         <div className="portfolio-grid" aria-label="Projects photographs gallery">
           {filteredPhotos.map((photo, index) => {
             const isFailed = failedImages.has(photo.id);
             const isPriority = index < 6;
+            const photoTitle = `${photo.category} Execution #${String(index + 1).padStart(2, '0')}`;
             const enquiryUrl = getWhatsAppUrl(
-              `Hi Rajabul, I saw your ${photo.category} interior work on your website and would like similar work done.`
+              `Hi Rajabul, I saw your ${photo.category} interior work (${photo.src}) on your website and would like similar execution for my space.`
             );
 
             return (
@@ -184,25 +189,38 @@ export default function ProjectsPage() {
                       <code className="portfolio-error-path">{photo.src}</code>
                     </div>
                   ) : (
-                    <ProjectImage
-                      photo={photo}
-                      priority={isPriority}
-                      onError={() => handleImageError(photo.id, photo.src)}
-                    />
+                    <>
+                      <ProjectImage
+                        photo={photo}
+                        priority={isPriority}
+                        onError={() => handleImageError(photo.id, photo.src)}
+                      />
+                      <div className="portfolio-hover-overlay" aria-hidden="true">
+                        <div className="portfolio-hover-icon">
+                          <Eye size={20} />
+                          <span>View Detail</span>
+                        </div>
+                      </div>
+                    </>
                   )}
                   <span className="project-badge">{photo.category}</span>
                 </div>
 
                 <div className="portfolio-card-footer">
-                  <span className="portfolio-card-label">{photo.category}</span>
+                  <div className="portfolio-card-meta">
+                    <span className="portfolio-card-title">{photoTitle}</span>
+                    <span className="portfolio-card-category">{photo.category}</span>
+                  </div>
+
                   <a
                     href={enquiryUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="portfolio-card-enquire-btn"
-                    aria-label={`Enquire about ${photo.category} work on WhatsApp`}
+                    aria-label={`Enquire about this ${photo.category} work on WhatsApp`}
+                    title="Enquire on WhatsApp"
                   >
-                    <WhatsAppIcon size={16} />
+                    <WhatsAppIcon size={15} />
                     <span>Enquire</span>
                   </a>
                 </div>
@@ -231,7 +249,7 @@ export default function ProjectsPage() {
             onClick={() => setActivePhoto(null)}
             aria-label="Close enlarged image view"
           >
-            <X size={24} aria-hidden="true" />
+            <X size={22} aria-hidden="true" />
           </button>
 
           <div
@@ -246,7 +264,21 @@ export default function ProjectsPage() {
               className="portfolio-lightbox-image"
             />
             <div className="portfolio-lightbox-caption">
-              <span className="portfolio-lightbox-category">{activePhoto.category}</span>
+              <div className="lightbox-caption-left">
+                <span className="portfolio-lightbox-category">{activePhoto.category}</span>
+                {activeIndex >= 0 && (
+                  <span className="lightbox-counter">{activeIndex + 1} of {filteredPhotos.length}</span>
+                )}
+              </div>
+              <a
+                href={getWhatsAppUrl(`Hi Rajabul, I saw your ${activePhoto.category} project (${activePhoto.src}) and would like to discuss a similar interior execution.`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-whatsapp lightbox-whatsapp-btn"
+              >
+                <WhatsAppIcon size={16} />
+                <span>Enquire About This Design</span>
+              </a>
             </div>
           </div>
         </div>

@@ -1,33 +1,28 @@
 /* ==========================================================================
-   Navbar Styles - Fully Responsive
+   Navbar Styles - Premium Architectural Studio
    ========================================================================== */
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 900;
-  background-color: rgba(250, 249, 246, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(251, 250, 248, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--color-border);
   height: var(--header-height);
   display: flex;
   align-items: center;
   width: 100%;
+  transition: background-color var(--transition-base), box-shadow var(--transition-base);
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-4);
   width: 100%;
-}
-
-@media (min-width: 768px) {
-  .header-inner {
-    gap: var(--space-4);
-  }
 }
 
 /* Brand Logo */
@@ -42,65 +37,69 @@
 
 .brand-name {
   font-family: var(--font-serif);
-  font-size: clamp(1.15rem, 3.5vw, 1.35rem);
+  font-size: clamp(1.15rem, 3.2vw, 1.45rem);
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.04em;
   color: var(--color-primary);
-  line-height: 1.2;
+  line-height: 1.15;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: uppercase;
 }
 
 .brand-subtitle {
-  font-size: clamp(0.62rem, 1.8vw, 0.72rem);
+  font-size: clamp(0.58rem, 1.6vw, 0.68rem);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   color: var(--color-accent);
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: 1px;
 }
 
 /* Desktop Navigation */
 .desktop-nav {
   display: none;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.6rem;
 }
 
 @media (min-width: 1024px) {
   .desktop-nav {
-    gap: 1.75rem;
+    gap: 2.1rem;
   }
 }
 
 .nav-link {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--color-text-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
   position: relative;
-  padding: 0.5rem 0.25rem;
+  padding: 0.65rem 0.2rem;
   border-radius: var(--radius-sm);
   transition: color var(--transition-fast);
 }
 
 .nav-link:hover {
-  color: var(--color-accent);
+  color: var(--color-primary);
 }
 
 .nav-link.active {
-  color: var(--color-accent);
-  font-weight: 600;
+  color: var(--color-primary);
+  font-weight: 700;
 }
 
 .nav-link.active::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 0.25rem;
-  right: 0.25rem;
+  left: 0;
+  right: 0;
   height: 2px;
   background-color: var(--color-accent);
   border-radius: var(--radius-pill);
@@ -110,31 +109,65 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.65rem;
   flex-shrink: 0;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 800px) {
   .header-actions {
-    gap: 0.75rem;
+    gap: 1rem;
+  }
+}
+
+/* Desktop Phone link */
+.header-phone-link {
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-white);
+  transition: all var(--transition-fast);
+}
+
+.header-phone-link:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: var(--color-bg-subtle);
+}
+
+.header-phone-link .phone-icon {
+  color: var(--color-accent);
+}
+
+@media (min-width: 1100px) {
+  .header-phone-link {
+    display: inline-flex;
   }
 }
 
 /* Header WhatsApp CTA - Responsive adaptation */
 .header-cta {
-  min-height: 40px;
-  font-size: 0.88rem;
+  min-height: 42px;
+  padding: 0.5rem 1.15rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
 }
 
 /* On small screens under 520px: compact icon-only to avoid crowding */
 @media (max-width: 519px) {
   .header-cta {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
     padding: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-sm);
   }
 
   .header-cta-text {
@@ -143,11 +176,6 @@
 }
 
 @media (min-width: 520px) {
-  .header-cta {
-    padding: 0.55rem 1.15rem;
-    border-radius: var(--radius-md);
-  }
-
   .header-cta-text {
     display: inline;
   }
@@ -178,9 +206,9 @@
 .mobile-menu-overlay {
   position: fixed;
   inset: var(--header-height) 0 0 0;
-  background-color: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background-color: rgba(18, 19, 22, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   z-index: 899;
   animation: fadeIn 0.2s ease;
   height: calc(100vh - var(--header-height));
@@ -194,7 +222,7 @@
 
 .mobile-menu-drawer {
   background-color: var(--color-bg-white);
-  padding: 1.5rem 1.25rem;
+  padding: 1.5rem 1.25rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -213,6 +241,31 @@
   }
 }
 
+.mobile-drawer-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.mobile-drawer-brand {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.mobile-drawer-tagline {
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .mobile-nav-links {
   display: flex;
   flex-direction: column;
@@ -224,7 +277,7 @@
   align-items: center;
   min-height: 48px;
   padding: 0.65rem 1rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--color-primary);
   border-radius: var(--radius-sm);
@@ -253,7 +306,14 @@
 .mobile-whatsapp-full {
   width: 100%;
   min-height: 48px;
-  font-size: 1rem;
+  font-size: 0.96rem;
+}
+
+.mobile-call-full {
+  width: 100%;
+  min-height: 48px;
+  font-size: 0.92rem;
+  border-color: var(--color-border);
 }
 
 .mobile-area-note {
@@ -261,6 +321,7 @@
   color: var(--color-text-light);
   text-align: center;
   font-weight: 500;
+  margin-top: 0.25rem;
 }
 
 @media (min-width: 900px) {

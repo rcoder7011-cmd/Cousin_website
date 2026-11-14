@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, ArrowRight, CheckCircle2, MapPin, Hammer, ShieldCheck, Ruler } from 'lucide-react';
+import { Phone, ArrowRight, CheckCircle2, MapPin, Hammer, ShieldCheck, Award, Sparkles } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { DESIGNER_INFO, getWhatsAppUrl } from '../data/designer';
 import { SERVICES } from '../data/services';
@@ -10,21 +10,26 @@ import './HomePage.css';
 export default function HomePage() {
   const heroWhatsApp = getWhatsAppUrl("Hi Rajabul, I am interested in interior design and execution for my flat/home in Delhi NCR.");
 
+  // Highlight key 6 categories requested
+  const primaryServices = SERVICES.slice(0, 6);
+
   return (
     <div className="home-page">
       {/* 1. HERO SECTION */}
-      <section className="hero-section" aria-label="Introduction">
+      <section className="hero-section" aria-label="Studio Introduction">
         <div className="container hero-container">
           <div className="hero-content">
-            <div className="badge">
-              <MapPin size={14} aria-hidden="true" />
-              <span>Gurugram • Delhi • Noida</span>
+            <div className="badge hero-badge">
+              <Award size={14} className="hero-badge-icon" aria-hidden="true" />
+              <span>10+ Years of Craftsmanship • Delhi NCR</span>
             </div>
+
             <h1 className="hero-title">
               Crafting Thoughtful Interiors with Direct Site Execution
             </h1>
+
             <p className="hero-subtitle">
-              Hi, I'm <strong>{DESIGNER_INFO.name}</strong>. I design beautiful, practical residential interiors and personally manage an in-house team of skilled labourers to turn concepts into reality without middleman markups.
+              With over 10 years of experience in interior design, <strong>{DESIGNER_INFO.name}</strong> leads a specialized studio and an in-house team of master craftsmen. We transform concepts into refined residential and commercial spaces across Gurugram, Delhi, and Noida with direct personal site supervision.
             </p>
 
             <div className="hero-actions">
@@ -35,16 +40,26 @@ export default function HomePage() {
                 className="btn btn-whatsapp hero-whatsapp-btn"
                 aria-label="Enquire with Rajabul Saifi on WhatsApp"
               >
-                <WhatsAppIcon size={22} />
+                <WhatsAppIcon size={20} />
                 <span>Enquire on WhatsApp</span>
               </a>
-              <Link to="/projects" className="btn btn-outline hero-portfolio-btn">
+
+              <Link to="/projects" className="btn btn-primary hero-portfolio-btn">
                 <span>View Completed Sites</span>
-                <ArrowRight size={18} aria-hidden="true" />
+                <ArrowRight size={17} aria-hidden="true" />
               </Link>
+
+              <a
+                href={`tel:${DESIGNER_INFO.contact.phone.replace(/\s+/g, '')}`}
+                className="btn btn-outline hero-call-btn"
+                aria-label={`Call ${DESIGNER_INFO.name}`}
+              >
+                <Phone size={16} aria-hidden="true" />
+                <span>{DESIGNER_INFO.contact.phone}</span>
+              </a>
             </div>
 
-            {/* Quick Trust Highlights */}
+            {/* Trust Highlights */}
             <div className="hero-trust-list">
               <div className="trust-item">
                 <CheckCircle2 size={16} className="trust-icon" aria-hidden="true" />
@@ -52,17 +67,18 @@ export default function HomePage() {
               </div>
               <div className="trust-item">
                 <CheckCircle2 size={16} className="trust-icon" aria-hidden="true" />
-                <span>Dedicated Craftsmen & Labourers</span>
+                <span>Dedicated In-House Craftsmen</span>
               </div>
               <div className="trust-item">
                 <CheckCircle2 size={16} className="trust-icon" aria-hidden="true" />
-                <span>Transparent Material Sourcing</span>
+                <span>10+ Years Proven Track Record</span>
               </div>
             </div>
           </div>
 
+          {/* Architectural Image Composition */}
           <div className="hero-media">
-            <div className="hero-image-wrapper">
+            <div className="hero-image-wrapper hero-primary-image">
               <img
                 src="/images/projects/Living Room/78d10c45-348b-4c86-90f8-942b36a10bc9.png"
                 alt="Luxury living room interior execution with custom wood panelling and ambient lighting by Rajabul Saifi"
@@ -73,59 +89,119 @@ export default function HomePage() {
                 height="1086"
               />
               <div className="hero-floating-card">
-                <Hammer size={24} className="card-icon" aria-hidden="true" />
+                <Award size={24} className="card-icon" aria-hidden="true" />
                 <div>
-                  <div className="card-title">Hands-On Execution</div>
-                  <div className="card-text">Every detail built by experienced craftsmen</div>
+                  <div className="card-title">10+ Years Industry Experience</div>
+                  <div className="card-text">Direct site supervision & master craftsmanship</div>
                 </div>
+              </div>
+            </div>
+
+            {/* Inset Detail Image */}
+            <div className="hero-secondary-card">
+              <img
+                src="/images/projects/Bedroom/34b5c063-c931-45f9-ab44-d4bfd075c02f.png"
+                alt="Master bedroom detail with curved walnut headboard and ambient cove lighting"
+                className="hero-secondary-img"
+                loading="lazy"
+                decoding="async"
+                width="400"
+                height="320"
+              />
+              <div className="hero-secondary-caption">
+                <span>Gurugram Master Suite</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. CORE VALUE / HOW RAJABUL WORKS */}
-      <section className="values-section" aria-label="Why choose Rajabul Saifi">
+      {/* 2. ABOUT & EXPERIENCE SECTION (Task 7 Requirement) */}
+      <section className="experience-section" aria-label="About our experience">
         <div className="container">
-          <div className="section-header text-center">
-            <span className="section-eyebrow">Why Work With Us</span>
-            <h2>The Advantage of Designer + Dedicated Labour Team</h2>
-            <p className="section-description">
-              Unlike large interior agencies that sub-contract your home to unknown third parties, Rajabul Saifi provides end-to-end design guidance and on-site labor supervision.
-            </p>
-          </div>
+          <div className="experience-grid">
+            <div className="experience-content">
+              <span className="section-eyebrow">Studio Heritage</span>
+              <h2 className="experience-title">Over a Decade of Creating Beautiful Spaces</h2>
+              <p className="experience-lead">
+                With over 10 years of experience in interior design, we focus on creating beautiful, functional and thoughtfully designed spaces.
+              </p>
+              <p className="experience-body">
+                Unlike corporate interior firms that sub-contract your dream home to anonymous third parties, Rajabul Saifi operates with a dedicated team of master carpenters, false-ceiling artisans, painters, and electricians. Every layout, joinery cut, and stone finish is supervised on the ground, delivering superior craftsmanship without inflated overhead margins.
+              </p>
 
-          <div className="strengths-grid">
-            {DESIGNER_INFO.strengths.map((item, idx) => (
-              <div key={idx} className="strength-card">
-                <div className="strength-icon-box" aria-hidden="true">
-                  {idx === 0 && <ShieldCheck size={24} />}
-                  {idx === 1 && <Hammer size={24} />}
-                  {idx === 2 && <Ruler size={24} />}
-                  {idx === 3 && <MapPin size={24} />}
-                </div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
+              <div className="experience-pillars">
+                {DESIGNER_INFO.strengths.map((item, idx) => (
+                  <div key={idx} className="pillar-item">
+                    <div className="pillar-icon-box" aria-hidden="true">
+                      {idx === 0 && <Award size={20} />}
+                      {idx === 1 && <ShieldCheck size={20} />}
+                      {idx === 2 && <Hammer size={20} />}
+                      {idx === 3 && <Sparkles size={20} />}
+                    </div>
+                    <div>
+                      <h3 className="pillar-title">{item.title}</h3>
+                      <p className="pillar-desc">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+
+              <div className="experience-action">
+                <Link to="/about" className="btn btn-outline">
+                  <span>Learn More About Our Journey</span>
+                  <ArrowRight size={17} aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="experience-visual">
+              <div className="experience-visual-main">
+                <img
+                  src="/images/projects/OFFICE/619a0583-75a7-4f10-a6b5-811d0b650f0a.png"
+                  alt="Executive corporate office suite with precision walnut wall panelling and brass inlays"
+                  className="experience-img-main"
+                  loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="600"
+                />
+                <div className="experience-badge-overlay">
+                  <span className="exp-number">10+</span>
+                  <span className="exp-label">Years of Direct Site Execution</span>
+                </div>
+              </div>
+
+              <div className="experience-visual-accent">
+                <img
+                  src="/images/projects/Pop Ceiling/4c617dfa-40ad-4b7b-b8c0-f8d909091b8a.png"
+                  alt="POP false ceiling with magnetic track illumination and cove detailing"
+                  className="experience-img-accent"
+                  loading="lazy"
+                  decoding="async"
+                  width="400"
+                  height="300"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 3. FEATURED PROJECTS PREVIEW */}
+      {/* 3. FEATURED PROJECTS SHOWCASE (Task 6 Requirement) */}
       <section className="projects-preview-section" aria-label="Recent work showcase">
         <div className="container">
           <div className="section-header-flex">
             <div>
-              <span className="section-eyebrow">Work Showcase</span>
-              <h2>Recent Completed Projects</h2>
+              <span className="section-eyebrow">Portfolio Showcase</span>
+              <h2>Signature Completed Projects</h2>
               <p className="section-description">
-                Explore real spaces brought to life across Gurugram, Delhi, and Noida.
+                Explore real residential and corporate spaces delivered across Gurugram, Delhi, and Noida.
               </p>
             </div>
             <Link to="/projects" className="btn btn-outline preview-all-btn">
-              <span>View All Projects</span>
-              <ArrowRight size={18} aria-hidden="true" />
+              <span>View All 100+ Photos</span>
+              <ArrowRight size={17} aria-hidden="true" />
             </Link>
           </div>
 
@@ -138,20 +214,35 @@ export default function HomePage() {
                     alt={project.title}
                     loading="lazy"
                     decoding="async"
-                    width="400"
-                    height="250"
+                    width="600"
+                    height="420"
                   />
-                  <span className="project-badge">{project.category}</span>
+                  <div className="project-badges-row">
+                    <span className="project-badge">{project.category}</span>
+                    <span className="project-time-badge">{project.completionTime}</span>
+                  </div>
                 </div>
                 <div className="project-info">
                   <div className="project-location">
-                    <MapPin size={14} aria-hidden="true" />
-                    <span>{project.location}</span>
+                    <MapPin size={14} className="location-pin" aria-hidden="true" />
+                    <span>{project.location} • Turnkey Execution</span>
                   </div>
                   <h3 className="project-title">{project.title}</h3>
                   <p className="project-summary">{project.summary}</p>
                   <div className="project-scope">
-                    <strong>Scope:</strong> {project.scope}
+                    <strong>Execution Scope:</strong> {project.scope}
+                  </div>
+                  <div className="project-card-action">
+                    <a
+                      href={getWhatsAppUrl(`Hi Rajabul, I saw your project "${project.title}" in ${project.location} and would like similar interior work done.`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="project-enquire-link"
+                    >
+                      <WhatsAppIcon size={16} />
+                      <span>Enquire on WhatsApp</span>
+                      <ArrowRight size={14} className="enquire-arrow" />
+                    </a>
                   </div>
                 </div>
               </article>
@@ -160,51 +251,80 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. SERVICES BRIEF */}
-      <section className="services-section" aria-label="Services overview">
+      {/* 4. SERVICES DOMAINS (Task 8 Requirement) */}
+      <section className="services-section" aria-label="Interior design services">
         <div className="container">
           <div className="section-header text-center">
-            <span className="section-eyebrow">What We Do</span>
-            <h2>Complete Interior Execution Services</h2>
+            <span className="section-eyebrow">Comprehensive Capabilities</span>
+            <h2>Tailored Interior Services & Execution Trades</h2>
             <p className="section-description">
-              From bare shell structures to final handovers, our specialized teams cover all interior trades.
+              From individual rooms to full flat and villa renovations, our master craftsmen execute every trade under direct studio supervision.
             </p>
           </div>
 
           <div className="services-grid">
-            {SERVICES.slice(0, 4).map(service => (
+            {primaryServices.map((service, index) => (
               <div key={service.id} className="service-card">
-                <h3>{service.title}</h3>
-                <p>{service.shortDescription}</p>
-                <ul className="service-scope-list">
-                  {service.scope.map((item, i) => (
-                    <li key={i}>
-                      <CheckCircle2 size={16} aria-hidden="true" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="service-card-media">
+                  <img
+                    src={service.coverImage}
+                    alt={service.title}
+                    loading="lazy"
+                    decoding="async"
+                    width="500"
+                    height="320"
+                    className="service-card-img"
+                  />
+                  <span className="service-tag">{service.tag || `0${index + 1}`}</span>
+                </div>
+
+                <div className="service-card-body">
+                  <h3 className="service-card-title">{service.title}</h3>
+                  <p className="service-card-desc">{service.shortDescription}</p>
+
+                  <ul className="service-scope-list">
+                    {service.scope.slice(0, 3).map((item, i) => (
+                      <li key={i}>
+                        <CheckCircle2 size={15} className="service-check-icon" aria-hidden="true" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="service-card-footer">
+                    <a
+                      href={getWhatsAppUrl(`Hi Rajabul, I would like to enquire about ${service.title} for my home/site.`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="service-whatsapp-link"
+                    >
+                      <WhatsAppIcon size={16} />
+                      <span>Enquire for this Service</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
 
           <div className="services-footer-cta text-center">
-            <Link to="/services" className="btn btn-outline">
-              <span>Explore Full Service Capabilities</span>
-              <ArrowRight size={18} aria-hidden="true" />
+            <Link to="/services" className="btn btn-outline services-view-all-btn">
+              <span>View All 8 Execution Services & Complete Scopes</span>
+              <ArrowRight size={17} aria-hidden="true" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 5. WHATSAPP CONVERSION CTA BANNER */}
+      {/* 5. CONSULTATION CALLOUT BANNER */}
       <section className="cta-banner-section" aria-label="Schedule a consultation">
         <div className="container">
           <div className="cta-banner-card">
             <div className="cta-banner-content">
-              <h2>Have a Flat or Villa Ready for Interior Work?</h2>
+              <span className="cta-banner-eyebrow">Direct Designer Collaboration</span>
+              <h2>Have a Flat, Villa or Commercial Site Ready for Work?</h2>
               <p>
-                Speak directly with Rajabul Saifi. Get practical site advice, honest cost estimates, and scheduled on-site consultation across Gurugram, Delhi, or Noida.
+                Connect directly with Rajabul Saifi. Benefit from more than 10 years of on-site execution experience. We provide practical architectural advice, material clarity, and transparent estimates across Gurugram, Delhi, and Noida.
               </p>
             </div>
             <div className="cta-banner-actions">
@@ -215,7 +335,7 @@ export default function HomePage() {
                 className="btn btn-whatsapp cta-big-btn"
                 aria-label="Chat directly with Rajabul Saifi on WhatsApp"
               >
-                <WhatsAppIcon size={24} />
+                <WhatsAppIcon size={22} />
                 <span>Chat Directly on WhatsApp</span>
               </a>
               <a
@@ -223,7 +343,7 @@ export default function HomePage() {
                 className="btn btn-outline cta-phone-btn"
                 aria-label={`Call Rajabul Saifi at ${DESIGNER_INFO.contact.phone}`}
               >
-                <Phone size={20} aria-hidden="true" />
+                <Phone size={18} aria-hidden="true" />
                 <span>Call {DESIGNER_INFO.contact.phone}</span>
               </a>
             </div>

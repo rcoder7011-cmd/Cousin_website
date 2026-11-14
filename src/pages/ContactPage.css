@@ -1,9 +1,9 @@
 /* ==========================================================================
-   Contact Page Styles - Fully Responsive
+   Contact Page Styles - Luxury Architectural Studio
    ========================================================================== */
 
 .contact-page {
-  padding-bottom: var(--space-20);
+  padding-bottom: var(--space-24);
   width: 100%;
 }
 
@@ -15,7 +15,7 @@
   width: 100%;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 960px) {
   .contact-layout-grid {
     grid-template-columns: 1fr 1.15fr;
     gap: var(--space-12);
@@ -25,7 +25,7 @@
 /* Contact Info Card */
 .contact-info-card {
   background-color: var(--color-bg-white);
-  padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(1.15rem, 3vw, 2rem);
+  padding: clamp(1.75rem, 4vw, 2.75rem) clamp(1.25rem, 3.5vw, 2.25rem);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
@@ -35,8 +35,16 @@
 }
 
 .contact-info-title {
-  font-size: clamp(1.25rem, 2vw, 1.4rem);
-  margin-bottom: var(--space-5);
+  font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+  margin-top: 0.25rem;
+  margin-bottom: 0.65rem;
+}
+
+.contact-info-subtitle {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
 }
 
 .contact-methods-list {
@@ -49,33 +57,28 @@
 
 .contact-method-item {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-4);
   align-items: flex-start;
   min-width: 0;
 }
 
-@media (min-width: 480px) {
-  .contact-method-item {
-    gap: var(--space-4);
-  }
-}
-
 .contact-method-icon-wa {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
   background-color: rgba(37, 211, 102, 0.12);
   color: var(--color-whatsapp-dark);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 1px solid rgba(37, 211, 102, 0.25);
 }
 
 .contact-method-icon-phone {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
   background-color: var(--color-accent-soft);
   color: var(--color-accent);
   display: flex;
@@ -86,9 +89,9 @@
 }
 
 .contact-method-icon-map {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
   background-color: var(--color-bg-subtle);
   color: var(--color-text-muted);
   display: flex;
@@ -99,21 +102,20 @@
 }
 
 .contact-method-label {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: var(--color-text-light);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   margin-bottom: 0.2rem;
 }
 
 .contact-method-val-wa {
-  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  font-size: clamp(0.96rem, 1.4vw, 1.08rem);
   font-weight: 700;
   color: var(--color-whatsapp-dark);
   display: inline-block;
-  padding: 0.2rem 0;
-  overflow-wrap: break-word;
+  padding: 0.1rem 0;
 }
 
 .contact-method-val-wa:hover {
@@ -121,12 +123,11 @@
 }
 
 .contact-method-val-phone {
-  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  font-size: clamp(0.96rem, 1.4vw, 1.08rem);
   font-weight: 700;
   color: var(--color-primary);
   display: inline-block;
-  padding: 0.2rem 0;
-  white-space: nowrap;
+  padding: 0.1rem 0;
 }
 
 .contact-method-val-phone:hover {
@@ -134,7 +135,7 @@
 }
 
 .contact-method-val-loc {
-  font-size: clamp(0.92rem, 1.3vw, 1rem);
+  font-size: clamp(0.92rem, 1.2vw, 1rem);
   font-weight: 600;
   color: var(--color-text-main);
   line-height: 1.45;
@@ -143,68 +144,85 @@
 .contact-note-box {
   padding: var(--space-4);
   background-color: var(--color-bg-light);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--color-border-light);
   min-width: 0;
 }
 
+.contact-note-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.35rem;
+}
+
+.note-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
 .contact-note-title {
+  font-size: 0.84rem;
   font-weight: 700;
-  font-size: 0.9rem;
-  margin-bottom: var(--space-1);
   color: var(--color-primary);
+  letter-spacing: 0.02em;
 }
 
 .contact-note-desc {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: var(--color-text-muted);
-  line-height: 1.5;
+  line-height: 1.55;
+  margin: 0;
 }
 
-/* WhatsApp Enquiry Form */
+/* Enquiry Form Card */
 .enquiry-form-card {
   background-color: var(--color-bg-white);
-  padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(1.15rem, 3vw, 2rem);
+  padding: clamp(1.75rem, 4vw, 2.75rem) clamp(1.25rem, 3.5vw, 2.25rem);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: 1.35rem;
   min-width: 0;
   width: 100%;
   box-sizing: border-box;
 }
 
+.enquiry-form-header {
+  margin-bottom: 0.25rem;
+}
+
 .enquiry-form-title {
-  font-size: clamp(1.25rem, 2vw, 1.4rem);
-  margin-bottom: var(--space-1);
+  font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+  margin-top: 0.25rem;
+  margin-bottom: 0.45rem;
 }
 
 .enquiry-form-desc {
   font-size: 0.9rem;
   color: var(--color-text-muted);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .form-grid-two {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-4);
+  gap: 1.15rem;
   width: 100%;
 }
 
-@media (min-width: 520px) {
+@media (min-width: 580px) {
   .form-grid-two {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 .enquiry-submit-btn {
   width: 100%;
-  min-height: 48px;
-  padding: 0.95rem;
-  font-size: 1rem;
-  margin-top: var(--space-2);
+  min-height: 52px;
+  font-size: 0.98rem;
   justify-content: center;
+  margin-top: 0.35rem;
 }

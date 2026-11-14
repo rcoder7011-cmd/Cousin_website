@@ -1,11 +1,11 @@
 import React from 'react';
-import { ShieldCheck, Users, MapPin, Phone } from 'lucide-react';
+import { ShieldCheck, Users, MapPin, Phone, Award, CheckCircle2 } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { DESIGNER_INFO, getWhatsAppUrl } from '../data/designer';
 import './AboutPage.css';
 
 export default function AboutPage() {
-  const whatsappUrl = getWhatsAppUrl("Hi Rajabul, I would like to learn more about your process and discuss an interior project.");
+  const whatsappUrl = getWhatsAppUrl("Hi Rajabul, I would like to learn more about your process and discuss an interior project in Delhi NCR.");
 
   return (
     <div className="about-page">
@@ -13,60 +13,162 @@ export default function AboutPage() {
       <section className="page-header-wrapper" aria-label="About header">
         <div className="container">
           <div className="page-header-inner">
-            <span className="badge">About</span>
-            <h1 className="page-main-title">Meet {DESIGNER_INFO.name}</h1>
+            <span className="badge">
+              <Award size={14} className="badge-icon" />
+              <span>10+ Years of Craftsmanship</span>
+            </span>
+            <h1 className="page-main-title">About Our Studio & Heritage</h1>
             <p className="page-main-desc">
-              Interior Designer & Site Execution Specialist based in Delhi NCR.
+              Discover our story, hands-on execution philosophy, and direct client supervision across Delhi NCR.
             </p>
           </div>
         </div>
       </section>
 
-      <div className="container" style={{ maxWidth: '1000px' }}>
-        <div className="about-intro-box">
-          <p className="about-bio-lead">
-            {DESIGNER_INFO.bio}
-          </p>
-        </div>
+      <div className="container about-container">
+        {/* Core Experience Story Section (Task 7) */}
+        <section className="about-story-section" aria-label="Over a decade of experience">
+          <div className="about-story-grid">
+            <div className="about-story-text">
+              <span className="section-eyebrow">Studio Experience</span>
+              <h2 className="about-story-title">Over a Decade of Creating Beautiful Spaces</h2>
+              <p className="about-story-lead">
+                With over 10 years of experience in interior design, we focus on creating beautiful, functional and thoughtfully designed spaces.
+              </p>
+              <p className="about-story-body">
+                Founded by <strong>{DESIGNER_INFO.name}</strong>, our practice was built on a foundational principle: exceptional design must be backed by master on-site execution. Rather than outsourcing site management to detached third-party contractors, Rajabul personally oversees daily work on the ground alongside our in-house team of master craftsmen.
+              </p>
+              <p className="about-story-body">
+                Over the past 10+ years, we have brought hundreds of bespoke living rooms, serene master bedrooms, high-efficiency modular kitchens, corporate cabins, and turnkey apartments to life across Gurugram, Delhi, and Noida.
+              </p>
 
-        <div className="about-pillars-grid" aria-label="Core work values">
-          <div className="about-pillar-card">
-            <div className="about-pillar-icon" aria-hidden="true">
-              <Users size={32} />
+              <div className="about-highlights-list">
+                <div className="about-hl-item">
+                  <CheckCircle2 size={16} className="hl-icon" />
+                  <span>10+ Years of site-tested residential & commercial execution</span>
+                </div>
+                <div className="about-hl-item">
+                  <CheckCircle2 size={16} className="hl-icon" />
+                  <span>Direct daily site supervision with zero middleman markups</span>
+                </div>
+                <div className="about-hl-item">
+                  <CheckCircle2 size={16} className="hl-icon" />
+                  <span>In-house team of master carpenters, POP artisans, and painters</span>
+                </div>
+              </div>
             </div>
-            <h2 className="about-pillar-title">Hands-On Labour Team</h2>
-            <p className="about-pillar-text">
-              Working directly with trusted carpenters, POP masters, painters, and electricians ensures high craft standards, seamless teamwork, and rapid problem-solving on the ground.
+
+            <div className="about-story-media">
+              <div className="about-media-card">
+                <img
+                  src="/images/projects/Living Room/4f7d5a2e-920d-47ae-8379-123563d80df4.png"
+                  alt="Modern luxury living space executed with Italian marble and warm cove illumination"
+                  className="about-main-img"
+                  loading="lazy"
+                  decoding="async"
+                  width="700"
+                  height="520"
+                />
+                <div className="about-media-badge">
+                  <span className="badge-num">10+</span>
+                  <span className="badge-text">Years Crafting Homes in Delhi NCR</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3 Core Pillars */}
+        <section className="about-pillars-section" aria-label="Core work values">
+          <div className="section-header text-center">
+            <span className="section-eyebrow">Why Clients Trust Us</span>
+            <h2>Our Core Studio Pillars</h2>
+            <p className="section-description">
+              The principles that guide every space we design and build.
             </p>
           </div>
 
-          <div className="about-pillar-card">
-            <div className="about-pillar-icon" aria-hidden="true">
-              <ShieldCheck size={32} />
+          <div className="about-pillars-grid">
+            <div className="about-pillar-card">
+              <div className="about-pillar-icon" aria-hidden="true">
+                <Users size={28} />
+              </div>
+              <h3 className="about-pillar-title">In-House Master Craftsmen</h3>
+              <p className="about-pillar-text">
+                Working directly with trusted carpenters, POP masters, painters, and electricians ensures consistent precision, seamless teamwork, and rapid problem-solving on the ground.
+              </p>
             </div>
-            <h2 className="about-pillar-title">Direct Accountability</h2>
-            <p className="about-pillar-text">
-              No sales middlemen or distant project managers. You deal directly with the person responsible for drawing the layouts and supervising the work daily.
-            </p>
-          </div>
 
-          <div className="about-pillar-card">
-            <div className="about-pillar-icon" aria-hidden="true">
-              <MapPin size={32} />
+            <div className="about-pillar-card">
+              <div className="about-pillar-icon" aria-hidden="true">
+                <ShieldCheck size={28} />
+              </div>
+              <h3 className="about-pillar-title">Direct Accountability</h3>
+              <p className="about-pillar-text">
+                No corporate sales layers or rotating site supervisors. You work directly with the designer responsible for drawing your layouts and supervising daily work.
+              </p>
             </div>
-            <h2 className="about-pillar-title">Delhi NCR Roots</h2>
-            <p className="about-pillar-text">
-              Operating actively across Gurugram, Delhi, and Noida with localized vendor networks for wood, hardware, and surface finishes.
-            </p>
+
+            <div className="about-pillar-card">
+              <div className="about-pillar-icon" aria-hidden="true">
+                <MapPin size={28} />
+              </div>
+              <h3 className="about-pillar-title">Deep Delhi NCR Roots</h3>
+              <p className="about-pillar-text">
+                Operating actively across Gurugram, Delhi, and Noida with established vendor relationships for authentic marine ply, imported hardware, and luxury stone finishes.
+              </p>
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* Secondary Showcase Gallery Strip */}
+        <section className="about-gallery-strip" aria-label="Craftsmanship snapshots">
+          <div className="strip-grid">
+            <div className="strip-item">
+              <img
+                src="/images/projects/Bedroom/34b5c063-c931-45f9-ab44-d4bfd075c02f.png"
+                alt="Master suite curved bed headboard"
+                loading="lazy"
+                decoding="async"
+                width="400"
+                height="300"
+              />
+              <span className="strip-label">Custom Joinery</span>
+            </div>
+            <div className="strip-item">
+              <img
+                src="/images/projects/Pop Ceiling/4c617dfa-40ad-4b7b-b8c0-f8d909091b8a.png"
+                alt="Acoustic POP ceiling detail"
+                loading="lazy"
+                decoding="async"
+                width="400"
+                height="300"
+              />
+              <span className="strip-label">False Ceiling Illumination</span>
+            </div>
+            <div className="strip-item">
+              <img
+                src="/images/projects/OFFICE/619a0583-75a7-4f10-a6b5-811d0b650f0a.png"
+                alt="Executive wood panelling"
+                loading="lazy"
+                decoding="async"
+                width="400"
+                height="300"
+              />
+              <span className="strip-label">Veneer & Millwork</span>
+            </div>
+          </div>
+        </section>
 
         {/* CTA Box */}
-        <div className="about-cta-card">
-          <h2>Ready to Discuss Your Space?</h2>
-          <p>
-            Schedule an on-site visit or send your floor plan directly on WhatsApp for an honest discussion and transparent estimates.
-          </p>
+        <section className="about-cta-card" aria-label="Start consultation">
+          <div className="about-cta-content">
+            <span className="section-eyebrow">Start Your Journey</span>
+            <h2>Ready to Transform Your Space?</h2>
+            <p>
+              Schedule an on-site visit or send your floor plan directly on WhatsApp for an honest discussion and transparent estimates.
+            </p>
+          </div>
           <div className="about-cta-actions">
             <a
               href={whatsappUrl}
@@ -75,7 +177,7 @@ export default function AboutPage() {
               className="btn btn-whatsapp about-btn-wa"
               aria-label="Chat with Rajabul Saifi on WhatsApp"
             >
-              <WhatsAppIcon size={22} />
+              <WhatsAppIcon size={20} />
               <span>Chat on WhatsApp</span>
             </a>
             <a
@@ -83,11 +185,11 @@ export default function AboutPage() {
               className="btn btn-outline about-btn-call"
               aria-label={`Call Rajabul Saifi at ${DESIGNER_INFO.contact.phone}`}
             >
-              <Phone size={18} aria-hidden="true" />
+              <Phone size={17} aria-hidden="true" />
               <span>Call {DESIGNER_INFO.contact.phone}</span>
             </a>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

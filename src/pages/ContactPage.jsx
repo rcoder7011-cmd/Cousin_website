@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, MapPin } from 'lucide-react';
+import { Phone, MapPin, Award, CheckCircle2 } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { DESIGNER_INFO, getWhatsAppUrl } from '../data/designer';
 import './ContactPage.css';
@@ -19,11 +19,11 @@ export default function ContactPage() {
 
   const handleWhatsAppSubmit = (e) => {
     e.preventDefault();
-    const formattedMessage = `Hi Rajabul, my name is ${formData.name || 'a client'}. I have a ${formData.propertyType} in ${formData.location}. ${formData.message ? `Details: ${formData.message}` : 'I would like to discuss interior work.'}`;
+    const formattedMessage = `Hi Rajabul, my name is ${formData.name || 'a client'}. I have a ${formData.propertyType} in ${formData.location}. ${formData.message ? `Details: ${formData.message}` : 'I would like to discuss interior design & site execution.'}`;
     window.open(getWhatsAppUrl(formattedMessage), '_blank');
   };
 
-  const directWhatsApp = getWhatsAppUrl("Hi Rajabul, I would like to schedule an interior design consultation.");
+  const directWhatsApp = getWhatsAppUrl("Hi Rajabul, I would like to schedule an on-site interior design consultation.");
 
   return (
     <div className="contact-page">
@@ -31,10 +31,13 @@ export default function ContactPage() {
       <section className="page-header-wrapper" aria-label="Contact header">
         <div className="container">
           <div className="page-header-inner">
-            <span className="badge">Contact & Enquiries</span>
+            <span className="badge">
+              <Award size={14} className="badge-icon" />
+              <span>10+ Years Studio Experience • Personal Consultation</span>
+            </span>
             <h1 className="page-main-title">Start Your Interior Project</h1>
             <p className="page-main-desc">
-              Connect directly with Rajabul Saifi for site visits, material discussions, and estimates across Gurugram, Delhi, and Noida.
+              Connect directly with Rajabul Saifi for on-site visits, architectural space discussions, and transparent cost estimates across Gurugram, Delhi, and Noida.
             </p>
           </div>
         </div>
@@ -42,17 +45,21 @@ export default function ContactPage() {
 
       <div className="container">
         <div className="contact-layout-grid">
-          {/* Contact Info Card */}
+          {/* Direct Reach Card */}
           <div className="contact-info-card">
-            <h2 className="contact-info-title">Direct Reach</h2>
+            <span className="section-eyebrow">Direct Touchpoints</span>
+            <h2 className="contact-info-title">Studio Contact & Reach</h2>
+            <p className="contact-info-subtitle">
+              Have a floor plan or architectural layout ready? We provide direct designer oversight without sales intermediaries.
+            </p>
 
             <div className="contact-methods-list">
               <div className="contact-method-item">
                 <div className="contact-method-icon-wa" aria-hidden="true">
-                  <WhatsAppIcon size={24} />
+                  <WhatsAppIcon size={22} />
                 </div>
                 <div>
-                  <div className="contact-method-label">WhatsApp (Fastest Response)</div>
+                  <div className="contact-method-label">WhatsApp (Priority Response)</div>
                   <a
                     href={directWhatsApp}
                     target="_blank"
@@ -67,10 +74,10 @@ export default function ContactPage() {
 
               <div className="contact-method-item">
                 <div className="contact-method-icon-phone" aria-hidden="true">
-                  <Phone size={22} />
+                  <Phone size={20} />
                 </div>
                 <div>
-                  <div className="contact-method-label">Phone Call</div>
+                  <div className="contact-method-label">Direct Phone Call</div>
                   <a
                     href={`tel:${DESIGNER_INFO.contact.phone.replace(/\s+/g, '')}`}
                     className="contact-method-val-phone"
@@ -83,10 +90,10 @@ export default function ContactPage() {
 
               <div className="contact-method-item">
                 <div className="contact-method-icon-map" aria-hidden="true">
-                  <MapPin size={22} />
+                  <MapPin size={20} />
                 </div>
                 <div>
-                  <div className="contact-method-label">Service Locations</div>
+                  <div className="contact-method-label">Active Execution Regions</div>
                   <div className="contact-method-val-loc">
                     Gurugram • Delhi • Noida
                   </div>
@@ -95,11 +102,12 @@ export default function ContactPage() {
             </div>
 
             <div className="contact-note-box">
-              <div className="contact-note-title">
-                On-Site Consultations:
+              <div className="contact-note-header">
+                <CheckCircle2 size={16} className="note-icon" />
+                <span className="contact-note-title">On-Site Measurement Visits:</span>
               </div>
               <p className="contact-note-desc">
-                Site measurements and initial discussions can be arranged directly at your property at a mutually convenient time.
+                Site visits and initial architectural walkthroughs are scheduled directly by Rajabul Saifi across Delhi NCR at a mutually convenient time.
               </p>
             </div>
           </div>
@@ -110,16 +118,17 @@ export default function ContactPage() {
             className="enquiry-form-card"
             aria-label="Send project enquiry via WhatsApp"
           >
-            <div>
-              <h2 className="enquiry-form-title">Send Project Enquiry</h2>
+            <div className="enquiry-form-header">
+              <span className="section-eyebrow">Quick Inquiry</span>
+              <h2 className="enquiry-form-title">Send Project Specifications</h2>
               <p className="enquiry-form-desc">
-                Fills a pre-formatted message and opens directly in your WhatsApp.
+                Generates a pre-formatted consultation request and connects directly to Rajabul Saifi on WhatsApp.
               </p>
             </div>
 
             <div className="form-group">
               <label htmlFor="contact-name" className="form-label">
-                Your Name
+                Your Name *
               </label>
               <input
                 id="contact-name"
@@ -136,7 +145,7 @@ export default function ContactPage() {
             <div className="form-grid-two">
               <div className="form-group">
                 <label htmlFor="contact-location" className="form-label">
-                  Location
+                  Project Location *
                 </label>
                 <select
                   id="contact-location"
@@ -148,13 +157,14 @@ export default function ContactPage() {
                   <option value="Gurugram">Gurugram</option>
                   <option value="Delhi">Delhi</option>
                   <option value="Noida">Noida</option>
-                  <option value="Other">Other</option>
+                  <option value="Greater Noida">Greater Noida</option>
+                  <option value="Other NCR">Other Delhi NCR</option>
                 </select>
               </div>
 
               <div className="form-group">
                 <label htmlFor="contact-property-type" className="form-label">
-                  Space Type
+                  Space Type *
                 </label>
                 <select
                   id="contact-property-type"
@@ -165,17 +175,19 @@ export default function ContactPage() {
                 >
                   <option value="2BHK Apartment">2BHK Apartment</option>
                   <option value="3BHK Apartment">3BHK Apartment</option>
-                  <option value="4BHK+ Apartment">4BHK+ Apartment</option>
+                  <option value="4BHK+ Luxury Flat">4BHK+ Luxury Flat</option>
                   <option value="Independent House / Villa">Villa / House</option>
-                  <option value="Commercial / Office">Office / Commercial</option>
-                  <option value="Modular Kitchen Only">Modular Kitchen Only</option>
+                  <option value="Commercial / Office Suite">Commercial / Office</option>
+                  <option value="Modular Kitchen & Wardrobes Only">Modular Kitchen & Wardrobes Only</option>
+                  <option value="Living Room & False Ceiling">Living Room & False Ceiling</option>
+                  <option value="Full Turnkey Home">Full Turnkey Home (Bare Shell)</option>
                 </select>
               </div>
             </div>
 
             <div className="form-group">
               <label htmlFor="contact-message" className="form-label">
-                Requirements or Notes (Optional)
+                Project Scope or Notes (Optional)
               </label>
               <textarea
                 id="contact-message"
@@ -183,7 +195,7 @@ export default function ContactPage() {
                 value={formData.message}
                 onChange={handleChange}
                 rows={3}
-                placeholder="Mention specific needs like false ceiling, woodwork, possession date, etc."
+                placeholder="Mention specific details like possession date, false ceiling, wood panelling, marble work, etc."
                 className="form-textarea"
               />
             </div>
@@ -193,7 +205,7 @@ export default function ContactPage() {
               className="btn btn-whatsapp enquiry-submit-btn"
               aria-label="Connect with Rajabul Saifi on WhatsApp"
             >
-              <WhatsAppIcon size={24} />
+              <WhatsAppIcon size={22} />
               <span>Connect on WhatsApp</span>
             </button>
           </form>

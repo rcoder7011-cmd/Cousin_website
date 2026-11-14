@@ -8,8 +8,10 @@
 export const DESIGNER_INFO = {
   name: "Rajabul Saifi",
   title: "Interior Designer & Execution Specialist",
-  tagline: "Quality craftsmanship, transparent execution, and thoughtful interiors tailored to your lifestyle.",
-  bio: "Individual interior designer operating with a dedicated, hands-on team of skilled labourers and craftsmen. Delivering custom residential and commercial interior solutions across Delhi NCR with direct personal site supervision.",
+  tagline: "Over a decade of creating beautiful, functional, and thoughtfully designed spaces.",
+  experience: "10+ Years Experience",
+  yearsOfExperience: 10,
+  bio: "With over 10 years of experience in interior design, Rajabul Saifi leads a hands-on studio with a dedicated team of master craftsmen, carpenters, and finishing technicians. We create refined residential and commercial interiors across Gurugram, Delhi, and Noida with direct on-site supervision, uncompromising attention to detail, and transparent execution.",
   
   // Service Areas
   serviceAreas: [
@@ -18,31 +20,31 @@ export const DESIGNER_INFO = {
     "Noida"
   ],
 
-  // Contact Information (PLACEHOLDERS: Update with Rajabul Saifi's real details)
+  // Contact Information
   contact: {
     phone: "+91 84498 02502",
     whatsappNumber: "918449802502",
-    email: "enquiry@rajabulinteriors.com", // [PLACEHOLDER] Replace with actual email if available
+    email: "enquiry@rajabulinteriors.com",
     location: "Delhi NCR, India"
   },
 
-  // Core Value Propositions based on actual setup (individual designer + dedicated labour team)
+  // Core Value Propositions based on 10+ years of studio experience
   strengths: [
     {
-      title: "Direct Site Supervision",
-      description: "No middlemen or unaccountable sub-contractors. Rajabul personally oversees daily work on-site."
+      title: "10+ Years Proven Craft",
+      description: "A decade of mastering turnkey interior execution, space planning, and custom joinery across premium Delhi NCR developments."
     },
     {
-      title: "In-House Skilled Labour Team",
-      description: "Experienced carpenters, painters, false-ceiling technicians, and electricians working cohesively."
+      title: "Direct Site Supervision",
+      description: "No middlemen or unaccountable sub-contractors. Rajabul personally oversees daily work on-site from layout to handover."
+    },
+    {
+      title: "In-House Master Craftsmen",
+      description: "Dedicated master carpenters, false-ceiling artisans, painters, and electrical technicians working cohesively under one roof."
     },
     {
       title: "Transparent & Cost-Effective",
-      description: "Direct labour management ensures competitive pricing without sacrificing material quality."
-    },
-    {
-      title: "Regional Coverage",
-      description: "Active execution capabilities across Gurugram, Delhi, and Noida."
+      description: "Direct labour management and authentic material sourcing ensure competitive pricing without compromising durability."
     }
   ]
 };
