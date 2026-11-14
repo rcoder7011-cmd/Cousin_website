@@ -308,3 +308,4 @@ values
 on conflict (setting_key) do update set
   setting_value = excluded.setting_value,
   updated_at = now();
+

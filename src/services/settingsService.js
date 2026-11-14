@@ -105,3 +105,4 @@ export async function updateSetting(key, value) {
     return { success: false, error: err };
   }
 }
+

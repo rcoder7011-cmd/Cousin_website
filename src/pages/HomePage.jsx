@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { Phone, ArrowRight, CheckCircle2, MapPin, Award } from 'lucide-react';
@@ -6,8 +6,8 @@ import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import CompanyExperienceSection from '../components/home/CompanyExperienceSection';
 import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
 import { SERVICES } from '../data/services';
-import { PROJECTS } from '../data/projects';
-import { gsap, isReducedMotion } from '../utils/gsapConfig';
+import { getFeaturedProjects } from '../services/projectService';
+import { gsap, isReducedMotion, refreshScrollTrigger } from '../utils/gsapConfig';
 import './HomePage.css';
 
 export default function HomePage() {
@@ -17,10 +17,33 @@ export default function HomePage() {
   const servicesSectionRef = useRef(null);
   const ctaSectionRef = useRef(null);
 
+  const [featuredProjects, setFeaturedProjects] = useState([]);
+  const [isLoadingProjects, setIsLoadingProjects] = useState(true);
+
   const heroWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I am interested in interior design and interior work for my flat/home in Delhi NCR.`);
 
   // Highlight key 6 categories requested
   const primaryServices = SERVICES.slice(0, 6);
+
+  // Dynamic Fetch for Featured Projects from Supabase
+  useEffect(() => {
+    let isMounted = true;
+    async function loadFeatured() {
+      setIsLoadingProjects(true);
+      const { data } = await getFeaturedProjects(4);
+      if (isMounted) {
+        setFeaturedProjects(data || []);
+        setIsLoadingProjects(false);
+        setTimeout(() => {
+          refreshScrollTrigger();
+        }, 80);
+      }
+    }
+    loadFeatured();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Coordinated GSAP Animations across the Homepage
   useGSAP(() => {
@@ -107,18 +130,20 @@ export default function HomePage() {
       ease: 'power2.out',
     });
 
-    gsap.from('.project-card-gsap', {
-      scrollTrigger: {
-        trigger: '.projects-grid',
-        start: 'top 82%',
-        once: true,
-      },
-      y: 45,
-      opacity: 0,
-      duration: 0.85,
-      stagger: 0.16,
-      ease: 'power2.out',
-    });
+    if (featuredProjects.length > 0) {
+      gsap.from('.project-card-gsap', {
+        scrollTrigger: {
+          trigger: '.projects-grid',
+          start: 'top 82%',
+          once: true,
+        },
+        y: 45,
+        opacity: 0,
+        duration: 0.85,
+        stagger: 0.16,
+        ease: 'power2.out',
+      });
+    }
 
     // 3. SERVICES SECTION (ScrollTrigger)
     gsap.from('.services-header-reveal', {
@@ -161,7 +186,7 @@ export default function HomePage() {
       ease: 'power2.out',
     });
 
-  }, { scope: pageRef });
+  }, { scope: pageRef, dependencies: [featuredProjects, isLoadingProjects] });
 
   return (
     <div ref={pageRef} className="home-page">
@@ -286,49 +311,97 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="projects-grid">
-            {PROJECTS.map(project => (
-              <article key={project.id} className="project-card project-card-gsap">
-                <div className="project-image-box">
-                  <img
-                    src={project.coverImage}
-                    alt={`${project.title} - ${COMPANY_INFO.name}`}
-                    loading="lazy"
-                    decoding="async"
-                    width="600"
-                    height="420"
-                  />
-                  <div className="project-badges-row">
-                    <span className="project-badge">{project.category}</span>
-                    <span className="project-time-badge">{project.completionTime}</span>
+          {/* Loading Skeletons */}
+          {isLoadingProjects && (
+            <div className="projects-grid">
+              {[1, 2].map((n) => (
+                <div key={n} className="project-card project-card-skeleton">
+                  <div className="skeleton-box" style={{ height: '280px', width: '100%' }} />
+                  <div style={{ padding: '1.5rem' }}>
+                    <div className="skeleton-box" style={{ height: '18px', width: '35%', marginBottom: '0.85rem' }} />
+                    <div className="skeleton-box" style={{ height: '26px', width: '75%', marginBottom: '1rem' }} />
+                    <div className="skeleton-box" style={{ height: '15px', width: '100%', marginBottom: '0.5rem' }} />
+                    <div className="skeleton-box" style={{ height: '15px', width: '60%' }} />
                   </div>
                 </div>
-                <div className="project-info">
-                  <div className="project-location">
-                    <MapPin size={14} className="location-pin" aria-hidden="true" />
-                    <span>{project.location} • Turnkey Execution</span>
+              ))}
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!isLoadingProjects && featuredProjects.length === 0 && (
+            <div className="projects-empty-banner text-center" style={{ padding: '3.5rem 1.5rem', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)' }}>
+              <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.25rem', fontSize: '1.05rem' }}>
+                Our team is currently curating featured installations. You can view all completed on-site photographs in our full gallery.
+              </p>
+              <Link to="/projects" className="btn btn-primary">
+                <span>Explore Full Portfolio</span>
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+          )}
+
+          {/* Dynamic Featured Projects List */}
+          {!isLoadingProjects && featuredProjects.length > 0 && (
+            <div className="projects-grid">
+              {featuredProjects.map(project => (
+                <article key={project.id} className="project-card project-card-gsap">
+                  <div className="project-image-box">
+                    <Link to={`/projects/${project.slug}`} aria-label={`View project details for ${project.title}`}>
+                      <img
+                        src={project.coverImage}
+                        alt={`${project.title} - ${COMPANY_INFO.name}`}
+                        loading="lazy"
+                        decoding="async"
+                        width="600"
+                        height="420"
+                      />
+                    </Link>
+                    <div className="project-badges-row">
+                      <span className="project-badge">{project.category}</span>
+                      <span className="project-time-badge">{project.completionTime}</span>
+                    </div>
                   </div>
-                  <h3 className="project-title">{project.title}</h3>
-                  <p className="project-summary">{project.summary}</p>
-                  <div className="project-scope">
-                    <strong>Execution Scope:</strong> {project.scope}
+                  <div className="project-info">
+                    <div className="project-location">
+                      <MapPin size={14} className="location-pin" aria-hidden="true" />
+                      <span>{project.location} • Turnkey Execution</span>
+                    </div>
+                    <h3 className="project-title">
+                      <Link to={`/projects/${project.slug}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                        {project.title}
+                      </Link>
+                    </h3>
+                    <p className="project-summary">{project.summary}</p>
+                    {project.scope && (
+                      <div className="project-scope">
+                        <strong>Execution Scope:</strong> {project.scope}
+                      </div>
+                    )}
+                    <div className="project-card-action" style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap' }}>
+                      <Link
+                        to={`/projects/${project.slug}`}
+                        className="btn btn-outline"
+                        style={{ padding: '0.5rem 0.9rem', fontSize: '0.82rem' }}
+                      >
+                        <span>View Project</span>
+                        <ArrowRight size={13} />
+                      </Link>
+                      <a
+                        href={getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I saw your project "${project.title}" in ${project.location} on saifiinteriorhub.in and would like similar interior work done.`)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="project-enquire-link"
+                      >
+                        <WhatsAppIcon size={15} />
+                        <span>Enquire on WhatsApp</span>
+                      </a>
+                    </div>
                   </div>
-                  <div className="project-card-action">
-                    <a
-                      href={getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I saw your project "${project.title}" in ${project.location} on saifiinteriorhub.in and would like similar interior work done.`)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="project-enquire-link"
-                    >
-                      <WhatsAppIcon size={16} />
-                      <span>Enquire on WhatsApp</span>
-                      <ArrowRight size={14} className="enquire-arrow" />
-                    </a>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

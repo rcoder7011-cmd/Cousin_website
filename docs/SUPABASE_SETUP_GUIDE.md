@@ -141,3 +141,4 @@ All backend queries have been encapsulated in clean, reusable service modules lo
 - **Authentication:** `loginAdmin(email, pwd)`, `logoutAdmin()`, `getCurrentUser()`, `isAdmin()`, `onAuthStateChange()`
 
 These will be seamlessly plugged into the future Admin Dashboard in subsequent development parts.
+

@@ -4,6 +4,45 @@ export const STORAGE_BUCKET = 'project-images';
 export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
 export const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
 
+export const DEFAULT_FALLBACK_IMAGE = '/images/projects/Living Room/78d10c45-348b-4c86-90f8-942b36a10bc9.png';
+
+/**
+ * Resolves an image reference into a safe, valid URL.
+ * Handles:
+ * 1. External URLs (http://, https://)
+ * 2. Local public paths (/images/...)
+ * 3. Supabase Storage relative paths (e.g. "project-id/image.webp")
+ * 4. Fallback placeholder for missing/empty values
+ *
+ * @param {string} [pathOrUrl]
+ * @param {string} [fallback=DEFAULT_FALLBACK_IMAGE]
+ * @returns {string}
+ */
+export function resolveImageUrl(pathOrUrl, fallback = DEFAULT_FALLBACK_IMAGE) {
+  if (!pathOrUrl || typeof pathOrUrl !== 'string' || !pathOrUrl.trim()) {
+    return fallback;
+  }
+
+  const trimmed = pathOrUrl.trim();
+
+  // If already absolute URL or local public path
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('/') || trimmed.startsWith('data:')) {
+    return trimmed;
+  }
+
+  // If it's a Supabase storage path in the 'project-images' bucket
+  if (isSupabaseConfigured) {
+    try {
+      const { data } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(trimmed);
+      return data?.publicUrl || fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  return fallback;
+}
+
 /**
  * Fetch all gallery images for a specific project
  * @param {string} projectId - UUID
@@ -172,3 +211,4 @@ export async function deleteProjectImage({ imageId, storagePath }) {
     return { success: false, error: err };
   }
 }
+

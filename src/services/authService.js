@@ -128,3 +128,4 @@ export function onAuthStateChange(callback) {
     unsubscribe: () => subscription?.unsubscribe()
   };
 }
+
