@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() || '';
+const env = (typeof import.meta !== 'undefined' && import.meta.env) ? import.meta.env : (typeof process !== 'undefined' && process.env ? process.env : {});
+const supabaseUrl = env.VITE_SUPABASE_URL?.trim() || '';
+const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY?.trim() || '';
 
 /**
  * Checks whether valid Supabase configuration is present.
@@ -15,7 +16,7 @@ export const isSupabaseConfigured = Boolean(
   supabaseUrl.startsWith('http')
 );
 
-if (!isSupabaseConfigured && import.meta.env.DEV) {
+if (!isSupabaseConfigured && env.DEV) {
   console.info(
     '[Supabase] Backend credentials not configured yet. Using fallback mock/static data.\n' +
     'To connect your live database, copy .env.example to .env and provide your VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.\n' +

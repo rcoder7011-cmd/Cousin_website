@@ -1,4 +1,4 @@
-import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase.js';
 
 export const STORAGE_BUCKET = 'project-images';
 export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
@@ -171,6 +171,92 @@ export async function createProjectImageRecord({ projectId, imageUrl, altText, d
   } catch (err) {
     console.error('[projectImageService] Error creating project image record:', err.message);
     return { data: null, error: err };
+  }
+}
+
+/**
+ * Extract relative storage path from a Supabase Storage public URL
+ * e.g., "https://.../storage/v1/object/public/project-images/folder/file.jpg" -> "folder/file.jpg"
+ * @param {string} url
+ * @returns {string|null}
+ */
+export function extractStoragePathFromUrl(url) {
+  if (!url || typeof url !== 'string') return null;
+  const marker = `/${STORAGE_BUCKET}/`;
+  const idx = url.indexOf(marker);
+  if (idx !== -1) {
+    const rawPath = url.substring(idx + marker.length);
+    // Strip query parameters if any
+    return rawPath.split('?')[0];
+  }
+  return null;
+}
+
+/**
+ * Remove multiple files from the project-images storage bucket safely
+ * @param {string[]} paths - Array of relative storage paths
+ * @returns {Promise<{ success: boolean, removed: number, error: Error | null }>}
+ */
+export async function deleteStorageFiles(paths) {
+  if (!isSupabaseConfigured || !Array.isArray(paths) || paths.length === 0) {
+    return { success: true, removed: 0, error: null };
+  }
+
+  // Filter out invalid or non-storage paths
+  const validPaths = paths.filter(p => typeof p === 'string' && p.trim().length > 0);
+  if (validPaths.length === 0) {
+    return { success: true, removed: 0, error: null };
+  }
+
+  try {
+    const { error } = await supabase.storage
+      .from(STORAGE_BUCKET)
+      .remove(validPaths);
+
+    if (error) {
+      console.warn('[projectImageService] Warning deleting storage files:', error.message);
+      return { success: false, removed: 0, error };
+    }
+
+    return { success: true, removed: validPaths.length, error: null };
+  } catch (err) {
+    console.error('[projectImageService] Error deleting storage files:', err.message);
+    return { success: false, removed: 0, error: err };
+  }
+}
+
+/**
+ * Delete all files inside a project's storage folder
+ * @param {string} projectId
+ * @returns {Promise<{ success: boolean, count: number, error: Error | null }>}
+ */
+export async function deleteProjectStorageFolder(projectId) {
+  if (!isSupabaseConfigured || !projectId) {
+    return { success: true, count: 0, error: null };
+  }
+
+  try {
+    const { data: files, error: listError } = await supabase.storage
+      .from(STORAGE_BUCKET)
+      .list(projectId);
+
+    if (listError) throw listError;
+
+    if (!files || files.length === 0) {
+      return { success: true, count: 0, error: null };
+    }
+
+    const pathsToDelete = files.map(f => `${projectId}/${f.name}`);
+    const { error: removeError } = await supabase.storage
+      .from(STORAGE_BUCKET)
+      .remove(pathsToDelete);
+
+    if (removeError) throw removeError;
+
+    return { success: true, count: pathsToDelete.length, error: null };
+  } catch (err) {
+    console.error(`[projectImageService] Error deleting project folder "${projectId}":`, err.message);
+    return { success: false, count: 0, error: err };
   }
 }
 

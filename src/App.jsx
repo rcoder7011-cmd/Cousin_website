@@ -13,6 +13,8 @@ import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminForgotPasswordPage from './pages/admin/AdminForgotPasswordPage';
 import AdminResetPasswordPage from './pages/admin/AdminResetPasswordPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminProjectsPage from './pages/admin/AdminProjectsPage';
+import AdminProjectFormPage from './pages/admin/AdminProjectFormPage';
 import AdminPlaceholderModule from './pages/admin/AdminPlaceholderModule';
 import AdminRouteGuard from './components/admin/AdminRouteGuard';
 import { AuthProvider } from './context/AuthContext';
@@ -95,7 +97,23 @@ export default function App() {
               path="/admin/projects"
               element={
                 <AdminRouteGuard>
-                  <AdminPlaceholderModule moduleKey="projects" />
+                  <AdminProjectsPage />
+                </AdminRouteGuard>
+              }
+            />
+            <Route
+              path="/admin/projects/new"
+              element={
+                <AdminRouteGuard>
+                  <AdminProjectFormPage mode="create" />
+                </AdminRouteGuard>
+              }
+            />
+            <Route
+              path="/admin/projects/:id/edit"
+              element={
+                <AdminRouteGuard>
+                  <AdminProjectFormPage mode="edit" />
                 </AdminRouteGuard>
               }
             />

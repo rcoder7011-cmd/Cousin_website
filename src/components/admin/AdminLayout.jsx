@@ -68,7 +68,7 @@ export default function AdminLayout({ children, pageTitle = 'Dashboard Overview'
       to: '/admin/projects',
       label: 'Projects',
       icon: FolderKanban,
-      badge: 'Part 8'
+      badge: null
     },
     {
       to: '/admin/categories',

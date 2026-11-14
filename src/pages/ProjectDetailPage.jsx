@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import {
   Award,
@@ -10,17 +10,24 @@ import {
   ArrowLeft,
   Eye,
   X,
-  AlertCircle
+  AlertCircle,
+  FileEdit
 } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { getProjectBySlug } from '../services/projectService';
+import { useAuth } from '../context/useAuth';
 import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
 import { gsap, isReducedMotion, refreshScrollTrigger } from '../utils/gsapConfig';
 import './ProjectDetailPage.css';
 
 export default function ProjectDetailPage() {
   const { slug } = useParams();
+  const location = useLocation();
+  const { user } = useAuth();
   const pageRef = useRef(null);
+
+  const isPreviewParam = new URLSearchParams(location.search).get('preview') === 'true';
+  const allowDraft = Boolean(isPreviewParam || user);
 
   const [project, setProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +41,7 @@ export default function ProjectDetailPage() {
       setIsLoading(true);
       setError(null);
 
-      const { data, error: err } = await getProjectBySlug(slug);
+      const { data, error: err } = await getProjectBySlug(slug, { allowDraft });
 
       if (isMounted) {
         if (err && !data) {
@@ -55,7 +62,7 @@ export default function ProjectDetailPage() {
     return () => {
       isMounted = false;
     };
-  }, [slug]);
+  }, [slug, allowDraft]);
 
   // Lock background scroll when lightbox is open
   useEffect(() => {
@@ -169,6 +176,37 @@ export default function ProjectDetailPage() {
 
   return (
     <div ref={pageRef} className="project-detail-page">
+      {/* Draft Preview Callout for Admin */}
+      {!project.isPublished && (
+        <div style={{
+          background: 'rgba(253, 126, 20, 0.12)',
+          borderBottom: '1px solid rgba(253, 126, 20, 0.35)',
+          padding: '0.75rem 1.25rem',
+          textAlign: 'center',
+          fontSize: '0.86rem',
+          fontWeight: 600,
+          color: '#d96509',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.6rem'
+        }}>
+          <FileEdit size={16} />
+          <span>Admin Preview Mode: This project is currently saved as DRAFT and is not visible to public visitors.</span>
+          <Link
+            to={`/admin/projects/${project.id}/edit`}
+            style={{
+              color: '#d96509',
+              textDecoration: 'underline',
+              marginLeft: '0.5rem',
+              fontWeight: 700
+            }}
+          >
+            Edit in Admin
+          </Link>
+        </div>
+      )}
+
       {/* Breadcrumb Navigation */}
       <nav className="project-breadcrumb-bar" aria-label="Breadcrumb">
         <div className="container">

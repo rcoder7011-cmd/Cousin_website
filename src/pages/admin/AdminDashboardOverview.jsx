@@ -15,7 +15,8 @@ import {
   Inbox,
   Sparkles,
   MapPin,
-  Calendar
+  Calendar,
+  Edit3
 } from 'lucide-react';
 import { useAuth } from '../../context/useAuth';
 import { COMPANY_INFO } from '../../data/designer';
@@ -275,14 +276,14 @@ export default function AdminDashboardOverview() {
       <section aria-label="Studio quick actions">
         <h2 className="admin-section-title">Quick Studio Actions</h2>
         <div className="admin-actions-grid">
-          <Link to="/admin/projects" className="action-tile-btn">
+          <Link to="/admin/projects/new" className="action-tile-btn">
             <div className="action-tile-icon">
               <PlusCircle size={22} />
             </div>
             <div className="action-tile-content">
               <span className="action-tile-title">Add New Project</span>
               <span className="action-tile-desc">Upload photos & details</span>
-              <span className="action-tile-badge">Part 8 Ready</span>
+              <span className="action-tile-badge">Active</span>
             </div>
             <ArrowRight size={16} color="var(--color-text-light)" />
           </Link>
@@ -294,7 +295,7 @@ export default function AdminDashboardOverview() {
             <div className="action-tile-content">
               <span className="action-tile-title">Manage Projects</span>
               <span className="action-tile-desc">Edit, filter & publish works</span>
-              <span className="action-tile-badge">Part 8 Ready</span>
+              <span className="action-tile-badge">Active</span>
             </div>
             <ArrowRight size={16} color="var(--color-text-light)" />
           </Link>
@@ -475,25 +476,45 @@ export default function AdminDashboardOverview() {
                     </td>
 
                     <td style={{ textAlign: 'right' }}>
-                      <Link
-                        to={`/projects/${project.slug}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-outline"
-                        style={{
-                          fontSize: '0.75rem',
-                          padding: '0.3rem 0.65rem',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '0.3rem',
-                          borderColor: 'var(--admin-border)',
-                          color: 'var(--admin-primary)',
-                          background: '#ffffff'
-                        }}
-                      >
-                        <ExternalLink size={12} />
-                        <span>Preview</span>
-                      </Link>
+                      <div style={{ display: 'inline-flex', gap: '0.4rem', justifyContent: 'flex-end' }}>
+                        <Link
+                          to={`/projects/${project.slug}?preview=true`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-outline"
+                          style={{
+                            fontSize: '0.75rem',
+                            padding: '0.3rem 0.65rem',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.3rem',
+                            borderColor: 'var(--admin-border)',
+                            color: 'var(--admin-primary)',
+                            background: '#ffffff'
+                          }}
+                        >
+                          <ExternalLink size={12} />
+                          <span>Preview</span>
+                        </Link>
+
+                        <Link
+                          to={`/admin/projects/${project.id}/edit`}
+                          className="btn btn-outline"
+                          style={{
+                            fontSize: '0.75rem',
+                            padding: '0.3rem 0.65rem',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.3rem',
+                            borderColor: 'var(--admin-border)',
+                            color: 'var(--admin-primary)',
+                            background: '#ffffff'
+                          }}
+                        >
+                          <Edit3 size={12} />
+                          <span>Edit</span>
+                        </Link>
+                      </div>
                     </td>
                   </tr>
                 ))}
