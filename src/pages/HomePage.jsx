@@ -1,23 +1,172 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, ArrowRight, CheckCircle2, MapPin, Hammer, ShieldCheck, Award, Sparkles } from 'lucide-react';
+import { useGSAP } from '@gsap/react';
+import { Phone, ArrowRight, CheckCircle2, MapPin, Award } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
-import ExperienceShowcaseGSAP from '../components/common/ExperienceShowcaseGSAP';
+import CompanyExperienceSection from '../components/home/CompanyExperienceSection';
 import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
 import { SERVICES } from '../data/services';
 import { PROJECTS } from '../data/projects';
+import { gsap, isReducedMotion } from '../utils/gsapConfig';
 import './HomePage.css';
 
 export default function HomePage() {
+  const pageRef = useRef(null);
+  const heroRef = useRef(null);
+  const projectsSectionRef = useRef(null);
+  const servicesSectionRef = useRef(null);
+  const ctaSectionRef = useRef(null);
+
   const heroWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I am interested in interior design and interior work for my flat/home in Delhi NCR.`);
 
   // Highlight key 6 categories requested
   const primaryServices = SERVICES.slice(0, 6);
 
+  // Coordinated GSAP Animations across the Homepage
+  useGSAP(() => {
+    if (isReducedMotion()) return;
+
+    // 1. HERO ENTRANCE TIMELINE (Runs on initial mount)
+    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    // Badge entrance from top
+    heroTl.from('.hero-badge', {
+      y: -24,
+      opacity: 0,
+      duration: 0.8,
+    });
+
+    // Heading reveal from bottom
+    heroTl.from('.hero-title', {
+      y: 40,
+      opacity: 0,
+      duration: 1.0,
+    }, '-=0.5');
+
+    // Subtitle fade & slide up
+    heroTl.from('.hero-subtitle', {
+      y: 25,
+      opacity: 0,
+      duration: 0.85,
+    }, '-=0.6');
+
+    // CTA buttons staggered entrance
+    heroTl.from('.hero-actions .btn', {
+      y: 20,
+      opacity: 0,
+      duration: 0.65,
+      stagger: 0.12,
+    }, '-=0.5');
+
+    // Trust items staggered entrance
+    heroTl.from('.trust-item', {
+      y: 16,
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.1,
+    }, '-=0.4');
+
+    // Hero media entrance from right with scale
+    heroTl.from('.hero-primary-image', {
+      x: 35,
+      scale: 0.96,
+      opacity: 0,
+      duration: 1.1,
+      ease: 'power2.out',
+    }, '-=1.2');
+
+    // Hero floating card pop
+    heroTl.from('.hero-floating-card', {
+      scale: 0.85,
+      y: 20,
+      opacity: 0,
+      duration: 0.75,
+      ease: 'back.out(1.7)',
+    }, '-=0.5');
+
+    // Hero secondary inset card
+    heroTl.from('.hero-secondary-card', {
+      x: 25,
+      y: 25,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+    }, '-=0.5');
+
+    // 2. FEATURED PROJECTS SECTION (ScrollTrigger)
+    gsap.from('.project-header-reveal', {
+      scrollTrigger: {
+        trigger: projectsSectionRef.current,
+        start: 'top 80%',
+        once: true,
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.12,
+      ease: 'power2.out',
+    });
+
+    gsap.from('.project-card-gsap', {
+      scrollTrigger: {
+        trigger: '.projects-grid',
+        start: 'top 82%',
+        once: true,
+      },
+      y: 45,
+      opacity: 0,
+      duration: 0.85,
+      stagger: 0.16,
+      ease: 'power2.out',
+    });
+
+    // 3. SERVICES SECTION (ScrollTrigger)
+    gsap.from('.services-header-reveal', {
+      scrollTrigger: {
+        trigger: servicesSectionRef.current,
+        start: 'top 80%',
+        once: true,
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.12,
+      ease: 'power2.out',
+    });
+
+    gsap.from('.service-card-gsap', {
+      scrollTrigger: {
+        trigger: '.services-grid',
+        start: 'top 82%',
+        once: true,
+      },
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'power2.out',
+    });
+
+    // 4. CONSULTATION CTA BANNER (ScrollTrigger)
+    gsap.from('.cta-banner-card', {
+      scrollTrigger: {
+        trigger: ctaSectionRef.current,
+        start: 'top 85%',
+        once: true,
+      },
+      scale: 0.96,
+      y: 30,
+      opacity: 0,
+      duration: 0.9,
+      ease: 'power2.out',
+    });
+
+  }, { scope: pageRef });
+
   return (
-    <div className="home-page">
+    <div ref={pageRef} className="home-page">
       {/* 1. HERO SECTION */}
-      <section className="hero-section" aria-label="Studio Introduction">
+      <section ref={heroRef} className="hero-section" aria-label="Studio Introduction">
         <div className="container hero-container">
           <div className="hero-content">
             <div className="badge hero-badge">
@@ -117,93 +266,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. ABOUT & EXPERIENCE SECTION (Task 7 Requirement + GSAP Animation) */}
-      <section className="experience-section" aria-label="About our experience">
-        <div className="container">
-          <div className="experience-grid">
-            <div className="experience-content">
-              <span className="section-eyebrow">Company Experience</span>
-              <h2 className="experience-title">Over a Decade of Creating Beautiful Spaces</h2>
-              <p className="experience-lead">
-                With over 10 years of experience in interior design, we focus on creating beautiful, functional and thoughtfully designed spaces.
-              </p>
-              <p className="experience-body">
-                Unlike corporate interior firms that sub-contract your dream home to anonymous third parties, <strong>{COMPANY_INFO.name}</strong> operates with a dedicated in-house team of master carpenters, false-ceiling artisans, painters, and electricians. Every layout, joinery cut, and stone finish is supervised on the ground, delivering superior craftsmanship without inflated overhead margins.
-              </p>
+      {/* 2. DEDICATED COMPANY EXPERIENCE SECTION — 10+ YEARS (Task 4) */}
+      <CompanyExperienceSection />
 
-              <div className="experience-pillars">
-                {COMPANY_INFO.strengths.map((item, idx) => (
-                  <div key={idx} className="pillar-item">
-                    <div className="pillar-icon-box" aria-hidden="true">
-                      {idx === 0 && <Award size={20} />}
-                      {idx === 1 && <ShieldCheck size={20} />}
-                      {idx === 2 && <Hammer size={20} />}
-                      {idx === 3 && <Sparkles size={20} />}
-                    </div>
-                    <div>
-                      <h3 className="pillar-title">{item.title}</h3>
-                      <p className="pillar-desc">{item.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="experience-action">
-                <Link to="/about" className="btn btn-outline">
-                  <span>Learn More About Our Journey</span>
-                  <ArrowRight size={17} aria-hidden="true" />
-                </Link>
-              </div>
-            </div>
-
-            <div className="experience-visual">
-              <div className="experience-visual-main">
-                <img
-                  src="/images/projects/OFFICE/619a0583-75a7-4f10-a6b5-811d0b650f0a.png"
-                  alt="Executive corporate office suite with precision walnut wall panelling by Saifi Interior Hub"
-                  className="experience-img-main"
-                  loading="lazy"
-                  decoding="async"
-                  width="800"
-                  height="600"
-                />
-                <div className="experience-badge-overlay">
-                  <span className="exp-number">10+</span>
-                  <span className="exp-label">Years of Company Experience</span>
-                </div>
-              </div>
-
-              <div className="experience-visual-accent">
-                <img
-                  src="/images/projects/Pop Ceiling/4c617dfa-40ad-4b7b-b8c0-f8d909091b8a.png"
-                  alt="POP false ceiling with magnetic track illumination by Saifi Interior Hub"
-                  className="experience-img-accent"
-                  loading="lazy"
-                  decoding="async"
-                  width="400"
-                  height="300"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* GSAP-Animated Experience Showcase Component */}
-          <ExperienceShowcaseGSAP />
-        </div>
-      </section>
-
-      {/* 3. FEATURED PROJECTS SHOWCASE (Task 6 Requirement) */}
-      <section className="projects-preview-section" aria-label="Recent work showcase">
+      {/* 3. FEATURED PROJECTS SHOWCASE (Task 5 & 6) */}
+      <section ref={projectsSectionRef} className="projects-preview-section" aria-label="Recent work showcase">
         <div className="container">
           <div className="section-header-flex">
             <div>
-              <span className="section-eyebrow">Portfolio Showcase</span>
-              <h2>Signature Completed Projects</h2>
-              <p className="section-description">
+              <span className="section-eyebrow project-header-reveal">Portfolio Showcase</span>
+              <h2 className="project-header-reveal">Signature Completed Projects</h2>
+              <p className="section-description project-header-reveal">
                 Explore real residential and corporate spaces delivered by {COMPANY_INFO.name} across Gurugram, Delhi, and Noida.
               </p>
             </div>
-            <Link to="/projects" className="btn btn-outline preview-all-btn">
+            <Link to="/projects" className="btn btn-outline preview-all-btn project-header-reveal">
               <span>View All 100+ Photos</span>
               <ArrowRight size={17} aria-hidden="true" />
             </Link>
@@ -211,7 +288,7 @@ export default function HomePage() {
 
           <div className="projects-grid">
             {PROJECTS.map(project => (
-              <article key={project.id} className="project-card">
+              <article key={project.id} className="project-card project-card-gsap">
                 <div className="project-image-box">
                   <img
                     src={project.coverImage}
@@ -255,20 +332,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. SERVICES DOMAINS (Task 8 Requirement) */}
-      <section className="services-section" aria-label="Interior design services">
+      {/* 4. SERVICES DOMAINS (Task 5 & 8) */}
+      <section ref={servicesSectionRef} className="services-section" aria-label="Interior design services">
         <div className="container">
           <div className="section-header text-center">
-            <span className="section-eyebrow">Comprehensive Capabilities</span>
-            <h2>Interior Design and Interior Work Services</h2>
-            <p className="section-description">
+            <span className="section-eyebrow services-header-reveal">Comprehensive Capabilities</span>
+            <h2 className="services-header-reveal">Interior Design and Interior Work Services</h2>
+            <p className="section-description services-header-reveal">
               From individual rooms to full flat and villa renovations, {COMPANY_INFO.name}'s master craftsmen execute every trade under direct studio supervision.
             </p>
           </div>
 
           <div className="services-grid">
             {primaryServices.map((service, index) => (
-              <div key={service.id} className="service-card">
+              <div key={service.id} className="service-card service-card-gsap">
                 <div className="service-card-media">
                   <img
                     src={service.coverImage}
@@ -320,8 +397,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. CONSULTATION CALLOUT BANNER */}
-      <section className="cta-banner-section" aria-label="Schedule a consultation">
+      {/* 5. CONSULTATION CALLOUT BANNER (Task 5) */}
+      <section ref={ctaSectionRef} className="cta-banner-section" aria-label="Schedule a consultation">
         <div className="container">
           <div className="cta-banner-card">
             <div className="cta-banner-content">

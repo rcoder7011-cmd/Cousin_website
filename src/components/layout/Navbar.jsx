@@ -1,15 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useGSAP } from '@gsap/react';
 import { Menu, X, Phone } from 'lucide-react';
 import WhatsAppIcon from '../common/WhatsAppIcon';
 import { DESIGNER_INFO, getWhatsAppUrl } from '../../data/designer';
+import { gsap, isReducedMotion } from '../../utils/gsapConfig';
 import './Navbar.css';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const headerRef = useRef(null);
 
   const toggleMenu = () => setMobileMenuOpen(prev => !prev);
   const closeMenu = () => setMobileMenuOpen(false);
+
+  // Subtle entrance animation on initial mount
+  useGSAP(() => {
+    if (isReducedMotion()) return;
+
+    gsap.from('.header-inner', {
+      y: -15,
+      opacity: 0,
+      duration: 0.65,
+      ease: 'power2.out',
+    });
+  }, { scope: headerRef });
 
   // Close mobile menu on Escape key press & prevent background scroll when open
   useEffect(() => {
@@ -39,7 +54,7 @@ export default function Navbar() {
   const phoneTel = `tel:${DESIGNER_INFO.contact.phone.replace(/\s+/g, '')}`;
 
   return (
-    <header className="site-header">
+    <header ref={headerRef} className="site-header">
       <div className="container header-inner">
         {/* Brand / Logo */}
         <Link to="/" className="brand-logo" onClick={closeMenu} aria-label={`${DESIGNER_INFO.name} - Home`}>

@@ -8,15 +8,20 @@ import ProjectsPage from './pages/ProjectsPage';
 import ServicesPage from './pages/ServicesPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import { refreshScrollTrigger } from './utils/gsapConfig';
 
 /**
- * Utility to reset scroll position on route change
+ * Utility to reset scroll position on route change and refresh GSAP ScrollTrigger
  */
 function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const timer = setTimeout(() => {
+      refreshScrollTrigger();
+    }, 100);
+    return () => clearTimeout(timer);
   }, [pathname]);
 
   return null;

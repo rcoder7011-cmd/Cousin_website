@@ -1,17 +1,37 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useGSAP } from '@gsap/react';
 import { MapPin, Phone, ShieldCheck, Award, Globe, Mail } from 'lucide-react';
 import WhatsAppIcon from '../common/WhatsAppIcon';
 import { COMPANY_INFO, getWhatsAppUrl } from '../../data/designer';
+import { gsap, isReducedMotion } from '../../utils/gsapConfig';
 import './Footer.css';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
 export default function Footer() {
+  const footerRef = useRef(null);
   const footerWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I am contacting you through saifiinteriorhub.in for an interior design consultation.`);
 
+  useGSAP(() => {
+    if (isReducedMotion()) return;
+
+    gsap.from('.footer-col', {
+      scrollTrigger: {
+        trigger: footerRef.current,
+        start: 'top 88%',
+        once: true,
+      },
+      y: 25,
+      opacity: 0,
+      duration: 0.75,
+      stagger: 0.1,
+      ease: 'power2.out',
+    });
+  }, { scope: footerRef });
+
   return (
-    <footer className="site-footer">
+    <footer ref={footerRef} className="site-footer">
       <div className="container footer-content">
         {/* Brand & Experience Focus */}
         <div className="footer-col brand-col">

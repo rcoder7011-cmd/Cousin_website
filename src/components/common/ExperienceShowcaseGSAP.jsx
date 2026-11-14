@@ -1,22 +1,16 @@
 import React, { useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { Award, ShieldCheck, Hammer, MapPin } from 'lucide-react';
+import { gsap, isReducedMotion } from '../../utils/gsapConfig';
 import { COMPANY_INFO } from '../../data/designer';
 import './ExperienceShowcaseGSAP.css';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function ExperienceShowcaseGSAP() {
   const containerRef = useRef(null);
   const counterRef = useRef(null);
 
   useGSAP(() => {
-    // Check if user prefers reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion) {
+    if (isReducedMotion()) {
       if (counterRef.current) counterRef.current.innerText = `${COMPANY_INFO.yearsOfExperience}+`;
       return;
     }
@@ -26,7 +20,7 @@ export default function ExperienceShowcaseGSAP() {
       scrollTrigger: {
         trigger: containerRef.current,
         start: 'top 82%',
-        toggleActions: 'play none none none',
+        once: true,
       }
     });
 

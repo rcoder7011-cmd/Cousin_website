@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useGSAP } from '@gsap/react';
 import { Phone, MapPin, Award, CheckCircle2, Globe, Mail } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
+import { gsap, isReducedMotion } from '../utils/gsapConfig';
 import './ContactPage.css';
 
 export default function ContactPage() {
+  const pageRef = useRef(null);
   const [formData, setFormData] = useState({
     name: '',
     location: 'Gurugram',
@@ -25,8 +28,38 @@ export default function ContactPage() {
 
   const directWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I would like to schedule an on-site interior design consultation via saifiinteriorhub.in.`);
 
+  useGSAP(() => {
+    if (isReducedMotion()) return;
+
+    // Header reveal
+    gsap.from('.page-header-inner > *', {
+      y: 25,
+      opacity: 0,
+      duration: 0.7,
+      stagger: 0.1,
+      ease: 'power2.out',
+    });
+
+    // Contact info and form entrance
+    gsap.from('.contact-info-card', {
+      x: -25,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      delay: 0.2,
+    });
+
+    gsap.from('.enquiry-form-card', {
+      x: 25,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      delay: 0.3,
+    });
+  }, { scope: pageRef });
+
   return (
-    <div className="contact-page">
+    <div ref={pageRef} className="contact-page">
       {/* Header Banner */}
       <section className="page-header-wrapper" aria-label="Contact header">
         <div className="container">

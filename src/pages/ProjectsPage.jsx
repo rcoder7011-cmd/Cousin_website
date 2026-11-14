@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { useGSAP } from '@gsap/react';
 import { AlertCircle, X, Award, Eye } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { PROJECT_PHOTOS, PROJECT_CATEGORIES } from '../data/projects';
 import { getWhatsAppUrl } from '../data/designer';
+import { gsap, isReducedMotion } from '../utils/gsapConfig';
 import './ProjectsPage.css';
 
 // In-memory set of image sources that have already loaded during the browser session.
@@ -47,12 +49,51 @@ export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All Projects");
   const [failedImages, setFailedImages] = useState(new Set());
   const [activePhoto, setActivePhoto] = useState(null);
+  const pageRef = useRef(null);
   const filterToolbarRef = useRef(null);
   const galleryContainerRef = useRef(null);
 
   const filteredPhotos = (selectedCategory === "All Projects" || selectedCategory === "All")
     ? PROJECT_PHOTOS
     : PROJECT_PHOTOS.filter(photo => photo.category.toLowerCase() === selectedCategory.toLowerCase());
+
+  // GSAP: Initial Page Header & Filter Entrance
+  useGSAP(() => {
+    if (isReducedMotion()) return;
+
+    gsap.from('.page-header-inner > *', {
+      y: 25,
+      opacity: 0,
+      duration: 0.7,
+      stagger: 0.1,
+      ease: 'power2.out',
+    });
+
+    gsap.from('.category-filter-btn', {
+      y: 14,
+      opacity: 0,
+      duration: 0.5,
+      stagger: 0.03,
+      ease: 'power2.out',
+      delay: 0.25,
+    });
+  }, { scope: pageRef });
+
+  // GSAP: Staggered animation when switching categories
+  useGSAP(() => {
+    if (isReducedMotion()) return;
+
+    gsap.fromTo('.portfolio-card',
+      { y: 22, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.035,
+        ease: 'power2.out',
+      }
+    );
+  }, { scope: pageRef, dependencies: [selectedCategory] });
 
   const handleCategoryChange = (category) => {
     if (category === selectedCategory) return;
@@ -111,7 +152,7 @@ export default function ProjectsPage() {
   const activeIndex = activePhoto ? filteredPhotos.findIndex(p => p.id === activePhoto.id) : -1;
 
   return (
-    <div className="projects-page">
+    <div ref={pageRef} className="projects-page">
       {/* Header Banner */}
       <section className="page-header-wrapper" aria-label="Portfolio header">
         <div className="container">

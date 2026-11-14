@@ -1,16 +1,62 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
 import { CheckCircle2, Award, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { SERVICES } from '../data/services';
 import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
+import { gsap, isReducedMotion } from '../utils/gsapConfig';
 import './ServicesPage.css';
 
 export default function ServicesPage() {
+  const pageRef = useRef(null);
+  const consultBannerRef = useRef(null);
+
   const consultWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I would like to schedule an interior design and interior work consultation through saifiinteriorhub.in.`);
 
+  useGSAP(() => {
+    if (isReducedMotion()) return;
+
+    // Header reveal
+    gsap.from('.page-header-inner > *', {
+      y: 25,
+      opacity: 0,
+      duration: 0.7,
+      stagger: 0.1,
+      ease: 'power2.out',
+    });
+
+    // Service detail cards staggered entrance on scroll
+    gsap.from('.service-detail-card', {
+      scrollTrigger: {
+        trigger: '.services-list-grid',
+        start: 'top 82%',
+        once: true,
+      },
+      y: 35,
+      opacity: 0,
+      duration: 0.75,
+      stagger: 0.12,
+      ease: 'power2.out',
+    });
+
+    // Bottom Consultation Banner
+    gsap.from(consultBannerRef.current, {
+      scrollTrigger: {
+        trigger: consultBannerRef.current,
+        start: 'top 88%',
+        once: true,
+      },
+      scale: 0.96,
+      y: 25,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+    });
+  }, { scope: pageRef });
+
   return (
-    <div className="services-page">
+    <div ref={pageRef} className="services-page">
       {/* Header Banner */}
       <section className="page-header-wrapper" aria-label="Services header">
         <div className="container">
@@ -91,7 +137,7 @@ export default function ServicesPage() {
         </div>
 
         {/* Bottom Consultation Banner */}
-        <div className="services-consult-banner">
+        <div ref={consultBannerRef} className="services-consult-banner">
           <div className="services-consult-text">
             <h3>Need a Custom Combination of Services?</h3>
             <p>

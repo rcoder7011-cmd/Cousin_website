@@ -1,15 +1,105 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
 import { ShieldCheck, Users, MapPin, Phone, Award, CheckCircle2 } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import ExperienceShowcaseGSAP from '../components/common/ExperienceShowcaseGSAP';
 import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
+import { gsap, isReducedMotion } from '../utils/gsapConfig';
 import './AboutPage.css';
 
 export default function AboutPage() {
+  const pageRef = useRef(null);
+  const storySectionRef = useRef(null);
+  const pillarsSectionRef = useRef(null);
+  const galleryStripRef = useRef(null);
+  const ctaSectionRef = useRef(null);
+
   const whatsappUrl = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I would like to learn more about your process and discuss an interior project in Delhi NCR.`);
 
+  useGSAP(() => {
+    if (isReducedMotion()) return;
+
+    // 1. Page Header Entrance
+    gsap.from('.page-header-inner > *', {
+      y: 25,
+      opacity: 0,
+      duration: 0.7,
+      stagger: 0.1,
+      ease: 'power2.out',
+    });
+
+    // 2. Story Section Reveal
+    gsap.from('.about-story-text > *', {
+      scrollTrigger: {
+        trigger: storySectionRef.current,
+        start: 'top 80%',
+        once: true,
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.75,
+      stagger: 0.1,
+      ease: 'power2.out',
+    });
+
+    gsap.from('.about-media-card', {
+      scrollTrigger: {
+        trigger: storySectionRef.current,
+        start: 'top 80%',
+        once: true,
+      },
+      scale: 0.95,
+      opacity: 0,
+      duration: 0.9,
+      ease: 'power2.out',
+    });
+
+    // 3. Core Pillars Stagger
+    gsap.from('.about-pillar-card', {
+      scrollTrigger: {
+        trigger: pillarsSectionRef.current,
+        start: 'top 82%',
+        once: true,
+      },
+      y: 35,
+      opacity: 0,
+      duration: 0.75,
+      stagger: 0.14,
+      ease: 'power2.out',
+    });
+
+    // 4. Strip Items Reveal
+    gsap.from('.strip-item', {
+      scrollTrigger: {
+        trigger: galleryStripRef.current,
+        start: 'top 85%',
+        once: true,
+      },
+      y: 25,
+      opacity: 0,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: 'power2.out',
+    });
+
+    // 5. CTA Card Pop
+    gsap.from(ctaSectionRef.current, {
+      scrollTrigger: {
+        trigger: ctaSectionRef.current,
+        start: 'top 88%',
+        once: true,
+      },
+      scale: 0.96,
+      y: 25,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+    });
+
+  }, { scope: pageRef });
+
   return (
-    <div className="about-page">
+    <div ref={pageRef} className="about-page">
       {/* Header Banner */}
       <section className="page-header-wrapper" aria-label="About header">
         <div className="container">
@@ -28,7 +118,7 @@ export default function AboutPage() {
 
       <div className="container about-container">
         {/* Core Experience Story Section (Task 7 Requirement) */}
-        <section className="about-story-section" aria-label="Over a decade of experience">
+        <section ref={storySectionRef} className="about-story-section" aria-label="Over a decade of experience">
           <div className="about-story-grid">
             <div className="about-story-text">
               <span className="section-eyebrow">Company Experience</span>
@@ -83,7 +173,7 @@ export default function AboutPage() {
         <ExperienceShowcaseGSAP />
 
         {/* 3 Core Pillars */}
-        <section className="about-pillars-section" aria-label="Core work values">
+        <section ref={pillarsSectionRef} className="about-pillars-section" aria-label="Core work values">
           <div className="section-header text-center">
             <span className="section-eyebrow">Why Clients Trust Us</span>
             <h2>Our Core Company Pillars</h2>
@@ -126,7 +216,7 @@ export default function AboutPage() {
         </section>
 
         {/* Secondary Showcase Gallery Strip */}
-        <section className="about-gallery-strip" aria-label="Craftsmanship snapshots">
+        <section ref={galleryStripRef} className="about-gallery-strip" aria-label="Craftsmanship snapshots">
           <div className="strip-grid">
             <div className="strip-item">
               <img
@@ -165,7 +255,7 @@ export default function AboutPage() {
         </section>
 
         {/* CTA Box */}
-        <section className="about-cta-card" aria-label="Start consultation">
+        <section ref={ctaSectionRef} className="about-cta-card" aria-label="Start consultation">
           <div className="about-cta-content">
             <span className="section-eyebrow">Start Your Journey</span>
             <h2>Ready to Transform Your Space with {COMPANY_INFO.name}?</h2>
