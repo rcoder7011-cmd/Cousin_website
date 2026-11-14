@@ -116,7 +116,23 @@ Because public user registration is intentionally disabled for security, admin a
 
 ---
 
-## 7. Test Your Database Connection Locally
+## 7. Configure Auth Redirect URLs for Password Recovery
+
+For password reset emails to redirect admins to the reset page:
+1. In your Supabase Dashboard, go to **Authentication** -> **URL Configuration**.
+2. Set **Site URL** to:
+   - Development: `http://localhost:5173`
+   - Production: `https://saifiinteriorhub.in`
+3. Under **Redirect URLs**, add the following allowed redirect patterns:
+   - `http://localhost:5173/admin/reset-password`
+   - `https://saifiinteriorhub.in/admin/reset-password`
+   - `http://localhost:5173/**`
+   - `https://saifiinteriorhub.in/**`
+4. Click **Save**.
+
+---
+
+## 8. Test Your Database Connection Locally
 
 1. Start your local development server:
    ```bash

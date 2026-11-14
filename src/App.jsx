@@ -9,6 +9,12 @@ import ProjectDetailPage from './pages/ProjectDetailPage';
 import ServicesPage from './pages/ServicesPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import AdminLoginPage from './pages/admin/AdminLoginPage';
+import AdminForgotPasswordPage from './pages/admin/AdminForgotPasswordPage';
+import AdminResetPasswordPage from './pages/admin/AdminResetPasswordPage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminRouteGuard from './components/admin/AdminRouteGuard';
+import { AuthProvider } from './context/AuthContext';
 import { refreshScrollTrigger } from './utils/gsapConfig';
 
 /**
@@ -28,24 +34,68 @@ function ScrollToTop() {
   return null;
 }
 
+/**
+ * Conditional layout wrapper: renders public header/footer only for public routes
+ */
+function AppLayout({ children }) {
+  const { pathname } = useLocation();
+  const isAdminRoute = pathname.startsWith('/admin');
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {!isAdminRoute && <Navbar />}
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {children}
+      </main>
+      {!isAdminRoute && <Footer />}
+      {!isAdminRoute && <WhatsAppButton />}
+    </div>
+  );
+}
+
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Navbar />
-      <main style={{ flex: 1 }}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/projects/:slug" element={<ProjectDetailPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<HomePage />} />
-        </Routes>
-      </main>
-      <Footer />
-      <WhatsAppButton />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <AppLayout>
+          <Routes>
+            {/* Public Portfolio Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+
+            {/* Admin Authentication Routes */}
+            <Route path="/admin/login" element={<AdminLoginPage />} />
+            <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
+            <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
+
+            {/* Protected Admin Routes */}
+            <Route
+              path="/admin"
+              element={
+                <AdminRouteGuard>
+                  <AdminDashboardPage />
+                </AdminRouteGuard>
+              }
+            />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminRouteGuard>
+                  <AdminDashboardPage />
+                </AdminRouteGuard>
+              }
+            />
+
+            {/* Catch-all fallback */}
+            <Route path="*" element={<HomePage />} />
+          </Routes>
+        </AppLayout>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

@@ -234,20 +234,23 @@ create policy "Admins can delete project images"
   using (public.is_admin());
 
 -- --- ADMIN PROFILES POLICIES ---
+-- Strictly scoped to own profile (zero recursion risk, no visitor access)
 drop policy if exists "Admins and profile owners can view admin profiles" on public.admin_profiles;
-create policy "Admins and profile owners can view admin profiles"
+drop policy if exists "Users can view own admin profile" on public.admin_profiles;
+create policy "Users can view own admin profile"
   on public.admin_profiles for select
   to authenticated
-  using (auth.uid() = id or public.is_admin());
+  using (auth.uid() = id);
 
 drop policy if exists "Admins can update admin profiles" on public.admin_profiles;
-create policy "Admins can update admin profiles"
+drop policy if exists "Admins can update own admin profile" on public.admin_profiles;
+create policy "Admins can update own admin profile"
   on public.admin_profiles for update
   to authenticated
-  using (public.is_admin());
+  using (auth.uid() = id and role = 'admin');
 
 -- Notice: No public insert or self-assignment policy is created for admin_profiles.
--- Admin assignment must be done via the Supabase SQL editor or elevated management script.
+-- Admin assignment must be done via the Supabase Dashboard / SQL editor.
 
 -- --- SITE SETTINGS POLICIES ---
 drop policy if exists "Public visitors can view site settings" on public.site_settings;

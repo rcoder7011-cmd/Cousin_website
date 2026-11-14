@@ -205,18 +205,20 @@ create policy "Admins can delete project images"
   to authenticated
   using (public.is_admin());
 
--- Policies for admin_profiles
+-- Policies for admin_profiles (Zero recursion, authenticated self-check only)
 drop policy if exists "Admins and profile owners can view admin profiles" on public.admin_profiles;
-create policy "Admins and profile owners can view admin profiles"
+drop policy if exists "Users can view own admin profile" on public.admin_profiles;
+create policy "Users can view own admin profile"
   on public.admin_profiles for select
   to authenticated
-  using (auth.uid() = id or public.is_admin());
+  using (auth.uid() = id);
 
 drop policy if exists "Admins can update admin profiles" on public.admin_profiles;
-create policy "Admins can update admin profiles"
+drop policy if exists "Admins can update own admin profile" on public.admin_profiles;
+create policy "Admins can update own admin profile"
   on public.admin_profiles for update
   to authenticated
-  using (public.is_admin());
+  using (auth.uid() = id and role = 'admin');
 
 -- Policies for site_settings
 drop policy if exists "Public visitors can view site settings" on public.site_settings;
