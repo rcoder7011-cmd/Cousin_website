@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- Warm Refined Gold Gradient -->
+    <linearGradient id="rsGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dfb76c" />
+      <stop offset="45%" stop-color="#c59b4c" />
+      <stop offset="100%" stop-color="#9e722a" />
+    </linearGradient>
+
+    <!-- Dark Architectural Charcoal Gradient -->
+    <linearGradient id="rsBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#202227" />
+      <stop offset="100%" stop-color="#121316" />
+    </linearGradient>
+  </defs>
+
+  <!-- Dark Charcoal Rounded Container -->
+  <rect width="64" height="64" rx="14" fill="url(#rsBg)" />
+
+  <!-- Subtle Inset Gold Border -->
+  <rect x="2.5" y="2.5" width="59" height="59" rx="12" fill="none" stroke="url(#rsGold)" stroke-width="1.2" stroke-opacity="0.35" />
+
+  <!-- RS Monogram in Refined Serif Typography -->
+  <text
+    x="32"
+    y="33.5"
+    font-family="'Playfair Display', Georgia, 'Times New Roman', serif"
+    font-size="28"
+    font-weight="700"
+    letter-spacing="0.5"
+    fill="url(#rsGold)"
+    text-anchor="middle"
+    dominant-baseline="central"
+  >RS</text>
+</svg>
