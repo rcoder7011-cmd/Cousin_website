@@ -92,7 +92,7 @@ export default function ServicesPage() {
                   <div className="service-detail-media">
                     <img
                       src={service.coverImage}
-                      alt={`${service.title} - ${COMPANY_INFO.name}`}
+                      alt={`${service.title} - ${companyName}`}
                       loading="lazy"
                       decoding="async"
                       width="600"
@@ -130,7 +130,7 @@ export default function ServicesPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn btn-whatsapp service-card-btn"
-                      aria-label={`Enquire with ${COMPANY_INFO.name} about ${service.title}`}
+                      aria-label={`Enquire with ${companyName} about ${service.title}`}
                     >
                       <WhatsAppIcon size={18} />
                       <span>Enquire for this Service</span>

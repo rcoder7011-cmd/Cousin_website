@@ -286,7 +286,7 @@ export default function ContactPage() {
             <button
               type="submit"
               className="btn btn-whatsapp enquiry-submit-btn"
-              aria-label={`Connect with ${COMPANY_INFO.name} on WhatsApp`}
+              aria-label={`Connect with ${companyName} on WhatsApp`}
             >
               <WhatsAppIcon size={22} />
               <span>Connect on WhatsApp</span>

@@ -159,7 +159,7 @@ export default function AboutPage() {
               <div className="about-media-card">
                 <img
                   src="/images/projects/Living Room/4f7d5a2e-920d-47ae-8379-123563d80df4.png"
-                  alt={`Modern luxury living space executed by ${COMPANY_INFO.name}`}
+                  alt={`Modern luxury living space executed by ${companyName}`}
                   className="about-main-img"
                   loading="lazy"
                   decoding="async"
@@ -168,7 +168,7 @@ export default function AboutPage() {
                 />
                 <div className="about-media-badge">
                   <span className="badge-num">10+</span>
-                  <span className="badge-text">Years Experience — {COMPANY_INFO.name}</span>
+                  <span className="badge-text">Years Experience — {companyName}</span>
                 </div>
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function AboutPage() {
             <span className="section-eyebrow">Why Clients Trust Us</span>
             <h2>Our Core Company Pillars</h2>
             <p className="section-description">
-              The principles that guide every interior project executed by {COMPANY_INFO.name}.
+              The principles that guide every interior project executed by {companyName}.
             </p>
           </div>
 
@@ -205,7 +205,7 @@ export default function AboutPage() {
               </div>
               <h3 className="about-pillar-title">Direct Accountability</h3>
               <p className="about-pillar-text">
-                No corporate sales layers or rotating site supervisors. You work directly with {COMPANY_INFO.name}'s execution team responsible for drawing your layouts and supervising daily work.
+                No corporate sales layers or rotating site supervisors. You work directly with {companyName}'s execution team responsible for drawing your layouts and supervising daily work.
               </p>
             </div>
 
@@ -227,7 +227,7 @@ export default function AboutPage() {
             <div className="strip-item">
               <img
                 src="/images/projects/Bedroom/34b5c063-c931-45f9-ab44-d4bfd075c02f.png"
-                alt={`${COMPANY_INFO.name} master suite curved bed headboard`}
+                alt={`${companyName} master suite curved bed headboard`}
                 loading="lazy"
                 decoding="async"
                 width="400"
@@ -238,7 +238,7 @@ export default function AboutPage() {
             <div className="strip-item">
               <img
                 src="/images/projects/Pop Ceiling/4c617dfa-40ad-4b7b-b8c0-f8d909091b8a.png"
-                alt={`${COMPANY_INFO.name} POP false ceiling detail`}
+                alt={`${companyName} POP false ceiling detail`}
                 loading="lazy"
                 decoding="async"
                 width="400"
@@ -249,7 +249,7 @@ export default function AboutPage() {
             <div className="strip-item">
               <img
                 src="/images/projects/OFFICE/619a0583-75a7-4f10-a6b5-811d0b650f0a.png"
-                alt={`${COMPANY_INFO.name} executive wood panelling`}
+                alt={`${companyName} executive wood panelling`}
                 loading="lazy"
                 decoding="async"
                 width="400"

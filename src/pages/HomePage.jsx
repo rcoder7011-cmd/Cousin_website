@@ -341,7 +341,7 @@ export default function HomePage() {
               <span className="section-eyebrow project-header-reveal">Portfolio Showcase</span>
               <h2 className="project-header-reveal">Signature Completed Projects</h2>
               <p className="section-description project-header-reveal">
-                Explore real residential and corporate spaces delivered by {COMPANY_INFO.name} across Gurugram, Delhi, and Noida.
+                Explore real residential and corporate spaces delivered by {companyName} across Gurugram, Delhi, and Noida.
               </p>
             </div>
             <Link to="/projects" className="btn btn-outline preview-all-btn project-header-reveal">
@@ -389,7 +389,7 @@ export default function HomePage() {
                     <Link to={`/projects/${project.slug}`} aria-label={`View project details for ${project.title}`}>
                       <img
                         src={project.coverImage}
-                        alt={`${project.title} - ${COMPANY_INFO.name}`}
+                        alt={`${project.title} - ${companyName}`}
                         loading="lazy"
                         decoding="async"
                         width="600"
@@ -427,7 +427,7 @@ export default function HomePage() {
                         <ArrowRight size={13} />
                       </Link>
                       <a
-                        href={getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I saw your project "${project.title}" in ${project.location} on saifiinteriorhub.in and would like similar interior work done.`)}
+                        href={getWhatsAppLink(`Hi ${companyName}, I saw your project "${project.title}" in ${project.location} on saifiinteriorhub.in and would like similar interior work done.`)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="project-enquire-link"
@@ -451,7 +451,7 @@ export default function HomePage() {
             <span className="section-eyebrow services-header-reveal">Comprehensive Capabilities</span>
             <h2 className="services-header-reveal">Interior Design and Interior Work Services</h2>
             <p className="section-description services-header-reveal">
-              From individual rooms to full flat and villa renovations, {COMPANY_INFO.name}'s master craftsmen execute every trade under direct studio supervision.
+              From individual rooms to full flat and villa renovations, {companyName}'s master craftsmen execute every trade under direct studio supervision.
             </p>
           </div>
 
@@ -461,7 +461,7 @@ export default function HomePage() {
                 <div className="service-card-media">
                   <img
                     src={service.coverImage}
-                    alt={`${service.title} - ${COMPANY_INFO.name}`}
+                    alt={`${service.title} - ${companyName}`}
                     loading="lazy"
                     decoding="async"
                     width="500"
@@ -486,7 +486,7 @@ export default function HomePage() {
 
                   <div className="service-card-footer">
                     <a
-                      href={getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I would like to enquire about ${service.title} for my space.`)}
+                      href={getWhatsAppLink(`Hi ${companyName}, I would like to enquire about ${service.title} for my space.`)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="service-whatsapp-link"
