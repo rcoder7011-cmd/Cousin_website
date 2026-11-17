@@ -4,13 +4,25 @@ import { useGSAP } from '@gsap/react';
 import { Phone, ArrowRight, CheckCircle2, MapPin, Award } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import CompanyExperienceSection from '../components/home/CompanyExperienceSection';
-import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
+import { useSettings } from '../context/useSettings';
+import { useSEO } from '../utils/useSEO';
 import { SERVICES } from '../data/services';
 import { getFeaturedProjects } from '../services/projectService';
 import { gsap, isReducedMotion, refreshScrollTrigger } from '../utils/gsapConfig';
 import './HomePage.css';
 
 export default function HomePage() {
+  const {
+    companyName,
+    phone,
+    yearsExperience,
+    getWhatsAppLink,
+    homepage,
+    advanced
+  } = useSettings();
+
+  useSEO({ pageKey: 'home' });
+
   const pageRef = useRef(null);
   const heroRef = useRef(null);
   const projectsSectionRef = useRef(null);
@@ -20,7 +32,9 @@ export default function HomePage() {
   const [featuredProjects, setFeaturedProjects] = useState([]);
   const [isLoadingProjects, setIsLoadingProjects] = useState(true);
 
-  const heroWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I am interested in interior design and interior work for my flat/home in Delhi NCR.`);
+  const heroWhatsApp = getWhatsAppLink(
+    `Hi ${companyName}, I am interested in interior design and interior work for my flat/home in Delhi NCR.`
+  );
 
   // Highlight key 6 categories requested
   const primaryServices = SERVICES.slice(0, 6);
@@ -188,23 +202,48 @@ export default function HomePage() {
 
   }, { scope: pageRef, dependencies: [featuredProjects, isLoadingProjects] });
 
+  const heroHeading = homepage?.hero_heading || 'Crafting Thoughtful Interiors with Direct Site Execution';
+  const heroSubtitle = homepage?.hero_subtitle || `With over 10 years of experience in interior design and interior work, ${companyName} pairs refined aesthetic vision with a dedicated team of master craftsmen. We transform concepts into refined residential and commercial spaces across Gurugram, Delhi, and Noida with direct personal site supervision.`;
+  const heroBtnText = homepage?.hero_btn_text || 'View Completed Sites';
+  const heroBtnLink = homepage?.hero_btn_link || '/projects';
+  const heroImageSrc = homepage?.hero_image || '/images/projects/Living Room/78d10c45-348b-4c86-90f8-942b36a10bc9.png';
+
+  const ctaHeading = homepage?.cta_heading || 'Have a Flat, Villa or Commercial Site Ready for Work?';
+  const ctaDesc = homepage?.cta_description || `Connect directly with ${companyName} (saifiinteriorhub.in). Benefit from more than 10 years of on-site execution experience. We provide practical architectural advice, material clarity, and transparent estimates across Gurugram, Delhi, and Noida.`;
+  const ctaBtnText = homepage?.cta_btn_text || 'Chat Directly on WhatsApp';
+
   return (
     <div ref={pageRef} className="home-page">
+      {/* Maintenance Mode Notice Banner */}
+      {advanced?.maintenance_mode && (
+        <div style={{
+          background: '#fff3cd',
+          color: '#856404',
+          borderBottom: '1px solid #ffeeba',
+          padding: '0.75rem 1rem',
+          textAlign: 'center',
+          fontSize: '0.88rem',
+          fontWeight: 500
+        }}>
+          ⚠️ {advanced?.maintenance_message || 'We are currently updating our portfolio. Please contact us on WhatsApp for immediate enquiries.'}
+        </div>
+      )}
+
       {/* 1. HERO SECTION */}
       <section ref={heroRef} className="hero-section" aria-label="Studio Introduction">
         <div className="container hero-container">
           <div className="hero-content">
             <div className="badge hero-badge">
               <Award size={14} className="hero-badge-icon" aria-hidden="true" />
-              <span>{COMPANY_INFO.name} • 10+ Years Experience • Delhi NCR</span>
+              <span>{companyName} • {yearsExperience} Years Experience • Delhi NCR</span>
             </div>
 
             <h1 className="hero-title">
-              Crafting Thoughtful Interiors with Direct Site Execution
+              {heroHeading}
             </h1>
 
             <p className="hero-subtitle">
-              With over 10 years of experience in interior design and interior work, <strong>{COMPANY_INFO.name}</strong> pairs refined aesthetic vision with a dedicated team of master craftsmen. We transform concepts into refined residential and commercial spaces across Gurugram, Delhi, and Noida with direct personal site supervision.
+              {heroSubtitle}
             </p>
 
             <div className="hero-actions">
@@ -213,24 +252,24 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-whatsapp hero-whatsapp-btn"
-                aria-label={`Enquire with ${COMPANY_INFO.name} on WhatsApp`}
+                aria-label={`Enquire with ${companyName} on WhatsApp`}
               >
                 <WhatsAppIcon size={20} />
                 <span>Enquire on WhatsApp</span>
               </a>
 
-              <Link to="/projects" className="btn btn-primary hero-portfolio-btn">
-                <span>View Completed Sites</span>
+              <Link to={heroBtnLink} className="btn btn-primary hero-portfolio-btn">
+                <span>{heroBtnText}</span>
                 <ArrowRight size={17} aria-hidden="true" />
               </Link>
 
               <a
-                href={`tel:${COMPANY_INFO.contact.phone.replace(/\s+/g, '')}`}
+                href={`tel:${phone.replace(/\s+/g, '')}`}
                 className="btn btn-outline hero-call-btn"
-                aria-label={`Call ${COMPANY_INFO.name}`}
+                aria-label={`Call ${companyName}`}
               >
                 <Phone size={16} aria-hidden="true" />
-                <span>{COMPANY_INFO.contact.phone}</span>
+                <span>{phone}</span>
               </a>
             </div>
 
@@ -246,7 +285,7 @@ export default function HomePage() {
               </div>
               <div className="trust-item">
                 <CheckCircle2 size={16} className="trust-icon" aria-hidden="true" />
-                <span>10+ Years Company Experience</span>
+                <span>{yearsExperience} Years Company Experience</span>
               </div>
             </div>
           </div>
@@ -255,8 +294,8 @@ export default function HomePage() {
           <div className="hero-media">
             <div className="hero-image-wrapper hero-primary-image">
               <img
-                src="/images/projects/Living Room/78d10c45-348b-4c86-90f8-942b36a10bc9.png"
-                alt="Luxury living room interior work executed by Saifi Interior Hub"
+                src={heroImageSrc}
+                alt={`Luxury interior work executed by ${companyName}`}
                 className="hero-image"
                 fetchPriority="high"
                 decoding="async"
@@ -266,8 +305,8 @@ export default function HomePage() {
               <div className="hero-floating-card">
                 <Award size={24} className="card-icon" aria-hidden="true" />
                 <div>
-                  <div className="card-title">10+ Years Industry Experience</div>
-                  <div className="card-text">{COMPANY_INFO.name} • Direct site supervision</div>
+                  <div className="card-title">{yearsExperience} Years Industry Experience</div>
+                  <div className="card-text">{companyName} • Direct site supervision</div>
                 </div>
               </div>
             </div>
@@ -476,9 +515,9 @@ export default function HomePage() {
           <div className="cta-banner-card">
             <div className="cta-banner-content">
               <span className="cta-banner-eyebrow">Direct Collaboration</span>
-              <h2>Have a Flat, Villa or Commercial Site Ready for Work?</h2>
+              <h2>{ctaHeading}</h2>
               <p>
-                Connect directly with <strong>{COMPANY_INFO.name}</strong> ({COMPANY_INFO.domain}). Benefit from more than 10 years of on-site execution experience. We provide practical architectural advice, material clarity, and transparent estimates across Gurugram, Delhi, and Noida.
+                {ctaDesc}
               </p>
             </div>
             <div className="cta-banner-actions">
@@ -487,18 +526,18 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-whatsapp cta-big-btn"
-                aria-label={`Chat directly with ${COMPANY_INFO.name} on WhatsApp`}
+                aria-label={`Chat directly with ${companyName} on WhatsApp`}
               >
                 <WhatsAppIcon size={22} />
-                <span>Chat Directly on WhatsApp</span>
+                <span>{ctaBtnText}</span>
               </a>
               <a
-                href={`tel:${COMPANY_INFO.contact.phone.replace(/\s+/g, '')}`}
+                href={`tel:${phone.replace(/\s+/g, '')}`}
                 className="btn btn-outline cta-phone-btn"
-                aria-label={`Call ${COMPANY_INFO.name} at ${COMPANY_INFO.contact.phone}`}
+                aria-label={`Call ${companyName} at ${phone}`}
               >
                 <Phone size={18} aria-hidden="true" />
-                <span>Call {COMPANY_INFO.contact.phone}</span>
+                <span>Call {phone}</span>
               </a>
             </div>
           </div>

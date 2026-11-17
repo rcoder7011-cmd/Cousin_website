@@ -18,9 +18,10 @@ import AdminProjectFormPage from './pages/admin/AdminProjectFormPage';
 import AdminCategoriesPage from './pages/admin/AdminCategoriesPage';
 import AdminCategoryFormPage from './pages/admin/AdminCategoryFormPage';
 import AdminMediaLibraryPage from './pages/admin/AdminMediaLibraryPage';
-import AdminPlaceholderModule from './pages/admin/AdminPlaceholderModule';
+import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 import AdminRouteGuard from './components/admin/AdminRouteGuard';
 import { AuthProvider } from './context/AuthContext';
+import { SettingsProvider } from './context/SettingsContext';
 import { refreshScrollTrigger } from './utils/gsapConfig';
 
 /**
@@ -62,10 +63,11 @@ function AppLayout({ children }) {
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <AppLayout>
-          <Routes>
+      <SettingsProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <AppLayout>
+            <Routes>
             {/* Public Portfolio Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/projects" element={<ProjectsPage />} />
@@ -156,7 +158,7 @@ export default function App() {
               path="/admin/settings"
               element={
                 <AdminRouteGuard>
-                  <AdminPlaceholderModule moduleKey="settings" />
+                  <AdminSettingsPage />
                 </AdminRouteGuard>
               }
             />
@@ -166,6 +168,7 @@ export default function App() {
           </Routes>
         </AppLayout>
       </BrowserRouter>
-    </AuthProvider>
-  );
+    </SettingsProvider>
+  </AuthProvider>
+);
 }

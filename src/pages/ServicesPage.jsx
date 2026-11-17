@@ -4,15 +4,21 @@ import { CheckCircle2, Award, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { SERVICES } from '../data/services';
-import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
+import { useSettings } from '../context/useSettings';
+import { useSEO } from '../utils/useSEO';
 import { gsap, isReducedMotion } from '../utils/gsapConfig';
 import './ServicesPage.css';
 
 export default function ServicesPage() {
+  const { companyName, yearsExperience, getWhatsAppLink } = useSettings();
+  useSEO({ pageKey: 'services' });
+
   const pageRef = useRef(null);
   const consultBannerRef = useRef(null);
 
-  const consultWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I would like to schedule an interior design and interior work consultation through saifiinteriorhub.in.`);
+  const consultWhatsApp = getWhatsAppLink(
+    `Hi ${companyName}, I would like to schedule an interior design and interior work consultation through saifiinteriorhub.in.`
+  );
 
   useGSAP(() => {
     if (isReducedMotion()) return;
@@ -63,11 +69,11 @@ export default function ServicesPage() {
           <div className="page-header-inner">
             <span className="badge">
               <Award size={14} className="badge-icon" />
-              <span>{COMPANY_INFO.name} • 10+ Years Experience</span>
+              <span>{companyName} • {yearsExperience} Years Experience</span>
             </span>
             <h1 className="page-main-title">Interior Design and Interior Work Services</h1>
             <p className="page-main-desc">
-              From signature living spaces and modular kitchens to full turnkey flat and villa execution across Gurugram, Delhi, and Noida ({COMPANY_INFO.domain}). Supervised directly on-site by {COMPANY_INFO.name}'s master craftsmen.
+              From signature living spaces and modular kitchens to full turnkey flat and villa execution across Gurugram, Delhi, and Noida (saifiinteriorhub.in). Supervised directly on-site by {companyName}'s master craftsmen.
             </p>
           </div>
         </div>
@@ -76,8 +82,8 @@ export default function ServicesPage() {
       <div className="container">
         <div className="services-list-grid" aria-label="Execution services list">
           {SERVICES.map((service, index) => {
-            const serviceWhatsAppUrl = getWhatsAppUrl(
-              `Hi ${COMPANY_INFO.name}, I would like to enquire about "${service.title}" services for my site in Delhi NCR.`
+            const serviceWhatsAppUrl = getWhatsAppLink(
+              `Hi ${companyName}, I would like to enquire about "${service.title}" services for my site in Delhi NCR.`
             );
 
             return (
@@ -141,7 +147,7 @@ export default function ServicesPage() {
           <div className="services-consult-text">
             <h3>Need a Custom Combination of Services?</h3>
             <p>
-              Whether you need modular woodwork and false ceiling or full turnkey delivery from bare shell, {COMPANY_INFO.name} customizes execution to your exact floor plan and budget.
+              Whether you need modular woodwork and false ceiling or full turnkey delivery from bare shell, {companyName} customizes execution to your exact floor plan and budget.
             </p>
           </div>
           <div className="services-consult-actions">

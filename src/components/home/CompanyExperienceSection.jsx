@@ -3,17 +3,20 @@ import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { ShieldCheck, Hammer, Sparkles, MapPin, ArrowRight, Award } from 'lucide-react';
 import { gsap, isReducedMotion } from '../../utils/gsapConfig';
-import { COMPANY_INFO } from '../../data/designer';
+import { useSettings } from '../../context/useSettings';
 import './CompanyExperienceSection.css';
 
 export default function CompanyExperienceSection() {
+  const { companyName, yearsExperience, homepage } = useSettings();
   const sectionRef = useRef(null);
   const numberRef = useRef(null);
   const counterBoxRef = useRef(null);
 
+  const targetYears = parseInt(homepage?.experience_number || yearsExperience || '10', 10) || 10;
+
   useGSAP(() => {
     if (isReducedMotion()) {
-      if (numberRef.current) numberRef.current.innerText = '10';
+      if (numberRef.current) numberRef.current.innerText = targetYears.toString();
       return;
     }
 
@@ -35,10 +38,10 @@ export default function CompanyExperienceSection() {
       ease: 'power3.out'
     });
 
-    // 2. Animated Counter: 0 to 10
+    // 2. Animated Counter: 0 to targetYears
     const counterObj = { value: 0 };
     tl.to(counterObj, {
-      value: 10,
+      value: targetYears,
       duration: 1.8,
       ease: 'power2.out',
       onUpdate: () => {
@@ -99,17 +102,17 @@ export default function CompanyExperienceSection() {
           {/* Left Column: Official Narrative & Experience Counter */}
           <div className="exp-content-column">
             <span className="section-eyebrow exp-reveal-item">
-              Company Experience • Saifi Interior Hub
+              Company Experience • {companyName}
             </span>
 
-            {/* Exact Required Heading */}
+            {/* Dynamic Section Heading */}
             <h2 className="exp-main-heading exp-reveal-item">
-              10+ Years of Transforming Spaces
+              {homepage?.experience_heading || `${yearsExperience} Years of Transforming Spaces`}
             </h2>
 
-            {/* Exact Required Supporting Text */}
+            {/* Dynamic Supporting Text */}
             <p className="exp-supporting-text exp-reveal-item">
-              With over a decade of experience in interior design, Saifi Interior Hub creates beautiful, functional and inspiring spaces tailored to our clients' needs.
+              {homepage?.experience_description || `With over a decade of experience in interior design, ${companyName} creates beautiful, functional and inspiring spaces tailored to our clients' needs.`}
             </p>
 
             {/* Dedicated Animated Counter Card */}
@@ -120,19 +123,19 @@ export default function CompanyExperienceSection() {
                   <span className="exp-digit-suffix">+ Years</span>
                 </div>
                 <div className="exp-counter-subline">
-                  Company Interior Design Experience
+                  {homepage?.experience_label || 'Company Interior Design Experience'}
                 </div>
               </div>
 
               <div className="exp-counter-right">
                 <Award size={36} className="exp-award-icon" aria-hidden="true" />
-                <span className="exp-award-tag">A Decade of Craftsmanship in Delhi NCR</span>
+                <span className="exp-award-tag">{yearsExperience} of Craftsmanship in Delhi NCR</span>
               </div>
             </div>
 
             {/* Secondary Narrative on Execution Model */}
             <p className="exp-narrative-text exp-reveal-item">
-              Founded on the belief that great design demands direct site execution, <strong>{COMPANY_INFO.name}</strong> eliminates detached middlemen. Our dedicated in-house team of master carpenters, false-ceiling technicians, and surface painters ensures that every measurement, material grade, and joinery joint meets uncompromising standards.
+              Founded on the belief that great design demands direct site execution, <strong>{companyName}</strong> eliminates detached middlemen. Our dedicated in-house team of master carpenters, false-ceiling technicians, and surface painters ensures that every measurement, material grade, and joinery joint meets uncompromising standards.
             </p>
 
             {/* Verified Company Attributes (No fabricated claims) */}
@@ -227,8 +230,8 @@ export default function CompanyExperienceSection() {
                 <Award size={22} />
               </div>
               <div>
-                <div className="badge-years">10+ Years</div>
-                <div className="badge-hub">Saifi Interior Hub</div>
+                <div className="badge-years">{yearsExperience} Years</div>
+                <div className="badge-hub">{companyName}</div>
               </div>
             </div>
           </div>

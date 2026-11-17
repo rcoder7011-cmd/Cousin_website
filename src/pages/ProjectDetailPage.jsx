@@ -16,6 +16,7 @@ import {
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { getProjectBySlug } from '../services/projectService';
 import { useAuth } from '../context/useAuth';
+import { useSEO } from '../utils/useSEO';
 import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
 import { gsap, isReducedMotion, refreshScrollTrigger } from '../utils/gsapConfig';
 import './ProjectDetailPage.css';
@@ -33,6 +34,13 @@ export default function ProjectDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeLightbox, setActiveLightbox] = useState(null);
+
+  useSEO({
+    title: project ? `${project.title} | Saifi Interior Hub Project Portfolio` : undefined,
+    description: project ? (project.description || `Explore ${project.title} executed with master interior craftsmanship by Saifi Interior Hub.`) : undefined,
+    image: project?.cover_image,
+    canonical: project ? `https://saifiinteriorhub.in/projects/${project.slug}` : undefined
+  });
 
   // Fetch project from Supabase by slug
   useEffect(() => {

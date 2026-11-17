@@ -1,12 +1,25 @@
 import React, { useState, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
-import { Phone, MapPin, Award, CheckCircle2, Globe, Mail } from 'lucide-react';
+import { Phone, MapPin, Award, CheckCircle2, Globe, Mail, ExternalLink } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
-import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
+import { useSettings } from '../context/useSettings';
+import { useSEO } from '../utils/useSEO';
 import { gsap, isReducedMotion } from '../utils/gsapConfig';
 import './ContactPage.css';
 
 export default function ContactPage() {
+  const {
+    companyName,
+    phone,
+    email,
+    yearsExperience,
+    address,
+    contact,
+    getWhatsAppLink
+  } = useSettings();
+
+  useSEO({ pageKey: 'contact' });
+
   const pageRef = useRef(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -22,11 +35,13 @@ export default function ContactPage() {
 
   const handleWhatsAppSubmit = (e) => {
     e.preventDefault();
-    const formattedMessage = `Hi ${COMPANY_INFO.name}, my name is ${formData.name || 'a client'}. I have a ${formData.propertyType} in ${formData.location}. ${formData.message ? `Details: ${formData.message}` : 'I would like to discuss interior design and interior work.'}`;
-    window.open(getWhatsAppUrl(formattedMessage), '_blank');
+    const formattedMessage = `Hi ${companyName}, my name is ${formData.name || 'a client'}. I have a ${formData.propertyType} in ${formData.location}. ${formData.message ? `Details: ${formData.message}` : 'I would like to discuss interior design and interior work.'}`;
+    window.open(getWhatsAppLink(formattedMessage), '_blank');
   };
 
-  const directWhatsApp = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I would like to schedule an on-site interior design consultation via saifiinteriorhub.in.`);
+  const directWhatsApp = getWhatsAppLink(
+    `Hi ${companyName}, I would like to schedule an on-site interior design consultation via saifiinteriorhub.in.`
+  );
 
   useGSAP(() => {
     if (isReducedMotion()) return;
@@ -66,11 +81,11 @@ export default function ContactPage() {
           <div className="page-header-inner">
             <span className="badge">
               <Award size={14} className="badge-icon" />
-              <span>{COMPANY_INFO.name} • 10+ Years Experience</span>
+              <span>{companyName} • {yearsExperience} Years Experience</span>
             </span>
             <h1 className="page-main-title">Start Your Interior Project</h1>
             <p className="page-main-desc">
-              Connect directly with {COMPANY_INFO.name} ({COMPANY_INFO.domain}) for on-site visits, architectural space discussions, and transparent cost estimates across Gurugram, Delhi, and Noida.
+              {contact?.contact_description || `Connect directly with ${companyName} (saifiinteriorhub.in) for on-site visits, architectural space discussions, and transparent cost estimates across Gurugram, Delhi, and Noida.`}
             </p>
           </div>
         </div>
@@ -83,7 +98,7 @@ export default function ContactPage() {
             <span className="section-eyebrow">Direct Touchpoints</span>
             <h2 className="contact-info-title">Studio Contact & Reach</h2>
             <p className="contact-info-subtitle">
-              Have a floor plan or architectural layout ready? {COMPANY_INFO.name} provides direct designer oversight without sales intermediaries.
+              Have a floor plan or architectural layout ready? {companyName} provides direct designer oversight without sales intermediaries.
             </p>
 
             <div className="contact-methods-list">
@@ -98,7 +113,7 @@ export default function ContactPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="contact-method-val-wa"
-                    aria-label={`Chat directly on WhatsApp with ${COMPANY_INFO.name}`}
+                    aria-label={`Chat directly on WhatsApp with ${companyName}`}
                   >
                     Chat Directly on WhatsApp
                   </a>
@@ -112,11 +127,11 @@ export default function ContactPage() {
                 <div>
                   <div className="contact-method-label">Direct Phone Call</div>
                   <a
-                    href={`tel:${COMPANY_INFO.contact.phone.replace(/\s+/g, '')}`}
+                    href={`tel:${phone.replace(/\s+/g, '')}`}
                     className="contact-method-val-phone"
-                    aria-label={`Call ${COMPANY_INFO.name} at ${COMPANY_INFO.contact.phone}`}
+                    aria-label={`Call ${companyName} at ${phone}`}
                   >
-                    {COMPANY_INFO.contact.phone}
+                    {phone}
                   </a>
                 </div>
               </div>
@@ -126,10 +141,21 @@ export default function ContactPage() {
                   <MapPin size={20} />
                 </div>
                 <div>
-                  <div className="contact-method-label">Active Execution Regions</div>
+                  <div className="contact-method-label">Active Execution Regions / Address</div>
                   <div className="contact-method-val-loc">
-                    Gurugram • Delhi • Noida
+                    {address}
                   </div>
+                  {contact?.google_maps_url && (
+                    <a
+                      href={contact.google_maps_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ fontSize: '0.78rem', color: 'var(--color-accent)', display: 'inline-flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.25rem' }}
+                    >
+                      <span>View on Google Maps</span>
+                      <ExternalLink size={12} />
+                    </a>
+                  )}
                 </div>
               </div>
 
@@ -139,8 +165,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <div className="contact-method-label">Official Website Domain</div>
-                  <a href={COMPANY_INFO.websiteUrl} className="contact-method-val-web">
-                    {COMPANY_INFO.domain}
+                  <a href="https://saifiinteriorhub.in" className="contact-method-val-web">
+                    saifiinteriorhub.in
                   </a>
                 </div>
               </div>
@@ -151,8 +177,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <div className="contact-method-label">Official Email</div>
-                  <a href={`mailto:${COMPANY_INFO.contact.email}`} className="contact-method-val-web">
-                    {COMPANY_INFO.contact.email}
+                  <a href={`mailto:${email}`} className="contact-method-val-web">
+                    {email}
                   </a>
                 </div>
               </div>
@@ -164,7 +190,7 @@ export default function ContactPage() {
                 <span className="contact-note-title">On-Site Measurement Visits:</span>
               </div>
               <p className="contact-note-desc">
-                Site visits and initial architectural walkthroughs are scheduled directly by {COMPANY_INFO.name} across Delhi NCR at a mutually convenient time.
+                Site visits and initial architectural walkthroughs are scheduled directly by {companyName} across Delhi NCR at a mutually convenient time.
               </p>
             </div>
           </div>
@@ -173,13 +199,13 @@ export default function ContactPage() {
           <form
             onSubmit={handleWhatsAppSubmit}
             className="enquiry-form-card"
-            aria-label={`Send project enquiry to ${COMPANY_INFO.name} via WhatsApp`}
+            aria-label={`Send project enquiry to ${companyName} via WhatsApp`}
           >
             <div className="enquiry-form-header">
               <span className="section-eyebrow">Quick Inquiry</span>
               <h2 className="enquiry-form-title">Send Project Specifications</h2>
               <p className="enquiry-form-desc">
-                Generates a pre-formatted consultation request and connects directly to {COMPANY_INFO.name} on WhatsApp.
+                Generates a pre-formatted consultation request and connects directly to {companyName} on WhatsApp.
               </p>
             </div>
 

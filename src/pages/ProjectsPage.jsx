@@ -16,6 +16,7 @@ import { getWhatsAppUrl, COMPANY_INFO } from '../data/designer';
 import { getCategories } from '../services/categoryService';
 import { getPublishedProjects } from '../services/projectService';
 import { isSupabaseConfigured } from '../lib/supabase';
+import { useSEO } from '../utils/useSEO';
 import { gsap, isReducedMotion, refreshScrollTrigger } from '../utils/gsapConfig';
 import './ProjectsPage.css';
 
@@ -57,6 +58,7 @@ function ProjectImage({ photo, priority, onError }) {
 }
 
 export default function ProjectsPage() {
+  useSEO({ pageKey: 'projects' });
   const [categories, setCategories] = useState(["All Projects", ...STATIC_CATEGORIES.filter(c => c !== "All Projects")]);
   const [categoriesList, setCategoriesList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All Projects");

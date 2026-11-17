@@ -3,18 +3,24 @@ import { useGSAP } from '@gsap/react';
 import { ShieldCheck, Users, MapPin, Phone, Award, CheckCircle2 } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import ExperienceShowcaseGSAP from '../components/common/ExperienceShowcaseGSAP';
-import { COMPANY_INFO, getWhatsAppUrl } from '../data/designer';
+import { useSettings } from '../context/useSettings';
+import { useSEO } from '../utils/useSEO';
 import { gsap, isReducedMotion } from '../utils/gsapConfig';
 import './AboutPage.css';
 
 export default function AboutPage() {
+  const { companyName, phone, yearsExperience, getWhatsAppLink, homepage } = useSettings();
+  useSEO({ pageKey: 'about' });
+
   const pageRef = useRef(null);
   const storySectionRef = useRef(null);
   const pillarsSectionRef = useRef(null);
   const galleryStripRef = useRef(null);
   const ctaSectionRef = useRef(null);
 
-  const whatsappUrl = getWhatsAppUrl(`Hi ${COMPANY_INFO.name}, I would like to learn more about your process and discuss an interior project in Delhi NCR.`);
+  const whatsappUrl = getWhatsAppLink(
+    `Hi ${companyName}, I would like to learn more about your process and discuss an interior project in Delhi NCR.`
+  );
 
   useGSAP(() => {
     if (isReducedMotion()) return;
@@ -106,11 +112,11 @@ export default function AboutPage() {
           <div className="page-header-inner">
             <span className="badge">
               <Award size={14} className="badge-icon" />
-              <span>{COMPANY_INFO.name} • 10+ Years Experience</span>
+              <span>{companyName} • {yearsExperience} Years Experience</span>
             </span>
-            <h1 className="page-main-title">About {COMPANY_INFO.name}</h1>
+            <h1 className="page-main-title">About {companyName}</h1>
             <p className="page-main-desc">
-              Discover our company story, interior design and interior work philosophy, and direct client supervision across Delhi NCR ({COMPANY_INFO.domain}).
+              Discover our company story, interior design and interior work philosophy, and direct client supervision across Delhi NCR (saifiinteriorhub.in).
             </p>
           </div>
         </div>
@@ -122,21 +128,21 @@ export default function AboutPage() {
           <div className="about-story-grid">
             <div className="about-story-text">
               <span className="section-eyebrow">Company Experience</span>
-              <h2 className="about-story-title">Over a Decade of Creating Beautiful Spaces</h2>
+              <h2 className="about-story-title">{homepage?.about_heading || 'Over a Decade of Creating Beautiful Spaces'}</h2>
               <p className="about-story-lead">
-                With over 10 years of experience in interior design, we focus on creating beautiful, functional and thoughtfully designed spaces.
+                With over {yearsExperience} years of experience in interior design, we focus on creating beautiful, functional and thoughtfully designed spaces.
               </p>
               <p className="about-story-body">
-                <strong>{COMPANY_INFO.name}</strong> was built on a foundational principle: exceptional interior design must be backed by master on-site execution. Rather than outsourcing site management to detached third-party contractors, our team personally oversees daily work on the ground alongside our in-house team of master craftsmen.
+                <strong>{companyName}</strong> was built on a foundational principle: exceptional interior design must be backed by master on-site execution. Rather than outsourcing site management to detached third-party contractors, our team personally oversees daily work on the ground alongside our in-house team of master craftsmen.
               </p>
               <p className="about-story-body">
-                Over the past 10+ years, {COMPANY_INFO.name} has brought hundreds of bespoke living rooms, serene master bedrooms, high-efficiency modular kitchens, corporate cabins, and turnkey apartments to life across Gurugram, Delhi, and Noida.
+                {homepage?.about_description || `Over the past ${yearsExperience} years, ${companyName} has brought hundreds of bespoke living rooms, serene master bedrooms, high-efficiency modular kitchens, corporate cabins, and turnkey apartments to life across Gurugram, Delhi, and Noida.`}
               </p>
 
               <div className="about-highlights-list">
                 <div className="about-hl-item">
                   <CheckCircle2 size={16} className="hl-icon" />
-                  <span>10+ Years of site-tested residential & commercial interior work</span>
+                  <span>{yearsExperience} Years of site-tested residential & commercial interior work</span>
                 </div>
                 <div className="about-hl-item">
                   <CheckCircle2 size={16} className="hl-icon" />
@@ -258,9 +264,9 @@ export default function AboutPage() {
         <section ref={ctaSectionRef} className="about-cta-card" aria-label="Start consultation">
           <div className="about-cta-content">
             <span className="section-eyebrow">Start Your Journey</span>
-            <h2>Ready to Transform Your Space with {COMPANY_INFO.name}?</h2>
+            <h2>Ready to Transform Your Space with {companyName}?</h2>
             <p>
-              Schedule an on-site visit or send your floor plan directly on WhatsApp for an honest discussion and transparent estimates from our 10+ years experienced team.
+              Schedule an on-site visit or send your floor plan directly on WhatsApp for an honest discussion and transparent estimates from our {yearsExperience} experienced team.
             </p>
           </div>
           <div className="about-cta-actions">
@@ -269,18 +275,18 @@ export default function AboutPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-whatsapp about-btn-wa"
-              aria-label={`Chat with ${COMPANY_INFO.name} on WhatsApp`}
+              aria-label={`Chat with ${companyName} on WhatsApp`}
             >
               <WhatsAppIcon size={20} />
               <span>Chat on WhatsApp</span>
             </a>
             <a
-              href={`tel:${COMPANY_INFO.contact.phone.replace(/\s+/g, '')}`}
+              href={`tel:${phone.replace(/\s+/g, '')}`}
               className="btn btn-outline about-btn-call"
-              aria-label={`Call ${COMPANY_INFO.name} at ${COMPANY_INFO.contact.phone}`}
+              aria-label={`Call ${companyName} at ${phone}`}
             >
               <Phone size={17} aria-hidden="true" />
-              <span>Call {COMPANY_INFO.contact.phone}</span>
+              <span>Call {phone}</span>
             </a>
           </div>
         </section>

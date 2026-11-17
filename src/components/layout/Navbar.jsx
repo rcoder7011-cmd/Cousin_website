@@ -3,11 +3,12 @@ import { Link, NavLink } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { Menu, X, Phone } from 'lucide-react';
 import WhatsAppIcon from '../common/WhatsAppIcon';
-import { DESIGNER_INFO, getWhatsAppUrl } from '../../data/designer';
+import { useSettings } from '../../context/useSettings';
 import { gsap, isReducedMotion } from '../../utils/gsapConfig';
 import './Navbar.css';
 
 export default function Navbar() {
+  const { companyName, phone, logoUrl, yearsExperience, getWhatsAppLink } = useSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const headerRef = useRef(null);
 
@@ -47,19 +48,25 @@ export default function Navbar() {
     };
   }, [mobileMenuOpen]);
 
-  const whatsappNavUrl = getWhatsAppUrl(
-    "Hi Saifi Interior Hub, I would like to enquire about your interior design and interior work services."
+  const whatsappNavUrl = getWhatsAppLink(
+    `Hi ${companyName}, I would like to enquire about your interior design and interior work services.`
   );
 
-  const phoneTel = `tel:${DESIGNER_INFO.contact.phone.replace(/\s+/g, '')}`;
+  const phoneTel = `tel:${phone.replace(/\s+/g, '')}`;
 
   return (
     <header ref={headerRef} className="site-header">
       <div className="container header-inner">
         {/* Brand / Logo */}
-        <Link to="/" className="brand-logo" onClick={closeMenu} aria-label={`${DESIGNER_INFO.name} - Home`}>
-          <span className="brand-name">{DESIGNER_INFO.name}</span>
-          <span className="brand-subtitle">Interior Design & Work • 10+ Years Exp</span>
+        <Link to="/" className="brand-logo" onClick={closeMenu} aria-label={`${companyName} - Home`}>
+          {logoUrl ? (
+            <img src={logoUrl} alt={companyName} className="brand-logo-img" style={{ maxHeight: '38px', width: 'auto' }} />
+          ) : (
+            <>
+              <span className="brand-name">{companyName}</span>
+              <span className="brand-subtitle">Interior Design & Work • {yearsExperience} Years Exp</span>
+            </>
+          )}
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -86,10 +93,10 @@ export default function Navbar() {
           <a
             href={phoneTel}
             className="header-phone-link"
-            aria-label={`Call ${DESIGNER_INFO.name} at ${DESIGNER_INFO.contact.phone}`}
+            aria-label={`Call ${companyName} at ${phone}`}
           >
             <Phone size={15} className="phone-icon" aria-hidden="true" />
-            <span className="phone-text">{DESIGNER_INFO.contact.phone}</span>
+            <span className="phone-text">{phone}</span>
           </a>
 
           <a
@@ -97,7 +104,7 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-whatsapp header-cta"
-            aria-label={`Chat with ${DESIGNER_INFO.name} on WhatsApp`}
+            aria-label={`Chat with ${companyName} on WhatsApp`}
             title="Chat on WhatsApp"
           >
             <WhatsAppIcon size={18} />
@@ -170,7 +177,7 @@ export default function Navbar() {
                 onClick={closeMenu}
               >
                 <Phone size={17} />
-                <span>Call {DESIGNER_INFO.contact.phone}</span>
+                <span>Call {phone}</span>
               </a>
 
               <div className="mobile-area-note">

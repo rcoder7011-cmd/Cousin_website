@@ -86,7 +86,7 @@ export default function AdminLayout({ children, pageTitle = 'Dashboard Overview'
       to: '/admin/settings',
       label: 'Website Settings',
       icon: Settings,
-      badge: 'Part 8'
+      badge: null
     }
   ];
 
