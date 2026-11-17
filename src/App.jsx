@@ -15,6 +15,8 @@ import AdminResetPasswordPage from './pages/admin/AdminResetPasswordPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminProjectsPage from './pages/admin/AdminProjectsPage';
 import AdminProjectFormPage from './pages/admin/AdminProjectFormPage';
+import AdminCategoriesPage from './pages/admin/AdminCategoriesPage';
+import AdminCategoryFormPage from './pages/admin/AdminCategoryFormPage';
 import AdminPlaceholderModule from './pages/admin/AdminPlaceholderModule';
 import AdminRouteGuard from './components/admin/AdminRouteGuard';
 import { AuthProvider } from './context/AuthContext';
@@ -121,7 +123,23 @@ export default function App() {
               path="/admin/categories"
               element={
                 <AdminRouteGuard>
-                  <AdminPlaceholderModule moduleKey="categories" />
+                  <AdminCategoriesPage />
+                </AdminRouteGuard>
+              }
+            />
+            <Route
+              path="/admin/categories/new"
+              element={
+                <AdminRouteGuard>
+                  <AdminCategoryFormPage mode="create" />
+                </AdminRouteGuard>
+              }
+            />
+            <Route
+              path="/admin/categories/:id/edit"
+              element={
+                <AdminRouteGuard>
+                  <AdminCategoryFormPage mode="edit" />
                 </AdminRouteGuard>
               }
             />

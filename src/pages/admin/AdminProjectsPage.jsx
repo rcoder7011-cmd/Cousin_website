@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import {
   Plus,
@@ -32,14 +32,24 @@ import './AdminProjectsPage.css';
 
 export default function AdminProjectsPage() {
   const containerRef = useRef(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Filters & Pagination State
+  const categoryParam = searchParams.get('category') || searchParams.get('category_id') || 'all';
+  const [prevCategoryParam, setPrevCategoryParam] = useState(categoryParam);
   const [search, setSearch] = useState('');
-  const [categoryId, setCategoryId] = useState('all');
+  const [categoryId, setCategoryId] = useState(categoryParam);
   const [status, setStatus] = useState('all');
   const [sortBy, setSortBy] = useState('latest');
   const [page, setPage] = useState(1);
   const [reloadTrigger, setReloadTrigger] = useState(0);
+
+  // Sync categoryId during render when searchParams change
+  if (prevCategoryParam !== categoryParam) {
+    setPrevCategoryParam(categoryParam);
+    setCategoryId(categoryParam);
+    setPage(1);
+  }
 
   // Data State
   const [projects, setProjects] = useState([]);
@@ -70,11 +80,11 @@ export default function AdminProjectsPage() {
     }, 3800);
   };
 
-  // 1. Load category list for filter dropdown
+  // 1. Load category list for filter dropdown (including inactive categories for complete admin visibility)
   useEffect(() => {
     let isMounted = true;
     async function loadCats() {
-      const { data } = await getCategories();
+      const { data } = await getCategories({ includeInactive: true });
       if (isMounted && Array.isArray(data)) {
         setCategories(data);
       }
@@ -219,6 +229,20 @@ export default function AdminProjectsPage() {
     }
   };
 
+  // Handle category filter change with URL search param synchronization
+  const handleCategoryChange = (newCatId) => {
+    setCategoryId(newCatId);
+    setPage(1);
+    const newParams = new URLSearchParams(searchParams);
+    if (newCatId === 'all') {
+      newParams.delete('category');
+      newParams.delete('category_id');
+    } else {
+      newParams.set('category', newCatId);
+    }
+    setSearchParams(newParams, { replace: true });
+  };
+
   // Reset all filters
   const handleResetFilters = () => {
     setSearch('');
@@ -227,6 +251,7 @@ export default function AdminProjectsPage() {
     setSortBy('latest');
     setPage(1);
     setIsLoading(true);
+    setSearchParams({}, { replace: true });
     setReloadTrigger(prev => prev + 1);
   };
 
@@ -316,17 +341,14 @@ export default function AdminProjectsPage() {
             {/* Category Filter */}
             <select
               value={categoryId}
-              onChange={(e) => {
-                setCategoryId(e.target.value);
-                setPage(1);
-              }}
+              onChange={(e) => handleCategoryChange(e.target.value)}
               className="toolbar-select"
               aria-label="Filter by category"
             >
               <option value="all">All Categories</option>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
-                  {cat.name}
+                  {cat.name} {!cat.is_active ? '(Inactive)' : ''}
                 </option>
               ))}
             </select>

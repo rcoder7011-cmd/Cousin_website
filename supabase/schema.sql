@@ -277,10 +277,10 @@ create policy "Admins can delete site settings"
   using (public.is_admin());
 
 -- ------------------------------------------------------------------------------
--- 10. SUPABASE STORAGE BUCKET & POLICIES (project-images)
+-- 10. SUPABASE STORAGE BUCKETS & POLICIES (project-images & category-images)
 -- ------------------------------------------------------------------------------
 
--- Create the public bucket if not already present
+-- A. Create the public project-images bucket
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
   'project-images',
@@ -294,7 +294,7 @@ on conflict (id) do update set
   file_size_limit = 10485760,
   allowed_mime_types = array['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
 
--- Storage Object Policies
+-- Storage Object Policies for project-images
 drop policy if exists "Public can view project images bucket" on storage.objects;
 create policy "Public can view project images bucket"
   on storage.objects for select
@@ -317,6 +317,44 @@ create policy "Admins can delete from project images bucket"
   on storage.objects for delete
   to authenticated
   using (bucket_id = 'project-images' and public.is_admin());
+
+-- B. Create the public category-images bucket
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'category-images',
+  'category-images',
+  true,
+  10485760, -- 10MB limit per image
+  array['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml']
+)
+on conflict (id) do update set
+  public = true,
+  file_size_limit = 10485760,
+  allowed_mime_types = array['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
+
+-- Storage Object Policies for category-images
+drop policy if exists "Public can view category images bucket" on storage.objects;
+create policy "Public can view category images bucket"
+  on storage.objects for select
+  using (bucket_id = 'category-images');
+
+drop policy if exists "Admins can upload to category images bucket" on storage.objects;
+create policy "Admins can upload to category images bucket"
+  on storage.objects for insert
+  to authenticated
+  with check (bucket_id = 'category-images' and public.is_admin());
+
+drop policy if exists "Admins can update category images bucket" on storage.objects;
+create policy "Admins can update category images bucket"
+  on storage.objects for update
+  to authenticated
+  using (bucket_id = 'category-images' and public.is_admin());
+
+drop policy if exists "Admins can delete from category images bucket" on storage.objects;
+create policy "Admins can delete from category images bucket"
+  on storage.objects for delete
+  to authenticated
+  using (bucket_id = 'category-images' and public.is_admin());
 
 -- ------------------------------------------------------------------------------
 -- 11. INITIAL SEED DATA

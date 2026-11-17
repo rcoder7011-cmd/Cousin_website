@@ -58,6 +58,7 @@ function ProjectImage({ photo, priority, onError }) {
 
 export default function ProjectsPage() {
   const [categories, setCategories] = useState(["All Projects", ...STATIC_CATEGORIES.filter(c => c !== "All Projects")]);
+  const [categoriesList, setCategoriesList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All Projects");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("order"); // 'order' | 'latest' | 'oldest'
@@ -74,12 +75,13 @@ export default function ProjectsPage() {
   const filterToolbarRef = useRef(null);
   const galleryContainerRef = useRef(null);
 
-  // 1. Fetch categories dynamically from Supabase
+  // 1. Fetch categories dynamically from Supabase (only active categories for public website)
   useEffect(() => {
     let isMounted = true;
     async function loadCategories() {
-      const { data, error } = await getCategories();
+      const { data, error } = await getCategories({ includeInactive: false });
       if (isMounted && !error && Array.isArray(data) && data.length > 0) {
+        setCategoriesList(data);
         const catNames = ["All Projects", ...data.map(c => c.name)];
         setCategories(catNames);
       }
@@ -95,9 +97,11 @@ export default function ProjectsPage() {
     let isMounted = true;
 
     async function fetchDynamicProjects() {
-      const categorySlug = (selectedCategory === "All Projects" || selectedCategory === "All")
-        ? 'all'
-        : selectedCategory.toLowerCase().replace(/\s+/g, '-');
+      let categorySlug = 'all';
+      if (selectedCategory !== "All Projects" && selectedCategory !== "All") {
+        const found = categoriesList.find(c => c.name.toLowerCase() === selectedCategory.toLowerCase());
+        categorySlug = found ? found.slug : selectedCategory.toLowerCase().replace(/\s+/g, '-');
+      }
 
       const { data, error } = await getPublishedProjects({
         categorySlug,
@@ -126,7 +130,7 @@ export default function ProjectsPage() {
     return () => {
       isMounted = false;
     };
-  }, [selectedCategory, searchQuery, sortBy, reloadTrigger]);
+  }, [selectedCategory, searchQuery, sortBy, reloadTrigger, categoriesList]);
 
   const handleRetry = () => {
     setIsLoading(true);

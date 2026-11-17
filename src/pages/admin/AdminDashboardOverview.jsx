@@ -307,7 +307,7 @@ export default function AdminDashboardOverview() {
             <div className="action-tile-content">
               <span className="action-tile-title">Manage Categories</span>
               <span className="action-tile-desc">Bedrooms, Kitchens, POP</span>
-              <span className="action-tile-badge">Part 8 Ready</span>
+              <span className="action-tile-badge">Active</span>
             </div>
             <ArrowRight size={16} color="var(--color-text-light)" />
           </Link>

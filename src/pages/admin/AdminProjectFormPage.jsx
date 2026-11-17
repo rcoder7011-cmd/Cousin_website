@@ -79,15 +79,16 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
 
   const fileInputRef = useRef(null);
 
-  // 1. Fetch Categories for Dropdown
+  // 1. Fetch Categories for Dropdown (including inactive categories so existing projects can preserve their category)
   useEffect(() => {
     let isMounted = true;
     async function loadCats() {
-      const { data } = await getCategories();
+      const { data } = await getCategories({ includeInactive: true });
       if (isMounted && Array.isArray(data)) {
         setCategories(data);
         if (mode === 'create' && data.length > 0) {
-          setCategoryId(data[0].id);
+          const firstActive = data.find(c => c.is_active) || data[0];
+          setCategoryId(firstActive.id);
         }
       }
     }
@@ -594,7 +595,7 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
                       <option value="">Select Category...</option>
                       {categories.map((c) => (
                         <option key={c.id} value={c.id}>
-                          {c.name}
+                          {c.name} {!c.is_active ? '(Inactive)' : ''}
                         </option>
                       ))}
                     </select>

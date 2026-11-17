@@ -74,7 +74,7 @@ export default function AdminLayout({ children, pageTitle = 'Dashboard Overview'
       to: '/admin/categories',
       label: 'Categories',
       icon: Layers,
-      badge: 'Part 8'
+      badge: null
     },
     {
       to: '/admin/media',

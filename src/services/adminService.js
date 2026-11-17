@@ -1,7 +1,7 @@
-import { supabase, isSupabaseConfigured } from '../lib/supabase';
-import { PROJECTS as STATIC_PROJECTS } from '../data/projects';
-import { FALLBACK_CATEGORIES } from './categoryService';
-import { resolveImageUrl } from './projectImageService';
+import { supabase, isSupabaseConfigured } from '../lib/supabase.js';
+import { PROJECTS as STATIC_PROJECTS } from '../data/projects.js';
+import { FALLBACK_CATEGORIES, getCategories } from './categoryService.js';
+import { resolveImageUrl } from './projectImageService.js';
 
 /**
  * Fetch real aggregate statistics from Supabase database tables
@@ -27,7 +27,8 @@ export async function getDashboardStats() {
     const published = STATIC_PROJECTS.length;
     const drafts = 0;
     const featured = STATIC_PROJECTS.filter(p => p.isFeatured).length;
-    const categoriesCount = FALLBACK_CATEGORIES.length;
+    const { data: cats } = await getCategories({ includeInactive: true });
+    const categoriesCount = cats?.length ?? FALLBACK_CATEGORIES.length;
 
     return {
       data: {
