@@ -38,21 +38,31 @@ export default function ExperienceShowcaseGSAP() {
     }, 0);
 
     // 2. Animate stat cards with stagger
-    tl.from('.gsap-stat-card', {
-      y: 28,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.12,
-      ease: 'power2.out'
-    }, 0.2);
+    tl.fromTo('.gsap-stat-card',
+      { y: 28, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      },
+      0.2
+    );
 
     // 3. Animate badge ring
-    tl.from('.gsap-badge-glow', {
-      scale: 0.85,
-      opacity: 0,
-      duration: 0.9,
-      ease: 'back.out(1.7)'
-    }, 0.1);
+    tl.fromTo('.gsap-badge-glow',
+      { scale: 0.85, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.9,
+        ease: 'back.out(1.7)',
+        clearProps: 'opacity,transform',
+      },
+      0.1
+    );
 
   }, { scope: containerRef });
 

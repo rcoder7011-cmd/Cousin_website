@@ -95,44 +95,73 @@ export default function ProjectDetailPage() {
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    tl.from('.project-header-meta > *', {
-      y: 16,
-      opacity: 0,
-      duration: 0.5,
-      stagger: 0.08,
-    });
+    tl.fromTo('.project-header-meta > *',
+      { y: 16, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.08,
+        clearProps: 'opacity,transform',
+      }
+    );
 
-    tl.from('.project-detail-title', {
-      y: 28,
-      opacity: 0,
-      duration: 0.7,
-    }, '-=0.3');
+    tl.fromTo('.project-detail-title',
+      { y: 28, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        clearProps: 'opacity,transform',
+      },
+      '-=0.3'
+    );
 
-    tl.from('.project-detail-lead', {
-      y: 20,
-      opacity: 0,
-      duration: 0.6,
-    }, '-=0.4');
+    tl.fromTo('.project-detail-lead',
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        clearProps: 'opacity,transform',
+      },
+      '-=0.4'
+    );
 
-    tl.from('.project-cover-frame', {
-      scale: 0.96,
-      opacity: 0,
-      duration: 0.85,
-    }, '-=0.3');
+    tl.fromTo('.project-cover-frame',
+      { scale: 0.96, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.85,
+        clearProps: 'opacity,transform',
+      },
+      '-=0.3'
+    );
 
-    tl.from('.project-info-layout > *', {
-      y: 24,
-      opacity: 0,
-      duration: 0.65,
-      stagger: 0.12,
-    }, '-=0.3');
+    tl.fromTo('.project-info-layout > *',
+      { y: 24, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.65,
+        stagger: 0.12,
+        clearProps: 'opacity,transform',
+      },
+      '-=0.3'
+    );
 
-    tl.from('.project-gallery-thumb', {
-      y: 20,
-      opacity: 0,
-      duration: 0.5,
-      stagger: 0.05,
-    }, '-=0.2');
+    tl.fromTo('.project-gallery-thumb',
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.05,
+        clearProps: 'opacity,transform',
+      },
+      '-=0.2'
+    );
 
   }, { scope: pageRef, dependencies: [project, isLoading] });
 

@@ -149,13 +149,17 @@ export default function AdminProjectsPage() {
   useGSAP(() => {
     if (isReducedMotion() || isLoading) return;
 
-    gsap.from('.projects-header-card, .projects-summary-strip, .projects-toolbar', {
-      y: 18,
-      opacity: 0,
-      duration: 0.45,
-      stagger: 0.08,
-      ease: 'power3.out'
-    });
+    gsap.fromTo('.projects-header-card, .projects-summary-strip, .projects-toolbar',
+      { y: 18, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.45,
+        stagger: 0.08,
+        ease: 'power3.out',
+        clearProps: 'opacity,transform',
+      }
+    );
   }, { scope: containerRef, dependencies: [isLoading] });
 
   // Handle Quick Publish Toggle

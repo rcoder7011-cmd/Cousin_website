@@ -19,12 +19,16 @@ export default function Navbar() {
   useGSAP(() => {
     if (isReducedMotion()) return;
 
-    gsap.from('.header-inner', {
-      y: -15,
-      opacity: 0,
-      duration: 0.65,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.header-inner',
+      { y: -15, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.65,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
   }, { scope: headerRef });
 
   // Close mobile menu on Escape key press & prevent background scroll when open

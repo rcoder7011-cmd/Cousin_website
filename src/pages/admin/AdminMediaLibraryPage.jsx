@@ -134,13 +134,17 @@ export default function AdminMediaLibraryPage() {
   useGSAP(() => {
     if (isReducedMotion() || isLoading) return;
 
-    gsap.from('.media-header-card, .media-stats-strip, .media-toolbar', {
-      y: 18,
-      opacity: 0,
-      duration: 0.45,
-      stagger: 0.08,
-      ease: 'power3.out'
-    });
+    gsap.fromTo('.media-header-card, .media-stats-strip, .media-toolbar',
+      { y: 18, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.45,
+        stagger: 0.08,
+        ease: 'power3.out',
+        clearProps: 'opacity,transform',
+      }
+    );
   }, { scope: containerRef, dependencies: [isLoading] });
 
   // Open Detail Drawer

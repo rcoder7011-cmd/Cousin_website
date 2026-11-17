@@ -438,3 +438,32 @@ button {
     scroll-behavior: auto !important;
   }
 }
+
+/* --- Guaranteed Content Visibility & Fallback Safeguard ---
+   Prevents any element from being permanently trapped at opacity 0 or hidden */
+.hero-title,
+.hero-subtitle,
+.hero-badge,
+.hero-actions,
+.trust-item,
+.service-card,
+.service-card-gsap,
+.services-header-reveal,
+.project-header-reveal,
+.project-card-gsap,
+.contact-info-card,
+.enquiry-form-card,
+.page-header-inner > *,
+.footer-col,
+.exp-reveal-item,
+.exp-attribute-item,
+.exp-main-frame,
+.exp-accent-frame,
+.exp-floating-badge,
+.about-story-text > *,
+.about-media-card,
+.about-pillar-card,
+.strip-item,
+.service-detail-card {
+  visibility: visible;
+}

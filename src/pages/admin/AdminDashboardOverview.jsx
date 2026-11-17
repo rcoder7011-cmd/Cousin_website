@@ -88,31 +88,50 @@ export default function AdminDashboardOverview() {
 
     const ctx = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    ctx.from('.admin-hero-card', {
-      y: 20,
-      opacity: 0,
-      duration: 0.5
-    });
+    ctx.fromTo('.admin-hero-card',
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        clearProps: 'opacity,transform',
+      }
+    );
 
-    ctx.from('.stat-card', {
-      y: 25,
-      opacity: 0,
-      duration: 0.45,
-      stagger: 0.08
-    }, '-=0.2');
+    ctx.fromTo('.stat-card',
+      { y: 25, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.45,
+        stagger: 0.08,
+        clearProps: 'opacity,transform',
+      },
+      '-=0.2'
+    );
 
-    ctx.from('.action-tile-btn', {
-      y: 18,
-      opacity: 0,
-      duration: 0.4,
-      stagger: 0.06
-    }, '-=0.25');
+    ctx.fromTo('.action-tile-btn',
+      { y: 18, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.4,
+        stagger: 0.06,
+        clearProps: 'opacity,transform',
+      },
+      '-=0.25'
+    );
 
-    ctx.from('.admin-table-card', {
-      y: 20,
-      opacity: 0,
-      duration: 0.5
-    }, '-=0.2');
+    ctx.fromTo('.admin-table-card',
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        clearProps: 'opacity,transform',
+      },
+      '-=0.2'
+    );
 
   }, { scope: containerRef, dependencies: [isLoading] });
 

@@ -53,18 +53,23 @@ export default function Footer() {
   useGSAP(() => {
     if (isReducedMotion()) return;
 
-    gsap.from('.footer-col', {
-      scrollTrigger: {
-        trigger: footerRef.current,
-        start: 'top 88%',
-        once: true,
-      },
-      y: 25,
-      opacity: 0,
-      duration: 0.75,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.footer-col',
+      { y: 25, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: 'top 95%',
+          once: true,
+        },
+        immediateRender: false,
+        y: 0,
+        opacity: 1,
+        duration: 0.75,
+        stagger: 0.1,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
   }, { scope: footerRef });
 
   return (

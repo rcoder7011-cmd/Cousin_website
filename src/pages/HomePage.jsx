@@ -59,148 +59,171 @@ export default function HomePage() {
     };
   }, []);
 
-  // Coordinated GSAP Animations across the Homepage
+  // 1. Hero entrance animation (Runs once on mount, immune to state re-renders)
   useGSAP(() => {
     if (isReducedMotion()) return;
 
-    // 1. HERO ENTRANCE TIMELINE (Runs on initial mount)
     const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
     // Badge entrance from top
-    heroTl.from('.hero-badge', {
-      y: -24,
-      opacity: 0,
-      duration: 0.8,
-    });
+    heroTl.fromTo('.hero-badge', 
+      { y: -20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.65, clearProps: 'opacity,transform' }
+    );
 
     // Heading reveal from bottom
-    heroTl.from('.hero-title', {
-      y: 40,
-      opacity: 0,
-      duration: 1.0,
-    }, '-=0.5');
+    heroTl.fromTo('.hero-title',
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, clearProps: 'opacity,transform' },
+      '-=0.35'
+    );
 
     // Subtitle fade & slide up
-    heroTl.from('.hero-subtitle', {
-      y: 25,
-      opacity: 0,
-      duration: 0.85,
-    }, '-=0.6');
+    heroTl.fromTo('.hero-subtitle',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, clearProps: 'opacity,transform' },
+      '-=0.45'
+    );
 
     // CTA buttons staggered entrance
-    heroTl.from('.hero-actions .btn', {
-      y: 20,
-      opacity: 0,
-      duration: 0.65,
-      stagger: 0.12,
-    }, '-=0.5');
+    heroTl.fromTo('.hero-actions .btn',
+      { y: 16, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.55, stagger: 0.08, clearProps: 'opacity,transform' },
+      '-=0.35'
+    );
 
     // Trust items staggered entrance
-    heroTl.from('.trust-item', {
-      y: 16,
-      opacity: 0,
-      duration: 0.6,
-      stagger: 0.1,
-    }, '-=0.4');
+    heroTl.fromTo('.trust-item',
+      { y: 14, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, stagger: 0.06, clearProps: 'opacity,transform' },
+      '-=0.3'
+    );
 
-    // Hero media entrance from right with scale
-    heroTl.from('.hero-primary-image', {
-      x: 35,
-      scale: 0.96,
-      opacity: 0,
-      duration: 1.1,
-      ease: 'power2.out',
-    }, '-=1.2');
+    // Hero media entrance from right
+    heroTl.fromTo('.hero-primary-image',
+      { x: 30, scale: 0.97, opacity: 0 },
+      { x: 0, scale: 1, opacity: 1, duration: 0.85, ease: 'power2.out', clearProps: 'opacity,transform' },
+      '-=0.7'
+    );
 
     // Hero floating card pop
-    heroTl.from('.hero-floating-card', {
-      scale: 0.85,
-      y: 20,
-      opacity: 0,
-      duration: 0.75,
-      ease: 'back.out(1.7)',
-    }, '-=0.5');
+    heroTl.fromTo('.hero-floating-card',
+      { scale: 0.9, y: 15, opacity: 0 },
+      { scale: 1, y: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.5)', clearProps: 'opacity,transform' },
+      '-=0.35'
+    );
 
     // Hero secondary inset card
-    heroTl.from('.hero-secondary-card', {
-      x: 25,
-      y: 25,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-    }, '-=0.5');
+    heroTl.fromTo('.hero-secondary-card',
+      { x: 20, y: 20, opacity: 0 },
+      { x: 0, y: 0, opacity: 1, duration: 0.65, ease: 'power2.out', clearProps: 'opacity,transform' },
+      '-=0.35'
+    );
+  }, { scope: heroRef });
 
-    // 2. FEATURED PROJECTS SECTION (ScrollTrigger)
-    gsap.from('.project-header-reveal', {
-      scrollTrigger: {
-        trigger: projectsSectionRef.current,
-        start: 'top 80%',
-        once: true,
-      },
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.12,
-      ease: 'power2.out',
-    });
+  // 2. Sections ScrollTrigger Animations (Services, Portfolio Header, CTA)
+  useGSAP(() => {
+    if (isReducedMotion()) return;
 
-    if (featuredProjects.length > 0) {
-      gsap.from('.project-card-gsap', {
+    // Services Section header reveal
+    gsap.fromTo('.services-header-reveal',
+      { y: 25, opacity: 0 },
+      {
         scrollTrigger: {
-          trigger: '.projects-grid',
-          start: 'top 82%',
+          trigger: servicesSectionRef.current,
+          start: 'top 95%',
           once: true,
         },
-        y: 45,
-        opacity: 0,
-        duration: 0.85,
-        stagger: 0.16,
+        immediateRender: false,
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
         ease: 'power2.out',
-      });
-    }
+        clearProps: 'opacity,transform'
+      }
+    );
 
-    // 3. SERVICES SECTION (ScrollTrigger)
-    gsap.from('.services-header-reveal', {
-      scrollTrigger: {
-        trigger: servicesSectionRef.current,
-        start: 'top 80%',
-        once: true,
-      },
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.12,
-      ease: 'power2.out',
-    });
+    // Services cards reveal
+    gsap.fromTo('.service-card-gsap',
+      { y: 30, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: servicesSectionRef.current,
+          start: 'top 90%',
+          once: true,
+        },
+        immediateRender: false,
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform'
+      }
+    );
 
-    gsap.from('.service-card-gsap', {
-      scrollTrigger: {
-        trigger: '.services-grid',
-        start: 'top 82%',
-        once: true,
-      },
-      y: 40,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    // Project header reveal
+    gsap.fromTo('.project-header-reveal',
+      { y: 25, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: projectsSectionRef.current,
+          start: 'top 95%',
+          once: true,
+        },
+        immediateRender: false,
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform'
+      }
+    );
 
-    // 4. CONSULTATION CTA BANNER (ScrollTrigger)
-    gsap.from('.cta-banner-card', {
-      scrollTrigger: {
-        trigger: ctaSectionRef.current,
-        start: 'top 85%',
-        once: true,
-      },
-      scale: 0.96,
-      y: 30,
-      opacity: 0,
-      duration: 0.9,
-      ease: 'power2.out',
-    });
+    // Consultation CTA Banner
+    gsap.fromTo('.cta-banner-card',
+      { scale: 0.97, y: 20, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: ctaSectionRef.current,
+          start: 'top 95%',
+          once: true,
+        },
+        immediateRender: false,
+        scale: 1,
+        y: 0,
+        opacity: 1,
+        duration: 0.75,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform'
+      }
+    );
+  }, { scope: pageRef });
 
-  }, { scope: pageRef, dependencies: [featuredProjects, isLoadingProjects] });
+  // 3. Dynamic Featured Projects Stagger (Triggers when data arrives)
+  useGSAP(() => {
+    if (isReducedMotion() || featuredProjects.length === 0) return;
+
+    gsap.fromTo('.project-card-gsap',
+      { y: 30, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: projectsSectionRef.current || '.projects-grid',
+          start: 'top 95%',
+          once: true,
+        },
+        immediateRender: false,
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform'
+      }
+    );
+  }, { scope: pageRef, dependencies: [featuredProjects] });
 
   const heroHeading = homepage?.hero_heading || 'Crafting Thoughtful Interiors with Direct Site Execution';
   const heroSubtitle = homepage?.hero_subtitle || `With over 10 years of experience in interior design and interior work, ${companyName} pairs refined aesthetic vision with a dedicated team of master craftsmen. We transform concepts into refined residential and commercial spaces across Gurugram, Delhi, and Noida with direct personal site supervision.`;

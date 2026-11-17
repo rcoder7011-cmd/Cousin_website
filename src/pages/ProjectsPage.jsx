@@ -212,22 +212,29 @@ export default function ProjectsPage() {
   useGSAP(() => {
     if (isReducedMotion()) return;
 
-    gsap.from('.page-header-inner > *', {
-      y: 25,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.page-header-inner > *',
+      { y: 25, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
 
-    gsap.from('.category-filter-btn', {
-      y: 14,
-      opacity: 0,
-      duration: 0.5,
-      stagger: 0.03,
-      ease: 'power2.out',
-      delay: 0.25,
-    });
+    gsap.fromTo('.category-filter-btn',
+      { y: 14, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.03,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
   }, { scope: pageRef });
 
   // GSAP: Staggered animation when switching categories or search
@@ -242,6 +249,7 @@ export default function ProjectsPage() {
         duration: 0.5,
         stagger: 0.035,
         ease: 'power2.out',
+        clearProps: 'opacity,transform',
       }
     );
   }, { scope: pageRef, dependencies: [selectedCategory, searchQuery, sortBy, isLoading] });

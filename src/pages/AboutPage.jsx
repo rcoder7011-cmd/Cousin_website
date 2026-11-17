@@ -26,81 +26,112 @@ export default function AboutPage() {
     if (isReducedMotion()) return;
 
     // 1. Page Header Entrance
-    gsap.from('.page-header-inner > *', {
-      y: 25,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.page-header-inner > *',
+      { y: 25, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
 
     // 2. Story Section Reveal
-    gsap.from('.about-story-text > *', {
-      scrollTrigger: {
-        trigger: storySectionRef.current,
-        start: 'top 80%',
-        once: true,
-      },
-      y: 30,
-      opacity: 0,
-      duration: 0.75,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.about-story-text > *',
+      { y: 30, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: storySectionRef.current,
+          start: 'top 95%',
+          once: true,
+        },
+        immediateRender: false,
+        y: 0,
+        opacity: 1,
+        duration: 0.75,
+        stagger: 0.1,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
 
-    gsap.from('.about-media-card', {
-      scrollTrigger: {
-        trigger: storySectionRef.current,
-        start: 'top 80%',
-        once: true,
-      },
-      scale: 0.95,
-      opacity: 0,
-      duration: 0.9,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.about-media-card',
+      { scale: 0.95, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: storySectionRef.current,
+          start: 'top 95%',
+          once: true,
+        },
+        immediateRender: false,
+        scale: 1,
+        opacity: 1,
+        duration: 0.9,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
 
     // 3. Core Pillars Stagger
-    gsap.from('.about-pillar-card', {
-      scrollTrigger: {
-        trigger: pillarsSectionRef.current,
-        start: 'top 82%',
-        once: true,
-      },
-      y: 35,
-      opacity: 0,
-      duration: 0.75,
-      stagger: 0.14,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.about-pillar-card',
+      { y: 35, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: pillarsSectionRef.current,
+          start: 'top 95%',
+          once: true,
+        },
+        immediateRender: false,
+        y: 0,
+        opacity: 1,
+        duration: 0.75,
+        stagger: 0.14,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
 
     // 4. Strip Items Reveal
-    gsap.from('.strip-item', {
-      scrollTrigger: {
-        trigger: galleryStripRef.current,
-        start: 'top 85%',
-        once: true,
-      },
-      y: 25,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.12,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.strip-item',
+      { y: 25, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: galleryStripRef.current,
+          start: 'top 95%',
+          once: true,
+        },
+        immediateRender: false,
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
 
     // 5. CTA Card Pop
-    gsap.from(ctaSectionRef.current, {
-      scrollTrigger: {
-        trigger: ctaSectionRef.current,
-        start: 'top 88%',
-        once: true,
-      },
-      scale: 0.96,
-      y: 25,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-    });
+    if (ctaSectionRef.current) {
+      gsap.fromTo(ctaSectionRef.current,
+        { scale: 0.96, y: 25, opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: ctaSectionRef.current,
+            start: 'top 95%',
+            once: true,
+          },
+          immediateRender: false,
+          scale: 1,
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+          clearProps: 'opacity,transform',
+        }
+      );
+    }
 
   }, { scope: pageRef });
 

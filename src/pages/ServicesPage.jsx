@@ -24,41 +24,57 @@ export default function ServicesPage() {
     if (isReducedMotion()) return;
 
     // Header reveal
-    gsap.from('.page-header-inner > *', {
-      y: 25,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.page-header-inner > *',
+      { y: 25, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
 
     // Service detail cards staggered entrance on scroll
-    gsap.from('.service-detail-card', {
-      scrollTrigger: {
-        trigger: '.services-list-grid',
-        start: 'top 82%',
-        once: true,
-      },
-      y: 35,
-      opacity: 0,
-      duration: 0.75,
-      stagger: 0.12,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.service-detail-card',
+      { y: 35, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.services-list-grid',
+          start: 'top 95%',
+          once: true,
+        },
+        immediateRender: false,
+        y: 0,
+        opacity: 1,
+        duration: 0.75,
+        stagger: 0.12,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      }
+    );
 
     // Bottom Consultation Banner
-    gsap.from(consultBannerRef.current, {
-      scrollTrigger: {
-        trigger: consultBannerRef.current,
-        start: 'top 88%',
-        once: true,
-      },
-      scale: 0.96,
-      y: 25,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-    });
+    if (consultBannerRef.current) {
+      gsap.fromTo(consultBannerRef.current,
+        { scale: 0.96, y: 25, opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: consultBannerRef.current,
+            start: 'top 95%',
+            once: true,
+          },
+          immediateRender: false,
+          scale: 1,
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+          clearProps: 'opacity,transform',
+        }
+      );
+    }
   }, { scope: pageRef });
 
   return (

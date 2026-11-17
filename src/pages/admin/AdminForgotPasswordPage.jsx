@@ -16,13 +16,17 @@ export default function AdminForgotPasswordPage() {
 
   useGSAP(() => {
     if (isReducedMotion()) return;
-    gsap.from('.admin-login-card', {
-      y: 20,
-      scale: 0.98,
-      opacity: 0,
-      duration: 0.65,
-      ease: 'power3.out'
-    });
+    gsap.fromTo('.admin-login-card',
+      { y: 20, scale: 0.98, opacity: 0 },
+      {
+        y: 0,
+        scale: 1,
+        opacity: 1,
+        duration: 0.65,
+        ease: 'power3.out',
+        clearProps: 'opacity,transform',
+      }
+    );
   }, { scope: pageRef });
 
   const handleSubmit = async (e) => {

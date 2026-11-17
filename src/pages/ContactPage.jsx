@@ -47,30 +47,21 @@ export default function ContactPage() {
     if (isReducedMotion()) return;
 
     // Header reveal
-    gsap.from('.page-header-inner > *', {
-      y: 25,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.page-header-inner > *',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'power2.out', clearProps: 'opacity,transform' }
+    );
 
     // Contact info and form entrance
-    gsap.from('.contact-info-card', {
-      x: -25,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-      delay: 0.2,
-    });
+    gsap.fromTo('.contact-info-card',
+      { x: -20, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.7, ease: 'power2.out', clearProps: 'opacity,transform' }
+    );
 
-    gsap.from('.enquiry-form-card', {
-      x: 25,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-      delay: 0.3,
-    });
+    gsap.fromTo('.enquiry-form-card',
+      { x: 20, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.7, ease: 'power2.out', clearProps: 'opacity,transform' }
+    );
   }, { scope: pageRef });
 
   return (

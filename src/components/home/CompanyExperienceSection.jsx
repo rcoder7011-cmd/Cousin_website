@@ -24,19 +24,23 @@ export default function CompanyExperienceSection() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: 'top 78%',
+        start: 'top 92%',
         once: true, // Prevents unnecessary restarts on scroll
       }
     });
 
     // 1. Text elements entrance (eyebrow, heading, supporting text)
-    tl.from('.exp-reveal-item', {
-      y: 35,
-      opacity: 0,
-      duration: 0.85,
-      stagger: 0.12,
-      ease: 'power3.out'
-    });
+    tl.fromTo('.exp-reveal-item',
+      { y: 35, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.85,
+        stagger: 0.12,
+        ease: 'power3.out',
+        clearProps: 'opacity,transform',
+      }
+    );
 
     // 2. Animated Counter: 0 to targetYears
     const counterObj = { value: 0 };
@@ -52,46 +56,71 @@ export default function CompanyExperienceSection() {
     }, '-=0.6');
 
     // 3. Counter Box pop & glow effect
-    tl.from(counterBoxRef.current, {
-      scale: 0.9,
-      borderColor: 'rgba(179, 136, 56, 0.1)',
-      duration: 1,
-      ease: 'back.out(1.6)'
-    }, '-=1.6');
+    if (counterBoxRef.current) {
+      tl.fromTo(counterBoxRef.current,
+        { scale: 0.9, borderColor: 'rgba(179, 136, 56, 0.1)' },
+        {
+          scale: 1,
+          duration: 1,
+          ease: 'back.out(1.6)',
+          clearProps: 'transform,borderColor',
+        },
+        '-=1.6'
+      );
+    }
 
     // 4. Verified Company Attribute Cards entrance
-    tl.from('.exp-attribute-item', {
-      y: 25,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.1,
-      ease: 'power2.out'
-    }, '-=1.0');
+    tl.fromTo('.exp-attribute-item',
+      { y: 25, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      },
+      '-=1.0'
+    );
 
     // 5. Visual Composition Reveal (Main image clip & scale)
-    tl.from('.exp-main-frame', {
-      clipPath: 'inset(10% 0% 0% 0%)',
-      scale: 0.96,
-      opacity: 0,
-      duration: 1.1,
-      ease: 'power2.out'
-    }, '-=1.4');
+    tl.fromTo('.exp-main-frame',
+      { scale: 0.96, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 1.1,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      },
+      '-=1.4'
+    );
 
     // 6. Accent image and Floating badge
-    tl.from('.exp-accent-frame', {
-      x: 30,
-      y: 30,
-      opacity: 0,
-      duration: 0.9,
-      ease: 'power2.out'
-    }, '-=0.8');
+    tl.fromTo('.exp-accent-frame',
+      { x: 30, y: 30, opacity: 0 },
+      {
+        x: 0,
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      },
+      '-=0.8'
+    );
 
-    tl.from('.exp-floating-badge', {
-      scale: 0.85,
-      opacity: 0,
-      duration: 0.7,
-      ease: 'back.out(1.7)'
-    }, '-=0.6');
+    tl.fromTo('.exp-floating-badge',
+      { scale: 0.85, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.7,
+        ease: 'back.out(1.7)',
+        clearProps: 'opacity,transform',
+      },
+      '-=0.6'
+    );
 
   }, { scope: sectionRef });
 
@@ -119,7 +148,7 @@ export default function CompanyExperienceSection() {
             <div ref={counterBoxRef} className="exp-counter-banner exp-reveal-item">
               <div className="exp-counter-left">
                 <div className="exp-counter-digits">
-                  <span ref={numberRef} className="exp-digit-value">0</span>
+                  <span ref={numberRef} className="exp-digit-value">{targetYears}</span>
                   <span className="exp-digit-suffix">+ Years</span>
                 </div>
                 <div className="exp-counter-subline">

@@ -122,13 +122,17 @@ export default function AdminCategoriesPage() {
   useGSAP(() => {
     if (isReducedMotion() || isLoading) return;
 
-    gsap.from('.categories-header-card, .categories-summary-strip, .categories-toolbar', {
-      y: 16,
-      opacity: 0,
-      duration: 0.45,
-      stagger: 0.08,
-      ease: 'power3.out'
-    });
+    gsap.fromTo('.categories-header-card, .categories-summary-strip, .categories-toolbar',
+      { y: 16, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.45,
+        stagger: 0.08,
+        ease: 'power3.out',
+        clearProps: 'opacity,transform',
+      }
+    );
   }, { scope: containerRef, dependencies: [isLoading] });
 
   // Handle Quick Toggle Active
