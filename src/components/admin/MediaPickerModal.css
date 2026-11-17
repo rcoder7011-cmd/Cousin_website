@@ -1,0 +1,127 @@
+/* ==========================================================================
+   Media Picker Modal Styles — Saifi Interior Hub
+   ========================================================================== */
+
+.media-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.media-picker-card {
+  background: #ffffff;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-md);
+  max-width: 880px;
+  width: 100%;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.media-picker-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.media-picker-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--admin-primary);
+  margin: 0;
+}
+
+.media-picker-toolbar {
+  padding: 0.85rem 1.5rem;
+  background: var(--admin-bg);
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.media-picker-grid-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem;
+}
+
+.media-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 576px) {
+  .media-picker-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .media-picker-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.picker-thumb-card {
+  border: 2px solid var(--admin-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.picker-thumb-card:hover {
+  border-color: var(--admin-accent);
+}
+
+.picker-thumb-card.is-selected {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 2px var(--admin-primary);
+}
+
+.picker-thumb-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #f4ede4;
+}
+
+.picker-thumb-name {
+  padding: 0.45rem 0.6rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--admin-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.media-picker-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+}

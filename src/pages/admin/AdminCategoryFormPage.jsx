@@ -17,6 +17,7 @@ import {
   ShieldAlert
 } from 'lucide-react';
 import AdminLayout from '../../components/admin/AdminLayout';
+import MediaPickerModal from '../../components/admin/MediaPickerModal';
 import {
   getCategoryByIdAdmin,
   createCategory,
@@ -74,6 +75,9 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
   // Delete Modal State
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // Media Picker Modal State
+  const [showMediaPicker, setShowMediaPicker] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -225,6 +229,19 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
     setRemoveExistingImage(false);
     setNewImageFile(null);
     setImagePreviewUrl(null);
+  };
+
+  // Media Library Selection
+  const handleMediaPickerSelect = (selected) => {
+    const item = Array.isArray(selected) ? selected[0] : selected;
+    if (item && item.public_url) {
+      setExistingImageUrl(item.public_url);
+      setImagePreviewUrl(item.public_url);
+      setNewImageFile(null);
+      setRemoveExistingImage(false);
+      setFieldErrors(prev => ({ ...prev, image: null }));
+    }
+    setShowMediaPicker(false);
   };
 
   // Quick Preset Selection (for create mode)
@@ -606,6 +623,14 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
                           </button>
                           <button
                             type="button"
+                            onClick={() => setShowMediaPicker(true)}
+                            className="btn btn-outline btn-sm"
+                          >
+                            <ImageIcon size={14} style={{ marginRight: '0.25rem' }} />
+                            Library
+                          </button>
+                          <button
+                            type="button"
                             onClick={handleClearImage}
                             className="btn btn-danger-outline btn-sm"
                           >
@@ -640,16 +665,29 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
                           Supported formats: JPEG, PNG, WebP, SVG • Maximum size: 10MB
                         </span>
                       </div>
-                      <button
-                        type="button"
-                        className="btn btn-outline btn-sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          fileInputRef.current?.click();
-                        }}
-                      >
-                        Browse Files
-                      </button>
+                      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                        <button
+                          type="button"
+                          className="btn btn-outline btn-sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            fileInputRef.current?.click();
+                          }}
+                        >
+                          Browse Files
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-outline btn-sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowMediaPicker(true);
+                          }}
+                        >
+                          <ImageIcon size={14} style={{ marginRight: '0.25rem' }} />
+                          Choose from Media Library
+                        </button>
+                      </div>
                     </div>
                   )}
 
@@ -917,6 +955,15 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
             </div>
           </div>
         )}
+
+        {/* Media Picker Modal */}
+        <MediaPickerModal
+          isOpen={showMediaPicker}
+          onClose={() => setShowMediaPicker(false)}
+          onSelect={handleMediaPickerSelect}
+          multiple={false}
+          title="Choose Category Cover Image"
+        />
       </div>
     </AdminLayout>
   );

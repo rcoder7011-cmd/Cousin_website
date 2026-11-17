@@ -16,6 +16,7 @@ import {
   ImageIcon
 } from 'lucide-react';
 import AdminLayout from '../../components/admin/AdminLayout';
+import MediaPickerModal from '../../components/admin/MediaPickerModal';
 import {
   getAdminProjectById,
   createProjectFull,
@@ -76,6 +77,7 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
   const [fieldErrors, setFieldErrors] = useState({});
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showMediaPicker, setShowMediaPicker] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -233,6 +235,30 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
     }
   };
 
+  // Media Library Multi-Selection
+  const handleMediaPickerSelect = (selected) => {
+    const items = Array.isArray(selected) ? selected : [selected];
+    if (items.length === 0) {
+      setShowMediaPicker(false);
+      return;
+    }
+
+    const newItems = items.map((item, idx) => ({
+      id: `media-lib-${item.id || Date.now()}-${idx}`,
+      imageUrl: item.public_url,
+      previewUrl: item.public_url,
+      altText: item.alt_text || title || 'Interior design execution photograph',
+      isCover: existingImages.length === 0 && newImageFiles.length === 0 && idx === 0,
+      displayOrder: existingImages.length + newImageFiles.length + idx
+    }));
+
+    setNewImageFiles(prev => [...prev, ...newItems]);
+    if (!coverImageUrl && newItems.length > 0) {
+      setCoverImageUrl(newItems[0].imageUrl);
+    }
+    setShowMediaPicker(false);
+  };
+
   // 5. Image Reordering
   const moveImage = (index, direction, isNewList) => {
     if (isNewList) {
@@ -270,7 +296,7 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
     if (isNewList) {
       setNewImageFiles(prev => {
         const itemToRemove = prev.find(i => i.id === targetId);
-        if (itemToRemove?.previewUrl) {
+        if (itemToRemove?.previewUrl && itemToRemove.file) {
           URL.revokeObjectURL(itemToRemove.previewUrl);
         }
         return prev.filter(i => i.id !== targetId);
@@ -331,7 +357,8 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
 
       if (mode === 'create') {
         const imagePayload = newImageFiles.map((item, idx) => ({
-          file: item.file,
+          file: item.file || null,
+          imageUrl: item.imageUrl || null,
           altText: item.altText || title.trim(),
           displayOrder: idx,
           isCover: item.isCover || item.previewUrl === coverImageUrl
@@ -355,7 +382,8 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
       } else {
         // Edit Mode
         const newImagesToUpload = newImageFiles.map((item, idx) => ({
-          file: item.file,
+          file: item.file || null,
+          imageUrl: item.imageUrl || null,
           altText: item.altText || title.trim(),
           displayOrder: existingImages.length + idx,
           isCover: item.isCover || item.previewUrl === coverImageUrl
@@ -711,6 +739,17 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
                   />
                 </div>
 
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.75rem', marginBottom: '1rem' }}>
+                  <button
+                    type="button"
+                    className="btn btn-outline btn-sm"
+                    onClick={() => setShowMediaPicker(true)}
+                  >
+                    <ImageIcon size={15} style={{ marginRight: '0.35rem' }} />
+                    Choose from Media Library
+                  </button>
+                </div>
+
                 {/* Image Queue & Existing Images */}
                 <div className="image-gallery-queue">
                   {/* 1. Existing Saved Images */}
@@ -805,9 +844,9 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
                       <div className="image-item-details">
                         <div className="image-item-meta">
                           <span style={{ fontWeight: 600, color: 'var(--admin-accent)' }}>
-                            New #{existingImages.length + idx + 1} (Queued for Upload)
+                            New #{existingImages.length + idx + 1} ({item.file ? 'Queued for Upload' : 'Media Library'})
                           </span>
-                          <span>• {(item.file.size / (1024 * 1024)).toFixed(2)} MB</span>
+                          <span>• {item.file ? `${(item.file.size / (1024 * 1024)).toFixed(2)} MB` : 'In Storage'}</span>
                           {(item.isCover || item.previewUrl === coverImageUrl) && (
                             <span className="image-cover-badge">★ Primary Cover</span>
                           )}
@@ -1066,6 +1105,15 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
             </div>
           </div>
         )}
+
+        {/* Media Picker Modal */}
+        <MediaPickerModal
+          isOpen={showMediaPicker}
+          onClose={() => setShowMediaPicker(false)}
+          onSelect={handleMediaPickerSelect}
+          multiple={true}
+          title="Select Project Gallery Images"
+        />
       </div>
     </AdminLayout>
   );

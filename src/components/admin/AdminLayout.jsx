@@ -80,7 +80,7 @@ export default function AdminLayout({ children, pageTitle = 'Dashboard Overview'
       to: '/admin/media',
       label: 'Media Library',
       icon: ImageIcon,
-      badge: 'Part 8'
+      badge: null
     },
     {
       to: '/admin/settings',

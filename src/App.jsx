@@ -17,6 +17,7 @@ import AdminProjectsPage from './pages/admin/AdminProjectsPage';
 import AdminProjectFormPage from './pages/admin/AdminProjectFormPage';
 import AdminCategoriesPage from './pages/admin/AdminCategoriesPage';
 import AdminCategoryFormPage from './pages/admin/AdminCategoryFormPage';
+import AdminMediaLibraryPage from './pages/admin/AdminMediaLibraryPage';
 import AdminPlaceholderModule from './pages/admin/AdminPlaceholderModule';
 import AdminRouteGuard from './components/admin/AdminRouteGuard';
 import { AuthProvider } from './context/AuthContext';
@@ -147,7 +148,7 @@ export default function App() {
               path="/admin/media"
               element={
                 <AdminRouteGuard>
-                  <AdminPlaceholderModule moduleKey="media" />
+                  <AdminMediaLibraryPage />
                 </AdminRouteGuard>
               }
             />

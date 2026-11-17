@@ -742,6 +742,18 @@ export async function createProjectFull(projectData, imageItems = [], onProgress
               coverImageUrl = uploadRes.publicUrl;
             }
           }
+        } else if (item.imageUrl) {
+          // Image selected directly from Media Library (already uploaded)
+          await createProjectImageRecord({
+            projectId,
+            imageUrl: item.imageUrl,
+            altText: item.altText || createdProject.title,
+            displayOrder: item.displayOrder ?? i
+          });
+
+          if (item.isCover || !coverImageUrl) {
+            coverImageUrl = item.imageUrl;
+          }
         }
       }
 
@@ -862,6 +874,18 @@ export async function updateProjectFull(
             if (item.isCover || !resolvedCover) {
               resolvedCover = uploadRes.publicUrl;
             }
+          }
+        } else if (item.imageUrl) {
+          // Pre-existing image selected from Media Library
+          await createProjectImageRecord({
+            projectId: id,
+            imageUrl: item.imageUrl,
+            altText: item.altText || projectData.title,
+            displayOrder: item.displayOrder ?? (existingImages.length + i)
+          });
+
+          if (item.isCover || !resolvedCover) {
+            resolvedCover = item.imageUrl;
           }
         }
       }
