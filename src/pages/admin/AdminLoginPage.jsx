@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/useAuth';
 import { COMPANY_INFO } from '../../data/designer';
+import { BACKEND_CONFIG } from '../../config/backendConfig';
 import { gsap, isReducedMotion } from '../../utils/gsapConfig';
 import './AdminLoginPage.css';
 
@@ -98,6 +99,54 @@ export default function AdminLoginPage() {
             Private management portal for authorized studio administrators ({COMPANY_INFO.domain}).
           </p>
         </header>
+
+        {/* Demo Mode Notification & Autofill */}
+        {BACKEND_CONFIG.isDemoMode && (
+          <div
+            className="admin-demo-mode-banner"
+            style={{
+              background: 'rgba(217, 119, 6, 0.08)',
+              border: '1px solid rgba(217, 119, 6, 0.25)',
+              borderRadius: '8px',
+              padding: '12px 14px',
+              marginBottom: '20px',
+              fontSize: '0.84rem',
+              color: 'var(--color-text-secondary, #666)',
+              lineHeight: 1.5
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '6px' }}>
+              <span style={{ fontWeight: 600, color: '#d97706', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#d97706', display: 'inline-block' }} />
+                Demo Mode Active
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail('admin@saifiinteriorhub.in');
+                  setPassword('DemoAdmin#2026');
+                  setFormErrors({});
+                  setGeneralError('');
+                }}
+                style={{
+                  background: 'none',
+                  border: '1px solid rgba(217, 119, 6, 0.4)',
+                  borderRadius: '4px',
+                  color: '#d97706',
+                  fontSize: '0.75rem',
+                  padding: '3px 8px',
+                  cursor: 'pointer',
+                  fontWeight: 600
+                }}
+              >
+                Autofill Demo Admin
+              </button>
+            </div>
+            <p style={{ margin: 0, fontSize: '0.8rem', color: '#777' }}>
+              Supabase credentials are not connected. Sign in with any credentials or click Autofill to explore the administrative portal in local demo mode.
+            </p>
+          </div>
+        )}
 
         {/* Error Alert Banner */}
         {generalError && (

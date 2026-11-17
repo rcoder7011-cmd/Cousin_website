@@ -1,28 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import WhatsAppButton from './components/common/WhatsAppButton';
 import HomePage from './pages/HomePage';
-import ProjectsPage from './pages/ProjectsPage';
-import ProjectDetailPage from './pages/ProjectDetailPage';
-import ServicesPage from './pages/ServicesPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import AdminLoginPage from './pages/admin/AdminLoginPage';
-import AdminForgotPasswordPage from './pages/admin/AdminForgotPasswordPage';
-import AdminResetPasswordPage from './pages/admin/AdminResetPasswordPage';
-import AdminDashboardPage from './pages/admin/AdminDashboardPage';
-import AdminProjectsPage from './pages/admin/AdminProjectsPage';
-import AdminProjectFormPage from './pages/admin/AdminProjectFormPage';
-import AdminCategoriesPage from './pages/admin/AdminCategoriesPage';
-import AdminCategoryFormPage from './pages/admin/AdminCategoryFormPage';
-import AdminMediaLibraryPage from './pages/admin/AdminMediaLibraryPage';
-import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 import AdminRouteGuard from './components/admin/AdminRouteGuard';
 import { AuthProvider } from './context/AuthContext';
 import { SettingsProvider } from './context/SettingsContext';
 import { refreshScrollTrigger } from './utils/gsapConfig';
+
+// Code-split Public Pages (Preloaded or on-demand to optimize initial bundle)
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
+const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
+const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+
+// Code-split Admin Pages (Isolates heavy studio management suite from public visitors)
+const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'));
+const AdminForgotPasswordPage = lazy(() => import('./pages/admin/AdminForgotPasswordPage'));
+const AdminResetPasswordPage = lazy(() => import('./pages/admin/AdminResetPasswordPage'));
+const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
+const AdminProjectsPage = lazy(() => import('./pages/admin/AdminProjectsPage'));
+const AdminProjectFormPage = lazy(() => import('./pages/admin/AdminProjectFormPage'));
+const AdminCategoriesPage = lazy(() => import('./pages/admin/AdminCategoriesPage'));
+const AdminCategoryFormPage = lazy(() => import('./pages/admin/AdminCategoryFormPage'));
+const AdminMediaLibraryPage = lazy(() => import('./pages/admin/AdminMediaLibraryPage'));
+const AdminSettingsPage = lazy(() => import('./pages/admin/AdminSettingsPage'));
 
 /**
  * Utility to reset scroll position on route change and refresh GSAP ScrollTrigger
@@ -42,6 +46,43 @@ function ScrollToTop() {
 }
 
 /**
+ * Sleek loading fallback for code-split route chunks
+ */
+function PageLoadingFallback({ isAdmin }) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '65vh',
+        flexDirection: 'column',
+        gap: '14px',
+        color: '#666'
+      }}
+      role="status"
+      aria-label="Loading content"
+    >
+      <div
+        style={{
+          width: '36px',
+          height: '36px',
+          border: '3px solid rgba(197, 160, 89, 0.2)',
+          borderTopColor: '#c5a059',
+          borderRadius: '50%',
+          animation: 'studioSpinner 0.8s linear infinite'
+        }}
+        aria-hidden="true"
+      />
+      <span style={{ fontSize: '0.82rem', letterSpacing: '0.06em', color: '#888', textTransform: 'uppercase' }}>
+        {isAdmin ? 'Loading Studio Portal...' : 'Saifi Interior Hub'}
+      </span>
+      <style>{`@keyframes studioSpinner { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
+}
+
+/**
  * Conditional layout wrapper: renders public header/footer only for public routes
  */
 function AppLayout({ children }) {
@@ -50,9 +91,14 @@ function AppLayout({ children }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <a href="#main-content" className="skip-to-content">
+        Skip to main content
+      </a>
       {!isAdminRoute && <Navbar />}
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {children}
+      <main id="main-content" tabIndex="-1" style={{ flex: 1, display: 'flex', flexDirection: 'column', outline: 'none' }}>
+        <Suspense fallback={<PageLoadingFallback isAdmin={isAdminRoute} />}>
+          {children}
+        </Suspense>
       </main>
       {!isAdminRoute && <Footer />}
       {!isAdminRoute && <WhatsAppButton />}

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/useAuth';
 import { COMPANY_INFO } from '../../data/designer';
+import { BACKEND_CONFIG } from '../../config/backendConfig';
 import './AdminLayout.css';
 
 export default function AdminLayout({ children, pageTitle = 'Dashboard Overview' }) {
@@ -188,6 +189,50 @@ export default function AdminLayout({ children, pageTitle = 'Dashboard Overview'
           </div>
 
           <div className="header-right-group">
+            {BACKEND_CONFIG.isDemoMode ? (
+              <span
+                className="header-demo-badge"
+                title="Demo Mode: Changes are saved in your local browser storage. No live database connected."
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  color: '#d97706',
+                  background: 'rgba(217, 119, 6, 0.1)',
+                  border: '1px solid rgba(217, 119, 6, 0.25)',
+                  padding: '4px 10px',
+                  borderRadius: '9999px',
+                  letterSpacing: '0.02em'
+                }}
+              >
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#d97706' }} />
+                Demo Mode
+              </span>
+            ) : (
+              <span
+                className="header-live-badge"
+                title="Live Mode: Connected to Supabase production database."
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  color: '#059669',
+                  background: 'rgba(5, 150, 105, 0.1)',
+                  border: '1px solid rgba(5, 150, 105, 0.25)',
+                  padding: '4px 10px',
+                  borderRadius: '9999px',
+                  letterSpacing: '0.02em'
+                }}
+              >
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#059669' }} />
+                Live DB
+              </span>
+            )}
+
             <Link
               to="/"
               className="header-public-link"

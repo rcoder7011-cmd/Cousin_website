@@ -1,9 +1,11 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
+const DEMO_AUTH_SESSION_KEY = 'saifi_demo_admin_session_v1';
+
 /**
  * Log in an authorized administrator using Email & Password.
  * Performs a two-tier check:
- * 1. Authenticates credentials against Supabase Auth.
+ * 1. Authenticates credentials against Supabase Auth (or Demo Mode local persistence).
  * 2. Verifies that the authenticated user exists in the `admin_profiles` database table
  *    with role = 'admin'.
  * If the user is authenticated but lacks admin authorization, their session is immediately
@@ -14,15 +16,6 @@ import { supabase, isSupabaseConfigured } from '../lib/supabase';
  * @returns {Promise<{ user: Object | null, session: Object | null, profile: Object | null, error: Error | null }>}
  */
 export async function loginAdmin(email, password) {
-  if (!isSupabaseConfigured) {
-    return {
-      user: null,
-      session: null,
-      profile: null,
-      error: new Error('Supabase backend is not configured yet. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file.')
-    };
-  }
-
   const cleanEmail = String(email || '').trim().toLowerCase();
 
   if (!cleanEmail || !password) {
@@ -31,6 +24,44 @@ export async function loginAdmin(email, password) {
       session: null,
       profile: null,
       error: new Error('Both email and password are required.')
+    };
+  }
+
+  // 1. DEMO MODE FALLBACK (When Supabase credentials are not configured)
+  if (!isSupabaseConfigured) {
+    const demoUser = {
+      id: 'demo-admin-0000-0000-000000000001',
+      email: cleanEmail,
+      app_metadata: { provider: 'demo' },
+      user_metadata: { full_name: 'Studio Administrator' }
+    };
+    const demoProfile = {
+      id: demoUser.id,
+      full_name: 'Studio Administrator',
+      role: 'admin',
+      created_at: new Date().toISOString()
+    };
+    const demoSession = {
+      user: demoUser,
+      access_token: 'demo-local-session-token',
+      expires_at: Math.floor(Date.now() / 1000) + 86400 * 7
+    };
+
+    try {
+      localStorage.setItem(DEMO_AUTH_SESSION_KEY, JSON.stringify({
+        user: demoUser,
+        profile: demoProfile,
+        session: demoSession
+      }));
+    } catch {
+      // ignore storage failure in private mode
+    }
+
+    return {
+      user: demoUser,
+      session: demoSession,
+      profile: demoProfile,
+      error: null
     };
   }
 
@@ -103,6 +134,11 @@ export async function loginAdmin(email, password) {
  */
 export async function logoutAdmin() {
   if (!isSupabaseConfigured) {
+    try {
+      localStorage.removeItem(DEMO_AUTH_SESSION_KEY);
+    } catch {
+      // ignore
+    }
     return { error: null };
   }
 
@@ -121,7 +157,18 @@ export async function logoutAdmin() {
  * @returns {Promise<Object | null>}
  */
 export async function getCurrentUser() {
-  if (!isSupabaseConfigured) return null;
+  if (!isSupabaseConfigured) {
+    try {
+      const raw = localStorage.getItem(DEMO_AUTH_SESSION_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        return parsed?.user || null;
+      }
+    } catch {
+      return null;
+    }
+    return null;
+  }
 
   try {
     const { data: { user } } = await supabase.auth.getUser();
@@ -139,6 +186,15 @@ export async function getCurrentUser() {
  */
 export async function getAdminProfile(userId) {
   if (!isSupabaseConfigured || !userId) {
+    try {
+      const raw = localStorage.getItem(DEMO_AUTH_SESSION_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        return { data: parsed?.profile || null, error: null };
+      }
+    } catch {
+      return { data: null, error: null };
+    }
     return { data: null, error: null };
   }
 
@@ -165,6 +221,22 @@ export async function getAdminProfile(userId) {
  */
 export async function checkAdminAuthorization() {
   if (!isSupabaseConfigured) {
+    try {
+      const raw = localStorage.getItem(DEMO_AUTH_SESSION_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed?.user && parsed?.profile?.role === 'admin') {
+          return {
+            isAuthenticated: true,
+            isAdmin: true,
+            user: parsed.user,
+            profile: parsed.profile
+          };
+        }
+      }
+    } catch (e) {
+      console.warn('[authService] Error reading demo auth session:', e);
+    }
     return { isAuthenticated: false, isAdmin: false, user: null, profile: null };
   }
 
@@ -197,16 +269,17 @@ export async function checkAdminAuthorization() {
  * @returns {Promise<{ success: boolean, error: Error | null }>}
  */
 export async function sendPasswordResetEmail(email) {
-  if (!isSupabaseConfigured) {
-    return {
-      success: false,
-      error: new Error('Supabase is not configured yet. Please configure your .env file.')
-    };
-  }
-
   const cleanEmail = String(email || '').trim().toLowerCase();
   if (!cleanEmail) {
     return { success: false, error: new Error('Email address is required.') };
+  }
+
+  if (!isSupabaseConfigured) {
+    return {
+      success: true,
+      error: null,
+      message: 'Demo Mode: Password reset link simulated. Connect live Supabase credentials to deliver production emails.'
+    };
   }
 
   try {
@@ -231,12 +304,16 @@ export async function sendPasswordResetEmail(email) {
  * @returns {Promise<{ success: boolean, error: Error | null }>}
  */
 export async function updateAdminPassword(newPassword) {
-  if (!isSupabaseConfigured) {
-    return { success: false, error: new Error('Supabase is not configured.') };
-  }
-
   if (!newPassword || newPassword.length < 8) {
     return { success: false, error: new Error('Password must be at least 8 characters long.') };
+  }
+
+  if (!isSupabaseConfigured) {
+    return {
+      success: true,
+      error: null,
+      message: 'Demo Mode: Password update simulated locally.'
+    };
   }
 
   try {
