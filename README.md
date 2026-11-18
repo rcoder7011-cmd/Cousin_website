@@ -4,6 +4,7 @@
 [![React](https://img.shields.io/badge/React-19.3-61DAFB?style=flat&logo=react&logoColor=black)](https://react.dev/)
 [![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E?style=flat&logo=supabase&logoColor=white)](https://supabase.com/)
 [![GSAP](https://img.shields.io/badge/GSAP-3.15-88CE02?style=flat&logo=greensock&logoColor=white)](https://greensock.com/gsap/)
+[![Vercel](https://img.shields.io/badge/Deployment-Vercel-000000?style=flat&logo=vercel&logoColor=white)](https://vercel.com/)
 [![Status](https://img.shields.io/badge/Production-Ready-success)]()
 
 **Official Domain:** [https://saifiinteriorhub.in](https://saifiinteriorhub.in)  
