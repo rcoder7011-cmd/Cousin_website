@@ -189,17 +189,17 @@ export default function AboutPage() {
             <div className="about-story-media">
               <div className="about-media-card">
                 <img
-                  src="/images/projects/Living Room/4f7d5a2e-920d-47ae-8379-123563d80df4.png"
-                  alt={`Modern luxury living space executed by ${companyName}`}
-                  className="about-main-img"
-                  loading="lazy"
+                  src="/Owner_img.png"
+                  alt={`Owner of ${companyName} at studio`}
+                  className="about-main-img about-owner-img"
+                  loading="eager"
                   decoding="async"
-                  width="700"
-                  height="520"
+                  width="1086"
+                  height="1233"
                 />
                 <div className="about-media-badge">
                   <span className="badge-num">10+</span>
-                  <span className="badge-text">Years Experience — {companyName}</span>
+                  <span className="badge-text">Years On-Site Experience — {companyName}</span>
                 </div>
               </div>
             </div>

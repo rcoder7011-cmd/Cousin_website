@@ -43,6 +43,13 @@ export default function AdminRouteGuard({ children }) {
     return (
       <div className="admin-access-denied-view" role="alert">
         <div className="access-denied-card">
+          <div className="access-denied-logo-wrap" style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
+            <img
+              src="/Website_Logo.png"
+              alt="Saifi Interior Hub"
+              style={{ maxHeight: '48px', width: 'auto', margin: '0 auto', display: 'block', objectFit: 'contain' }}
+            />
+          </div>
           <div className="access-denied-icon" aria-hidden="true">
             <ShieldAlert size={34} />
           </div>

@@ -11,8 +11,8 @@ export const DEFAULT_SETTINGS = {
     website_name: 'Saifi Interior Hub',
     tagline: 'Over a decade of creating beautiful, functional, and thoughtfully designed spaces.',
     description: "Saifi Interior Hub creates beautiful, functional and inspiring interior spaces tailored to clients' needs.",
-    logo_url: null,
-    favicon_url: null,
+    logo_url: '/Website_Logo.png',
+    favicon_url: '/Website_Logo.png',
     default_language: 'en',
     contact_email: 'enquiry@saifiinteriorhub.in',
     maintenance_mode: false

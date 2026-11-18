@@ -28,11 +28,25 @@
 /* Brand Logo */
 .brand-logo {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   padding: 0.2rem 0;
   border-radius: var(--radius-sm);
   min-width: 0;
-  flex-shrink: 1;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.brand-logo-img {
+  height: clamp(38px, 4.2vw, 46px);
+  width: auto;
+  max-width: 190px;
+  object-fit: contain;
+  display: block;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.brand-logo:hover .brand-logo-img {
+  transform: scale(1.02);
 }
 
 .brand-name {
@@ -243,27 +257,24 @@
 
 .mobile-drawer-header {
   display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  padding-bottom: 0.75rem;
+  align-items: center;
+  justify-content: flex-start;
+  padding-bottom: 0.85rem;
   border-bottom: 1px solid var(--color-border-light);
 }
 
-.mobile-drawer-brand {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+.mobile-drawer-logo-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
 
-.mobile-drawer-tagline {
-  font-size: 0.75rem;
-  color: var(--color-accent);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.mobile-drawer-logo-img {
+  height: 42px;
+  width: auto;
+  max-width: 170px;
+  object-fit: contain;
+  display: block;
 }
 
 .mobile-nav-links {

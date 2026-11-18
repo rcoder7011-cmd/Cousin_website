@@ -103,7 +103,7 @@ export function SettingsProvider({ children }) {
   }, [settings]);
 
   const logoUrl = useMemo(() => {
-    return settings.general_settings?.logo_url || null;
+    return settings.general_settings?.logo_url || '/Website_Logo.png';
   }, [settings]);
 
   const socialLinks = useMemo(() => {

@@ -41,9 +41,31 @@
 
 .footer-brand-header {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 0.85rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.footer-logo-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  background-color: #ffffff;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+}
+
+.footer-logo-img {
+  height: clamp(52px, 6vw, 66px);
+  width: auto;
+  max-width: 230px;
+  object-fit: contain;
+  display: block;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.footer-logo-link:hover .footer-logo-img {
+  transform: scale(1.02);
 }
 
 .footer-brand-title {

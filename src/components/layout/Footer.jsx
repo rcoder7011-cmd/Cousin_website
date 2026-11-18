@@ -78,8 +78,16 @@ export default function Footer() {
         {/* Brand & Experience Focus */}
         <div className="footer-col brand-col">
           <div className="footer-brand-header">
-            <h3 className="footer-brand-title">{companyName}</h3>
-            <span className="footer-brand-tagline">Interior Design and Interior Work</span>
+            <Link to="/" aria-label={`${companyName} - Home`} className="footer-logo-link">
+              <img
+                src="/Website_Logo.png"
+                alt={companyName}
+                className="footer-logo-img"
+                width="200"
+                height="56"
+                loading="lazy"
+              />
+            </Link>
           </div>
           <p className="footer-brand-desc">
             {footerDesc}

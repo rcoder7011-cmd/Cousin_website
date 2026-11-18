@@ -220,20 +220,20 @@ export default function CompanyExperienceSection() {
 
           {/* Right Column: Premium Visual Composition using Real Completed Projects */}
           <div className="exp-visual-column">
-            {/* Primary Main Image Frame */}
+            {/* Primary Main Image Frame: Owner & Studio */}
             <div className="exp-main-frame">
               <img
-                src="/images/projects/OFFICE/619a0583-75a7-4f10-a6b5-811d0b650f0a.png"
-                alt="Executive office interior panelling executed by Saifi Interior Hub"
+                src="/Owner_img.png"
+                alt={`Owner of ${companyName} at studio showroom`}
                 className="exp-main-img"
                 loading="lazy"
                 decoding="async"
-                width="800"
-                height="620"
+                width="1086"
+                height="1233"
               />
               <div className="exp-main-caption">
-                <span className="exp-caption-title">Corporate Cabin Panelling</span>
-                <span className="exp-caption-loc">Noida • Saifi Interior Hub Execution</span>
+                <span className="exp-caption-title">Direct On-Site Supervision</span>
+                <span className="exp-caption-loc">{companyName} • 10+ Years Experience</span>
               </div>
             </div>
 

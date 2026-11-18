@@ -1,9 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
-import { Mail, ShieldCheck, AlertCircle, CheckCircle2, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Mail, AlertCircle, CheckCircle2, ArrowLeft, ArrowRight } from 'lucide-react';
 import { sendPasswordResetEmail } from '../../services/authService';
-import { COMPANY_INFO } from '../../data/designer';
 import { gsap, isReducedMotion } from '../../utils/gsapConfig';
 import './AdminLoginPage.css';
 
@@ -54,9 +53,16 @@ export default function AdminForgotPasswordPage() {
     <div ref={pageRef} className="admin-login-page">
       <div className="admin-login-card">
         <header className="admin-login-header">
-          <div className="admin-brand-badge">
-            <ShieldCheck size={14} />
-            <span>{COMPANY_INFO.name} Recovery</span>
+          <div className="admin-login-logo-wrap">
+            <Link to="/" aria-label="Return to website home">
+              <img
+                src="/Website_Logo.png"
+                alt="Saifi Interior Hub"
+                className="admin-login-logo-img"
+                width="200"
+                height="58"
+              />
+            </Link>
           </div>
           <h1 className="admin-login-title">Reset Admin Password</h1>
           <p className="admin-login-subtitle">

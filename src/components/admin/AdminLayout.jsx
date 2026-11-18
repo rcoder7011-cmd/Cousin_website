@@ -13,7 +13,6 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { useAuth } from '../../context/useAuth';
-import { COMPANY_INFO } from '../../data/designer';
 import { BACKEND_CONFIG } from '../../config/backendConfig';
 import './AdminLayout.css';
 
@@ -108,8 +107,13 @@ export default function AdminLayout({ children, pageTitle = 'Dashboard Overview'
       >
         <div className="admin-sidebar-header">
           <Link to="/admin/dashboard" className="admin-sidebar-brand" onClick={() => setMobileNavOpen(false)}>
-            <span className="admin-brand-title">{COMPANY_INFO.name}</span>
-            <span className="admin-brand-tagline">Studio Administration</span>
+            <img
+              src="/Website_Logo.png"
+              alt="Saifi Interior Hub"
+              className="admin-sidebar-logo-img"
+              width="160"
+              height="44"
+            />
           </Link>
           <button
             type="button"

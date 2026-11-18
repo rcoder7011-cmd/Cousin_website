@@ -6,7 +6,6 @@ import {
   Mail,
   Eye,
   EyeOff,
-  ShieldCheck,
   AlertCircle,
   ArrowLeft,
   ArrowRight
@@ -94,9 +93,16 @@ export default function AdminLoginPage() {
       <div className="admin-login-card">
         {/* Header / Brand */}
         <header className="admin-login-header">
-          <div className="admin-brand-badge">
-            <ShieldCheck size={14} />
-            <span>{COMPANY_INFO.name} Administration</span>
+          <div className="admin-login-logo-wrap">
+            <Link to="/" aria-label="Return to website home">
+              <img
+                src="/Website_Logo.png"
+                alt="Saifi Interior Hub"
+                className="admin-login-logo-img"
+                width="200"
+                height="58"
+              />
+            </Link>
           </div>
           <h1 className="admin-login-title">Studio Portal Login</h1>
           <p className="admin-login-subtitle">

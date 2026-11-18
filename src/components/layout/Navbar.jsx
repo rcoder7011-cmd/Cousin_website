@@ -8,7 +8,7 @@ import { gsap, isReducedMotion } from '../../utils/gsapConfig';
 import './Navbar.css';
 
 export default function Navbar() {
-  const { companyName, phone, logoUrl, yearsExperience, getWhatsAppLink } = useSettings();
+  const { companyName, phone, getWhatsAppLink } = useSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const headerRef = useRef(null);
 
@@ -63,14 +63,13 @@ export default function Navbar() {
       <div className="container header-inner">
         {/* Brand / Logo */}
         <Link to="/" className="brand-logo" onClick={closeMenu} aria-label={`${companyName} - Home`}>
-          {logoUrl ? (
-            <img src={logoUrl} alt={companyName} className="brand-logo-img" style={{ maxHeight: '38px', width: 'auto' }} />
-          ) : (
-            <>
-              <span className="brand-name">{companyName}</span>
-              <span className="brand-subtitle">Interior Design & Work • {yearsExperience} Years Exp</span>
-            </>
-          )}
+          <img
+            src="/Website_Logo.png"
+            alt={companyName}
+            className="brand-logo-img"
+            width="170"
+            height="46"
+          />
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -141,8 +140,15 @@ export default function Navbar() {
             aria-label="Mobile Navigation Menu"
           >
             <div className="mobile-drawer-header">
-              <span className="mobile-drawer-brand">{DESIGNER_INFO.name}</span>
-              <span className="mobile-drawer-tagline">10+ Years of Interior Design Experience</span>
+              <Link to="/" onClick={closeMenu} aria-label={`${companyName} - Home`} className="mobile-drawer-logo-link">
+                <img
+                  src="/Website_Logo.png"
+                  alt={companyName}
+                  className="mobile-drawer-logo-img"
+                  width="160"
+                  height="44"
+                />
+              </Link>
             </div>
 
             <nav className="mobile-nav-links">

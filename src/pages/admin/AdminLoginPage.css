@@ -31,6 +31,21 @@
   margin-bottom: 2rem;
 }
 
+.admin-login-logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.admin-login-logo-img {
+  height: clamp(52px, 6vw, 68px);
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  display: block;
+}
+
 .admin-brand-badge {
   display: inline-flex;
   align-items: center;

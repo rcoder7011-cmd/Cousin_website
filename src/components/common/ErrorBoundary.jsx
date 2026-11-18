@@ -50,6 +50,11 @@ export class ErrorBoundary extends React.Component {
             textAlign: 'center',
             boxShadow: '0 8px 30px rgba(0,0,0,0.06)'
           }}>
+            <img
+              src="/Website_Logo.png"
+              alt="Saifi Interior Hub"
+              style={{ maxHeight: '46px', width: 'auto', margin: '0 auto 1.25rem', display: 'block', objectFit: 'contain' }}
+            />
             <div style={{
               width: '56px',
               height: '56px',
