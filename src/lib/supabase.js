@@ -1,7 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
 const env = (typeof import.meta !== 'undefined' && import.meta.env) ? import.meta.env : (typeof process !== 'undefined' && process.env ? process.env : {});
-const supabaseUrl = env.VITE_SUPABASE_URL?.trim() || '';
+const rawUrl = env.VITE_SUPABASE_URL?.trim() || '';
+// Clean up trailing slash and accidental /rest/v1/ paths
+const supabaseUrl = rawUrl.replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
 const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY?.trim() || '';
 
 /**

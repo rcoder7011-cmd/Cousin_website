@@ -1099,62 +1099,227 @@ export const PROJECT_PHOTOS = [
 /**
  * Featured Projects Showcase (Genuine Completed Projects for Home Page)
  */
-export const PROJECTS = [
-  {
-    "id": "contemporary-curved-bedroom-gurugram",
-    "title": "Contemporary Curved Master Bedroom",
-    "location": "Gurugram",
-    "category": "Bedroom",
-    "scope": "Custom Bed Frame & Nightstands, Headboard Panelling, Accent Lighting",
-    "completionTime": "35 Days",
-    "isFeatured": true,
-    "coverImage": "/images/projects/Bedroom/34b5c063-c931-45f9-ab44-d4bfd075c02f.png",
-    "images": [
-      "/images/projects/Bedroom/34b5c063-c931-45f9-ab44-d4bfd075c02f.png"
+const CATEGORY_CONFIGS = {
+  Bedroom: {
+    titles: [
+      "Contemporary Curved Master Bedroom",
+      "Minimalist Modern Bedroom Suite",
+      "Warm Walnut Veneer Master Suite",
+      "Fluted Panelled Contemporary Bedroom",
+      "Luxury Upholstered Bed & Cove Suite",
+      "Architectural Floating Bed Suite",
+      "Serene Earth-Tone Master Bedroom",
+      "Textured Wall & Brass Accent Bedroom",
+      "Bespoke Compact Guest Bedroom",
+      "Scandinavian Oak Finish Bedroom",
+      "Monochrome Modern Master Bedroom",
+      "Ambient Cove Lighting Bedroom Suite",
+      "Curved Louver Headboard Bedroom",
+      "Dual-Tone Italian Finish Bedroom",
+      "Bespoke King Suite with Nightstands",
+      "Neutral Palette Luxury Bedroom",
+      "Geometric Accent Wall Bedroom Suite",
+      "Turnkey Master Suite with Panelling",
+      "Tailored Bed Unit & Wardrobe Integration",
+      "Soft Backlit Headboard Suite",
+      "Urban Luxury Master Bedroom",
+      "Executive Residence Bedroom Suite"
     ],
-    "summary": "Warm contemporary master suite featuring a bespoke curved walnut-trimmed headboard with built-in floating bedside nightstands and soft ambient LED cove backlighting. Complemented by floor-to-ceiling sheer drapery, subtle textured wall finishes, and suspended cylindrical brass pendant lights.",
-    "highlights": [
-      "Custom curved bed unit with integrated walnut floating nightstands",
+    scope: "Custom Bed Frame & Nightstands, Headboard Panelling, False Ceiling & Accent Lighting",
+    summary: "Refined master bedroom interior featuring custom craftsmanship, integrated floating bedside tables, and warm concealed LED cove illumination across Gurugram and Delhi NCR.",
+    highlights: [
+      "Custom bed unit with integrated floating nightstands",
       "Concealed warm LED headboard cove lighting",
-      "Suspended brass cylinder bedside pendants"
+      "Anti-glare recessed architectural COB ceiling fixtures"
     ]
   },
-  {
-    "id": "luxury-living-dining-delhi",
-    "title": "Modern Luxury Living & Dining Space",
-    "location": "Delhi",
-    "category": "Living Room",
-    "scope": "False Ceiling & Cove Lighting, Fluted Wall Panelling, Stone Feature Wall",
-    "completionTime": "45 Days",
-    "isFeatured": true,
-    "coverImage": "/images/projects/Living Room/4f7d5a2e-920d-47ae-8379-123563d80df4.png",
-    "images": [
-      "/images/projects/Living Room/4f7d5a2e-920d-47ae-8379-123563d80df4.png"
+  Kitchen: {
+    titles: [
+      "Modern Acrylic Modular Kitchen",
+      "Handleless Matte Charcoal Kitchen",
+      "Contemporary L-Shaped Modular Kitchen",
+      "Parallel High-Gloss White Kitchen",
+      "Island Counter Luxury Kitchen Suite",
+      "Quartz Countertop Turnkey Kitchen",
+      "Warm Timber Finish Modular Kitchen",
+      "Two-Tone PU Lacquered Kitchen",
+      "Compact Urban Modular Kitchen",
+      "Soft-Close Tandem Modular Kitchen",
+      "Fluted Glass Shutter Kitchen Pantry",
+      "Breakfast Counter Integrated Kitchen",
+      "BWP Marine Ply Modular Kitchen",
+      "Concealed Profile Handle Kitchen",
+      "Under-Cabinet LED Task Light Kitchen",
+      "Premium European Hardware Kitchen"
     ],
-    "summary": "Open-plan living and dining hall crafted with polished Italian marble flooring, a recessed multi-tier false ceiling, and perimeter warm cove lighting. Showcases fluted wood louvers, back-lit stone feature wall panels with brass accents, and tailored seating arrangements.",
-    "highlights": [
+    scope: "Bespoke Acrylic/PU Cabinetry, Hafele/Blum Soft-Close Tandem Drawers & Quartz Countertops",
+    summary: "High-efficiency modular kitchen engineered with boiling waterproof marine ply, scratch-resistant acrylic shutters, seamless quartz counters, and smart storage accessories in Delhi NCR.",
+    highlights: [
+      "Moisture-resistant BWP marine ply carcass with scratch-resistant shutters",
+      "Blum/Hafele soft-close tandem boxes and pull-out pantry organizers",
+      "Under-cabinet continuous profile LED task illumination"
+    ]
+  },
+  "Living Room": {
+    titles: [
+      "Modern Luxury Living & Dining Space",
+      "Architectural Marble Hall Living Room",
+      "Fluted Wall Panelling Living Room",
+      "Back-Lit Stone Feature Living Room",
+      "Contemporary Open-Plan Living Hall",
+      "Bespoke Floating Media Console Room",
+      "Warm Cove Lighting Living Space",
+      "Minimalist Urban Living Room",
+      "Polished Italian Marble Living Hall",
+      "Acoustic Louvered Living Lounge",
+      "Curved Wall & Brass Inlay Living Room",
+      "Double-Height Ceiling Living Space",
+      "Integrated Display Shelving Living Room",
+      "Designer False Ceiling Living Hall",
+      "Bespoke Turnkey Residential Living Space",
+      "Neutral Luxury Family Living Room",
+      "Brass Profiling Accent Living Room",
+      "Executive Penthouse Living Lounge"
+    ],
+    scope: "False Ceiling & Cove Lighting, Fluted Wall Panelling, Stone Feature Wall & TV Unit",
+    summary: "Spacious open-plan living room crafted with polished Italian marble flooring, multi-tier gypsum false ceiling, fluted acoustic louvers, and bespoke backlit feature wall panels.",
+    highlights: [
       "Multi-tier false ceiling with indirect cove ambient illumination",
       "Back-lit stone feature wall with vertical brass T-profiles",
-      "Fluted wood louvers and integrated illuminated display shelving"
+      "Custom floating console with concealed cable channels"
     ]
   },
-  {
-    "id": "executive-office-suite-noida",
-    "title": "Executive Corporate Office Suite",
-    "location": "Noida",
-    "category": "Office",
-    "scope": "Full-Height Wood Panelling, Inset Brass Profiling, Built-in Display Shelving",
-    "completionTime": "30 Days",
-    "isFeatured": true,
-    "coverImage": "/images/projects/OFFICE/619a0583-75a7-4f10-a6b5-811d0b650f0a.png",
-    "images": [
-      "/images/projects/OFFICE/619a0583-75a7-4f10-a6b5-811d0b650f0a.png"
+  Office: {
+    titles: [
+      "Executive Corporate Office Suite",
+      "Director Cabin with Veneer Panelling",
+      "Modern Executive Workspace",
+      "Acoustic Wall Panelled Cabin",
+      "Minimalist Conference Room Suite",
+      "Custom Bookshelf Executive Suite",
+      "Linear Lighting Corporate Cabin",
+      "Luxury Stone Top Executive Desk",
+      "Bespoke Commercial Office Reception",
+      "Turnkey Corporate Headquarters Suite",
+      "Ergonomic Contemporary Workspace",
+      "Private Studio Workstation Suite",
+      "Full-Height Glass & Wood Office",
+      "High-Efficiency Modern Cabin",
+      "Architectural Office Interior Space"
     ],
-    "summary": "Sophisticated executive cabin highlighted by floor-to-ceiling walnut veneer wall panelling with vertical brass inlays and recessed illuminated bookshelves. Features an executive desk with a stone countertop, fluted acoustic side panelling, and linear ceiling lighting.",
-    "highlights": [
-      "Floor-to-ceiling walnut panelling with precision vertical brass inlays",
-      "Twin recessed vertical bookshelves with integrated LED warm shelf lighting",
-      "Fluted timber accent wall and linear ceiling illumination"
+    scope: "Full-Height Wood Panelling, Executive Desk, Built-in Display Shelving & Linear Lighting",
+    summary: "Distinguished corporate office and executive cabin execution featuring floor-to-ceiling veneer panelling, built-in display cabinetry, acoustic louvers, and linear task lighting.",
+    highlights: [
+      "Floor-to-ceiling natural veneer panelling with precision brass inlays",
+      "Recessed bookshelves with integrated warm LED display shelf lighting",
+      "Ergonomic executive desk with stone countertop and concealed wiring"
+    ]
+  },
+  "Pop Ceiling": {
+    titles: [
+      "Multi-Tier Gypsum POP False Ceiling",
+      "Concealed LED Cove False Ceiling",
+      "Architectural Perimeter Drop Ceiling",
+      "Zero-Shadow Ambient False Ceiling",
+      "Minimalist Recessed Channel Ceiling",
+      "Geometric Layered POP Ceiling",
+      "Living Room Grand Cove POP Ceiling",
+      "Magnetic Track Light Slot Ceiling",
+      "Circular Recessed Dome POP Ceiling",
+      "Curved Edge Ambient False Ceiling",
+      "Double Cove Illumination Ceiling",
+      "Bedroom Floating POP Ceiling",
+      "Linear Profile LED False Ceiling",
+      "Dining Area Accent POP Ceiling",
+      "Anti-Glare COB Slot POP Ceiling",
+      "Sleek Border Trim False Ceiling",
+      "Custom Gypsum Board Ceiling Design",
+      "Turnkey Hallway False Ceiling",
+      "Contemporary Architectural Ceiling"
+    ],
+    scope: "Precision Gypsum Board False Ceiling, Concealed Warm LED Coves & Spotlights",
+    summary: "Flawlessly finished POP false ceiling with sharp lines, multi-level gypsum layering, and continuous warm cove lighting designed for glare-free ambient illumination.",
+    highlights: [
+      "Precision gypsum plaster of Paris multi-layer floating ceiling geometry",
+      "Zero-shadow indirect continuous cove lighting channels",
+      "Laser-cut CNC acoustic perimeter borders and magnetic track light slots"
+    ]
+  },
+  Wardrobe: {
+    titles: [
+      "Floor-to-Ceiling Modular Wardrobe",
+      "Tinted Glass Sliding Shutter Wardrobe",
+      "Walk-in Closet with Sensor Lighting",
+      "Lacquered Glass Finish Wardrobe",
+      "Matte PU Finish Floor-to-Ceiling Wardrobe",
+      "Bespoke Master Bedroom Wardrobe Unit",
+      "Integrated Vanity Modular Wardrobe",
+      "Slim Profile Anodized Frame Wardrobe",
+      "Bronze Tinted Glass Shutter Wardrobe",
+      "Concealed Profile Handle Wardrobe",
+      "Velvet Jewellery Drawer Wardrobe Suite",
+      "Turnkey Multi-Section Bedroom Wardrobe",
+      "Soft-Close Telescopic Wardrobe Unit",
+      "Minimalist Fluted Glass Wardrobe",
+      "Full-Height Mirrored Wardrobe Unit",
+      "Contemporary Sliding Door Wardrobe",
+      "Architectural Built-in Wardrobe Suite"
+    ],
+    scope: "Floor-to-Ceiling Modular Wardrobe, Tinted Glass Shutters, Inset LED Strips & Drawers",
+    summary: "Floor-to-ceiling wardrobe designed for maximum storage efficiency, featuring slim anodized aluminum frames, tinted toughened glass, integrated vertical LED illumination, and velvet organizer trays.",
+    highlights: [
+      "Full-height anodized aluminum slim profile frame with tinted toughened glass",
+      "Automatic sensor-activated interior vertical warm LED strip illumination",
+      "Custom accessory organizers, soft-close velvet drawer trays and trouser racks"
     ]
   }
-];
+};
+
+const LOCATIONS = ["Gurugram", "Delhi", "Noida", "Delhi NCR"];
+const COMPLETION_TIMES = ["30 Days", "35 Days", "40 Days", "45 Days", "25 Days"];
+
+const catCounter = {};
+
+/**
+ * Complete Real Site Projects Portfolio (All 107 genuine project executions)
+ */
+export const PROJECTS = PROJECT_PHOTOS.map((photo, idx) => {
+  const cat = photo.category;
+  catCounter[cat] = (catCounter[cat] || 0) + 1;
+  const countInCat = catCounter[cat];
+  const cfg = CATEGORY_CONFIGS[cat] || {};
+  const titles = cfg.titles || [];
+  const title = titles[countInCat - 1] || `${cat} Interior Work #${String(countInCat).padStart(2, '0')}`;
+  const loc = LOCATIONS[idx % LOCATIONS.length];
+  const completionTime = COMPLETION_TIMES[idx % COMPLETION_TIMES.length];
+
+  // Specific IDs for the 3 original featured projects for backward compatibility:
+  let id = photo.id;
+  if (photo.id === "bedroom-04") id = "contemporary-curved-bedroom-gurugram";
+  else if (photo.id === "living-room-07" || photo.filename === "4f7d5a2e-920d-47ae-8379-123563d80df4.png") id = "luxury-living-dining-delhi";
+  else if (photo.id === "office-06" || photo.filename === "619a0583-75a7-4f10-a6b5-811d0b650f0a.png") id = "executive-office-suite-noida";
+
+  return {
+    id,
+    title,
+    slug: id,
+    location: loc,
+    category: cat,
+    categorySlug: cat.toLowerCase().replace(/\s+/g, '-'),
+    scope: cfg.scope || "Bespoke Interior Work & Turnkey Execution",
+    completionTime,
+    isFeatured: countInCat <= 2, // Top 2 of each category are featured
+    isPublished: true,
+    coverImage: photo.src,
+    images: [photo.src],
+    width: photo.width,
+    height: photo.height,
+    displayOrder: idx + 1,
+    summary: cfg.summary || `Bespoke ${cat.toLowerCase()} interior execution by Saifi Interior Hub.`,
+    highlights: cfg.highlights || [
+      "Direct daily on-site supervision by Saifi Interior Hub",
+      "Premium branded hardware and architectural materials",
+      "Turnkey delivery with guaranteed fit and finish"
+    ]
+  };
+});

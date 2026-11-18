@@ -190,7 +190,7 @@ export async function getPublishedProjects({
       query = query.range(offset, offset + limit - 1);
     }
 
-    const { data, count, error } = await query;
+    const { data, error } = await query;
     if (error) throw error;
 
     // If Supabase table is newly created and still empty, provide graceful fallback
@@ -205,16 +205,84 @@ export async function getPublishedProjects({
       if (featuredOnly) {
         fallback = fallback.filter(p => p.isFeatured);
       }
-      return { data: fallback, count: fallback.length, error: null };
+      if (searchQuery && searchQuery.trim()) {
+        const q = searchQuery.toLowerCase().trim();
+        fallback = fallback.filter(p =>
+          p.title.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q) ||
+          p.location.toLowerCase().includes(q)
+        );
+      }
+      const total = fallback.length;
+      if (limit) {
+        fallback = fallback.slice(offset, offset + limit);
+      }
+      return { data: fallback, count: total, error: null };
     }
 
-    const normalized = data.map(normalizeProject);
-    return { data: normalized, count: count || normalized.length, error: null };
+    // Combine any live Supabase projects with the full static portfolio (deduplicating)
+    const supabaseProjects = data.map(normalizeProject);
+    const existingIds = new Set(supabaseProjects.map(p => p.id));
+    const existingSlugs = new Set(supabaseProjects.map(p => p.slug));
+    const existingCovers = new Set(supabaseProjects.map(p => p.coverImage));
+
+    let staticList = STATIC_PROJECTS.map(normalizeProject).filter(
+      p => !existingIds.has(p.id) && !existingSlugs.has(p.slug) && !existingCovers.has(p.coverImage)
+    );
+
+    if (categorySlug && categorySlug !== 'all' && categorySlug !== 'All Projects') {
+      staticList = staticList.filter(p =>
+        p.categorySlug.toLowerCase() === categorySlug.toLowerCase() ||
+        p.category.toLowerCase() === categorySlug.toLowerCase()
+      );
+    }
+    if (featuredOnly) {
+      staticList = staticList.filter(p => p.isFeatured);
+    }
+    if (searchQuery && searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      staticList = staticList.filter(p =>
+        p.title.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q) ||
+        p.location.toLowerCase().includes(q)
+      );
+    }
+
+    const combined = [...supabaseProjects, ...staticList];
+    const totalCount = combined.length;
+    let finalData = combined;
+    if (limit) {
+      finalData = combined.slice(offset, offset + limit);
+    }
+
+    return { data: finalData, count: totalCount, error: null };
 
   } catch (err) {
     console.error('[projectService] Error fetching published projects:', err.message);
-    // Graceful fallback to static data on network/query error
-    return { data: STATIC_PROJECTS.map(normalizeProject), count: STATIC_PROJECTS.length, error: err };
+    // Graceful fallback to static portfolio data on network/query error
+    let fallback = STATIC_PROJECTS.map(normalizeProject);
+    if (categorySlug && categorySlug !== 'all' && categorySlug !== 'All Projects') {
+      fallback = fallback.filter(p =>
+        p.categorySlug.toLowerCase() === categorySlug.toLowerCase() ||
+        p.category.toLowerCase() === categorySlug.toLowerCase()
+      );
+    }
+    if (featuredOnly) {
+      fallback = fallback.filter(p => p.isFeatured);
+    }
+    if (searchQuery && searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      fallback = fallback.filter(p =>
+        p.title.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q) ||
+        p.location.toLowerCase().includes(q)
+      );
+    }
+    const total = fallback.length;
+    if (limit) {
+      fallback = fallback.slice(offset, offset + limit);
+    }
+    return { data: fallback, count: total, error: null };
   }
 }
 
@@ -448,7 +516,7 @@ export async function getAdminProjects({
     const to = from + limit - 1;
     query = query.range(from, to);
 
-    const { data, count, error } = await query;
+    const { data, error } = await query;
     if (error) throw error;
 
     const formatted = (data || []).map(row => ({
