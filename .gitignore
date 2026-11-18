@@ -13,10 +13,7 @@ dist-ssr
 *.local
 
 # Environment variables (Credentials security)
-.env
-.env.local
-.env.*.local
-.env.production
+.env*
 !.env.example
 
 # Editor directories and files
