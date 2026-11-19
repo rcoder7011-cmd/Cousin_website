@@ -9,6 +9,7 @@ import { useSEO } from '../utils/useSEO';
 import { SERVICES } from '../data/services';
 import { getFeaturedProjects } from '../services/projectService';
 import { gsap, isReducedMotion, refreshScrollTrigger } from '../utils/gsapConfig';
+import servicesGridImage from '../../Interior Design Services Icon Grid.png';
 import './HomePage.css';
 
 export default function HomePage() {
@@ -563,6 +564,30 @@ export default function HomePage() {
                 <span>Call {phone}</span>
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. INTERIOR DESIGN SERVICES SECTION (Immediately above footer) */}
+      <section className="services-icon-grid-section" aria-label="Our Interior Design Services">
+        <div className="container">
+          <div className="section-header text-center">
+            <h2 className="services-grid-heading">Our Interior Design Services</h2>
+            <p className="services-grid-sub">
+              Complete Interior Solutions for Every Space
+            </p>
+          </div>
+
+          <div className="services-icon-grid-wrapper">
+            <img
+              src={servicesGridImage}
+              alt="Our Interior Design Services - Complete Interior Solutions for Every Space"
+              className="services-icon-grid-img"
+              loading="lazy"
+              decoding="async"
+              width="1774"
+              height="887"
+            />
           </div>
         </div>
       </section>

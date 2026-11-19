@@ -931,3 +931,67 @@
   background-color: rgba(255, 255, 255, 0.1);
   color: #ffffff;
 }
+
+/* ==========================================================================
+   6. INTERIOR DESIGN SERVICES SECTION (Above Footer)
+   Original Service Icons Grid Showcase
+   ========================================================================== */
+
+.services-icon-grid-section {
+  padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(4rem, 6.5vw, 6rem);
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border-light);
+  width: 100%;
+}
+
+.services-grid-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 0.65rem;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.services-grid-sub {
+  font-size: clamp(1rem, 1.15vw, 1.15rem);
+  color: var(--color-text-muted);
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.6;
+}
+
+.services-icon-grid-wrapper {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.services-icon-grid-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .services-icon-grid-section {
+    padding: 3rem 0 3.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-icon-grid-section {
+    padding: 2.5rem 0 3rem;
+  }
+}
