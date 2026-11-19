@@ -23,7 +23,9 @@ The platform combines a **visual architectural public portfolio** with smooth GS
 
 ### Key Highlights
 - **Architectural Aesthetic:** Warm alabaster linen palette, Playfair Display typography, high WCAG contrast, and silky micro-interactions.
-- **Dual-Mode Backend Architecture:** Fully functional in zero-credential **Demo Mode** with persistent browser storage, and seamlessly connects to live **Supabase** via `.env` with zero code changes.
+- **Premium Multi-Image Project Gallery:** Asymmetric 3-column editorial grid showcasing 5–6 project photographs simultaneously on case study detail views, featuring a larger hero highlight image, elegant hover elevations, and an expandable "+N Photos" portfolio view.
+- **Fullscreen Lightbox with Touch Swipe:** Complete modal gallery supporting previous/next chevron navigation, live image counter badge (`Photo X of Y`), keyboard shortcuts (`ArrowLeft`, `ArrowRight`, `Escape`), mobile swipe gestures, and direct photo-referenced WhatsApp consultation links.
+- **Dual-Mode Backend Architecture:** Fully functional in zero-credential **Demo Mode** with persistent browser storage and real category photography, and seamlessly connects to live **Supabase** via `.env` with ordered `project_images` joins and zero code changes.
 - **Route-Level Code Splitting:** Dynamic lazy loading isolates the heavy admin portal from public visitors, keeping the main public JavaScript payload under 170kB (gzip: <49kB).
 - **Comprehensive Admin Suite:**
   - Live Overview metrics (project counts, published vs draft, categories).
