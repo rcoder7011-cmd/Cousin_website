@@ -29,8 +29,11 @@
 .brand-logo {
   display: flex;
   align-items: center;
-  padding: 0.2rem 0;
-  border-radius: var(--radius-sm);
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   min-width: 0;
   flex-shrink: 0;
   text-decoration: none;
@@ -267,6 +270,10 @@
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+  background: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
 }
 
 .mobile-drawer-logo-img {
