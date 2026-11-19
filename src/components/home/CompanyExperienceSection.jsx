@@ -228,8 +228,8 @@ export default function CompanyExperienceSection() {
                 className="exp-main-img"
                 loading="lazy"
                 decoding="async"
-                width="1086"
-                height="1233"
+                width="1177"
+                height="1336"
               />
               <div className="exp-main-caption">
                 <span className="exp-caption-title">Direct On-Site Supervision</span>

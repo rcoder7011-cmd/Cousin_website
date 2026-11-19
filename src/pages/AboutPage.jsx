@@ -194,8 +194,8 @@ export default function AboutPage() {
                   className="about-main-img about-owner-img"
                   loading="eager"
                   decoding="async"
-                  width="1086"
-                  height="1233"
+                  width="1177"
+                  height="1336"
                 />
                 <div className="about-media-badge">
                   <span className="badge-num">10+</span>
