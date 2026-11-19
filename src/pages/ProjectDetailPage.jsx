@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import {
@@ -8,10 +8,13 @@ import {
   CheckCircle2,
   Phone,
   ArrowLeft,
-  Eye,
   X,
   AlertCircle,
-  FileEdit
+  FileEdit,
+  ChevronLeft,
+  ChevronRight,
+  Maximize2,
+  Images
 } from 'lucide-react';
 import WhatsAppIcon from '../components/common/WhatsAppIcon';
 import { getProjectBySlug } from '../services/projectService';
@@ -33,7 +36,9 @@ export default function ProjectDetailPage() {
   const [project, setProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeLightbox, setActiveLightbox] = useState(null);
+  const [activeLightboxIndex, setActiveLightboxIndex] = useState(null);
+  const [showAllPhotos, setShowAllPhotos] = useState(false);
+  const touchStartRef = useRef({ x: 0, y: 0 });
 
   useSEO({
     title: project ? `${project.title} | Saifi Interior Hub Project Portfolio` : undefined,
@@ -72,14 +77,50 @@ export default function ProjectDetailPage() {
     };
   }, [slug, allowDraft]);
 
-  // Lock background scroll when lightbox is open
+  // Gallery images array (cover image first, followed by all remaining images)
+  const galleryImages = useMemo(() => {
+    if (!project) return [];
+    if (Array.isArray(project.images) && project.images.length > 0) {
+      return project.images;
+    }
+    if (project.coverImage) {
+      return [{
+        id: 'cover-0',
+        url: project.coverImage,
+        alt: `${project.title} - Main Photograph`,
+        displayOrder: 0
+      }];
+    }
+    return [];
+  }, [project]);
+
+  // Navigation handlers for fullscreen lightbox
+  const handlePrev = (e) => {
+    e?.stopPropagation();
+    if (galleryImages.length <= 1) return;
+    setActiveLightboxIndex((prev) => (prev > 0 ? prev - 1 : galleryImages.length - 1));
+  };
+
+  const handleNext = (e) => {
+    e?.stopPropagation();
+    if (galleryImages.length <= 1) return;
+    setActiveLightboxIndex((prev) => (prev < galleryImages.length - 1 ? prev + 1 : 0));
+  };
+
+  // Lock background scroll and keyboard navigation when lightbox is open
   useEffect(() => {
-    if (!activeLightbox) return;
+    if (activeLightboxIndex === null) return;
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') setActiveLightbox(null);
+      if (e.key === 'Escape') {
+        setActiveLightboxIndex(null);
+      } else if (e.key === 'ArrowLeft') {
+        setActiveLightboxIndex((prev) => (prev > 0 ? prev - 1 : galleryImages.length - 1));
+      } else if (e.key === 'ArrowRight') {
+        setActiveLightboxIndex((prev) => (prev < galleryImages.length - 1 ? prev + 1 : 0));
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
 
@@ -87,7 +128,27 @@ export default function ProjectDetailPage() {
       document.body.style.overflow = originalOverflow;
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [activeLightbox]);
+  }, [activeLightboxIndex, galleryImages.length]);
+
+  // Mobile swipe gestures
+  const handleTouchStart = (e) => {
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY
+    };
+  };
+
+  const handleTouchEnd = (e) => {
+    const deltaX = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const deltaY = e.changedTouches[0].clientY - touchStartRef.current.y;
+    if (Math.abs(deltaX) > 45 && Math.abs(deltaY) < 90) {
+      if (deltaX > 0) {
+        handlePrev();
+      } else {
+        handleNext();
+      }
+    }
+  };
 
   // GSAP Coordinated Entrance Animation
   useGSAP(() => {
@@ -128,12 +189,13 @@ export default function ProjectDetailPage() {
       '-=0.4'
     );
 
-    tl.fromTo('.project-cover-frame',
+    tl.fromTo('.project-gallery-item',
       { scale: 0.96, opacity: 0 },
       {
         scale: 1,
         opacity: 1,
-        duration: 0.85,
+        duration: 0.7,
+        stagger: 0.08,
         clearProps: 'opacity,transform',
       },
       '-=0.3'
@@ -146,18 +208,6 @@ export default function ProjectDetailPage() {
         opacity: 1,
         duration: 0.65,
         stagger: 0.12,
-        clearProps: 'opacity,transform',
-      },
-      '-=0.3'
-    );
-
-    tl.fromTo('.project-gallery-thumb',
-      { y: 20, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.5,
-        stagger: 0.05,
         clearProps: 'opacity,transform',
       },
       '-=0.2'
@@ -210,6 +260,11 @@ export default function ProjectDetailPage() {
   const projectWhatsAppUrl = getWhatsAppUrl(
     `Hi ${COMPANY_INFO.name}, I was viewing your project "${project.title}" (${project.location}) on saifiinteriorhub.in and would like to discuss similar interior work for my flat/home.`
   );
+
+  const INITIAL_DISPLAY_COUNT = 6;
+  const hasMoreThanSix = galleryImages.length > INITIAL_DISPLAY_COUNT;
+  const displayedGallery = showAllPhotos ? galleryImages : galleryImages.slice(0, INITIAL_DISPLAY_COUNT);
+  const currentPhoto = activeLightboxIndex !== null ? galleryImages[activeLightboxIndex] : null;
 
   return (
     <div ref={pageRef} className="project-detail-page">
@@ -285,32 +340,86 @@ export default function ProjectDetailPage() {
           )}
         </header>
 
-        {/* Primary Cover Image Showcase */}
-        <section className="project-cover-showcase" aria-label="Primary project photo">
-          <div
-            className="project-cover-frame"
-            onClick={() => setActiveLightbox({ url: project.coverImage, alt: project.title })}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setActiveLightbox({ url: project.coverImage, alt: project.title })}
-            aria-label="Enlarge cover photograph"
-          >
-            <img
-              src={project.coverImage}
-              alt={`${project.title} executed by ${COMPANY_INFO.name}`}
-              className="project-cover-img"
-              width="1400"
-              height="800"
-              decoding="async"
-              fetchPriority="high"
-            />
-            <div className="project-cover-overlay">
-              <div>
-                <div className="project-cover-caption-title">{project.title}</div>
-                <div className="project-cover-caption-sub">{project.location} • Supervised On-Site Execution</div>
-              </div>
-            </div>
+        {/* Premium Multi-Image Portfolio Gallery */}
+        <section className="project-gallery-showcase" aria-label="Project photo gallery">
+          <div className={`gallery-editorial-grid gallery-count-${Math.min(displayedGallery.length, 6)}`}>
+            {displayedGallery.map((img, idx) => {
+              const isHero = idx === 0;
+              const isLastSlot = !showAllPhotos && hasMoreThanSix && idx === INITIAL_DISPLAY_COUNT - 1;
+              const remainingCount = galleryImages.length - INITIAL_DISPLAY_COUNT;
+
+              let gridClass = "project-gallery-item";
+              if (isHero) gridClass += " gallery-item-hero";
+              else gridClass += ` gallery-item-${idx}`;
+
+              return (
+                <div
+                  key={img.id || img.url || idx}
+                  className={gridClass}
+                  onClick={() => setActiveLightboxIndex(idx)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setActiveLightboxIndex(idx);
+                    }
+                  }}
+                  aria-label={`View photo ${idx + 1} of ${galleryImages.length}: ${img.alt || project.title}`}
+                >
+                  <img
+                    src={img.url}
+                    alt={img.alt || `${project.title} - View ${idx + 1}`}
+                    className="gallery-item-img"
+                    loading={isHero ? "eager" : "lazy"}
+                    fetchPriority={isHero ? "high" : "auto"}
+                    decoding="async"
+                    width={isHero ? "1200" : "600"}
+                    height={isHero ? "800" : "450"}
+                  />
+                  <div className="gallery-item-overlay">
+                    <div className="gallery-item-badge">
+                      <Maximize2 size={15} />
+                      <span>{isHero ? "Highlight View" : `Photo ${idx + 1}`}</span>
+                    </div>
+                  </div>
+
+                  {/* "+N More Photos" overlay on the 6th slot when more photos exist */}
+                  {isLastSlot && remainingCount > 0 && (
+                    <div
+                      className="gallery-more-overlay"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowAllPhotos(true);
+                      }}
+                      title="View all project photographs"
+                    >
+                      <div className="gallery-more-content">
+                        <Images size={24} className="gallery-more-icon" />
+                        <span className="gallery-more-count">+{remainingCount} Photos</span>
+                        <span className="gallery-more-label">View Full Portfolio ({galleryImages.length})</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
+
+          {/* Expand / Collapse Button Bar for projects with 7+ images */}
+          {hasMoreThanSix && (
+            <div className="gallery-expand-bar">
+              <button
+                type="button"
+                onClick={() => setShowAllPhotos(!showAllPhotos)}
+                className="btn btn-outline gallery-expand-btn"
+                aria-expanded={showAllPhotos}
+              >
+                <Images size={16} />
+                <span>{showAllPhotos ? "Show Curated 6 Photos" : `View All Photos (${galleryImages.length})`}</span>
+              </button>
+            </div>
+          )}
         </section>
 
         {/* Narrative & Technical Scope Layout */}
@@ -399,76 +508,77 @@ export default function ProjectDetailPage() {
             </div>
           </aside>
         </div>
-
-        {/* Gallery Photographs Grid (Multiple Images Support) */}
-        {project.images && project.images.length > 0 && (
-          <section className="project-gallery-section" aria-label="Project photo gallery">
-            <div className="gallery-section-header">
-              <h2 className="gallery-section-title">Site Photographs & Details</h2>
-              <p className="gallery-section-subtitle">
-                High-resolution photographs from this completed installation by {COMPANY_INFO.name}.
-              </p>
-            </div>
-
-            <div className="project-images-grid">
-              {project.images.map((img, idx) => (
-                <div
-                  key={img.id || idx}
-                  className="project-gallery-thumb"
-                  onClick={() => setActiveLightbox(img)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setActiveLightbox(img)}
-                  aria-label={`View enlarged photo ${idx + 1}`}
-                >
-                  <img
-                    src={img.url}
-                    alt={img.alt || `${project.title} detail photo ${idx + 1}`}
-                    className="thumb-image"
-                    loading="lazy"
-                    decoding="async"
-                    width="600"
-                    height="450"
-                  />
-                  <div className="thumb-overlay">
-                    <div className="thumb-expand-icon">
-                      <Eye size={16} />
-                      <span>View High-Res</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
       </div>
 
-      {/* Lightbox Modal */}
-      {activeLightbox && (
+      {/* Fullscreen Lightbox Modal */}
+      {activeLightboxIndex !== null && currentPhoto && (
         <div
           className="portfolio-lightbox-overlay"
           role="dialog"
           aria-modal="true"
-          onClick={() => setActiveLightbox(null)}
+          onClick={() => setActiveLightboxIndex(null)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
-          <button
-            type="button"
-            className="portfolio-lightbox-close"
-            onClick={() => setActiveLightbox(null)}
-            aria-label="Close enlarged photo"
-          >
-            <X size={22} />
-          </button>
+          {/* Top Control Bar */}
+          <div className="lightbox-top-bar" onClick={(e) => e.stopPropagation()}>
+            <div className="lightbox-counter-badge">
+              <Images size={15} />
+              <span>{activeLightboxIndex + 1} of {galleryImages.length}</span>
+            </div>
+
+            <button
+              type="button"
+              className="portfolio-lightbox-close"
+              onClick={() => setActiveLightboxIndex(null)}
+              aria-label="Close enlarged photo"
+            >
+              <X size={22} />
+            </button>
+          </div>
+
+          {/* Navigation Arrows */}
+          {galleryImages.length > 1 && (
+            <>
+              <button
+                type="button"
+                className="lightbox-nav-btn lightbox-prev-btn"
+                onClick={handlePrev}
+                aria-label="Previous photo (Left arrow)"
+              >
+                <ChevronLeft size={28} />
+              </button>
+              <button
+                type="button"
+                className="lightbox-nav-btn lightbox-next-btn"
+                onClick={handleNext}
+                aria-label="Next photo (Right arrow)"
+              >
+                <ChevronRight size={28} />
+              </button>
+            </>
+          )}
+
+          {/* Centered Main Image */}
           <div className="portfolio-lightbox-content" onClick={(e) => e.stopPropagation()}>
             <img
-              src={activeLightbox.url}
-              alt={activeLightbox.alt || project.title}
+              src={currentPhoto.url}
+              alt={currentPhoto.alt || `${project.title} photo ${activeLightboxIndex + 1}`}
               className="portfolio-lightbox-image"
+              decoding="async"
             />
+
+            {/* Bottom Caption Bar */}
             <div className="portfolio-lightbox-caption">
-              <span className="portfolio-lightbox-category">{project.title} • {project.category}</span>
+              <div className="lightbox-caption-meta">
+                <span className="portfolio-lightbox-category">{project.category}</span>
+                <span className="lightbox-caption-title">{project.title}</span>
+                <span className="lightbox-caption-loc">• {project.location}</span>
+              </div>
               <a
-                href={projectWhatsAppUrl}
+                href={getWhatsAppUrl(
+                  `Hi ${COMPANY_INFO.name}, I was viewing photo #${activeLightboxIndex + 1} of your project "${project.title}" (${project.location}) on saifiinteriorhub.in and would like to discuss similar interior execution.`
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-whatsapp lightbox-whatsapp-btn"
@@ -483,4 +593,3 @@ export default function ProjectDetailPage() {
     </div>
   );
 }
-

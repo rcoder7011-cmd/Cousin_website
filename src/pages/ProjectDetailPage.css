@@ -116,59 +116,363 @@
   margin-bottom: 2rem;
 }
 
-/* Primary Cover Image Showcase */
-.project-cover-showcase {
+/* ==========================================================================
+   Premium Multi-Image Editorial Gallery Showcase — Saifi Interior Hub
+   Editorial Asymmetric Portfolio Grid & Fullscreen Lightbox
+   ========================================================================== */
+
+.project-gallery-showcase {
   margin-bottom: var(--space-12);
 }
 
-.project-cover-frame {
-  position: relative;
-  width: 100%;
-  max-height: 640px;
-  overflow: hidden;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-secondary);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+.gallery-editorial-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  grid-auto-flow: dense;
 }
 
-.project-cover-img {
+/* Tablet (2 columns) */
+@media (min-width: 640px) and (max-width: 991px) {
+  .gallery-editorial-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 240px;
+  }
+
+  .gallery-editorial-grid .gallery-item-hero {
+    grid-column: span 2;
+    grid-row: span 2;
+    min-height: 380px;
+  }
+}
+
+/* Desktop: 3-column Luxury Editorial Asymmetric Layout */
+@media (min-width: 992px) {
+  .gallery-editorial-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 235px;
+    gap: 1.25rem;
+  }
+
+  /* First photo is larger architectural hero highlight spanning 2 cols x 2 rows */
+  .gallery-editorial-grid .gallery-item-hero {
+    grid-column: span 2;
+    grid-row: span 2;
+    min-height: 480px;
+  }
+
+  /* Single-image edge case */
+  .gallery-editorial-grid.gallery-count-1 .gallery-item-hero {
+    grid-column: span 3;
+    grid-row: span 2;
+    min-height: 520px;
+  }
+
+  /* Two-image edge case */
+  .gallery-editorial-grid.gallery-count-2 {
+    grid-template-columns: 1.8fr 1fr;
+  }
+
+  .gallery-editorial-grid.gallery-count-2 .gallery-item-hero {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+}
+
+/* Mobile Screen Tuning (< 640px) */
+@media (max-width: 639px) {
+  .gallery-editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .gallery-editorial-grid .project-gallery-item {
+    aspect-ratio: 16 / 10;
+    min-height: 220px;
+  }
+
+  .gallery-editorial-grid .gallery-item-hero {
+    aspect-ratio: 4 / 3;
+    min-height: 280px;
+  }
+}
+
+/* Gallery Item Card */
+.project-gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease,
+              border-color 0.3s ease;
+  outline: none;
+}
+
+.project-gallery-item:hover,
+.project-gallery-item:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+  border-color: rgba(179, 136, 56, 0.45);
+}
+
+.project-gallery-item:focus-visible {
+  outline: 2px solid var(--color-accent-dark);
+  outline-offset: 3px;
+}
+
+/* Image inside gallery card */
+.gallery-item-img {
   width: 100%;
-  height: auto;
-  max-height: 640px;
+  height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
-.project-cover-frame:hover .project-cover-img {
-  transform: scale(1.02);
+.project-gallery-item:hover .gallery-item-img {
+  transform: scale(1.04);
 }
 
-.project-cover-overlay {
+/* Elegant Dark Gradient Overlay on Hover */
+.gallery-item-overlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 2rem;
-  background: linear-gradient(180deg, transparent 0%, rgba(18, 17, 16, 0.75) 100%);
-  color: #fff;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(18, 17, 16, 0.75) 100%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
+  justify-content: space-between;
+  padding: 1.25rem;
   pointer-events: none;
 }
 
-.project-cover-caption-title {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: #fff;
+.project-gallery-item:hover .gallery-item-overlay,
+.project-gallery-item:focus-visible .gallery-item-overlay {
+  opacity: 1;
 }
 
-.project-cover-caption-sub {
+.gallery-item-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(18, 17, 16, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-full);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+/* "+N More Photos" 6th Card Overlay */
+.gallery-more-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 14, 13, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer;
+  z-index: 5;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.gallery-more-overlay:hover {
+  background: rgba(179, 136, 56, 0.88);
+}
+
+.gallery-more-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1.25rem;
+}
+
+.gallery-more-icon {
+  color: #f7d794;
+  margin-bottom: 0.25rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.gallery-more-count {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.gallery-more-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* View All Photos Expand / Collapse Bar */
+.gallery-expand-bar {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.8rem;
+  border-radius: var(--radius-full);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.gallery-expand-btn:hover {
+  border-color: var(--color-accent-dark);
+  color: var(--color-accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================================================
+   Fullscreen Lightbox Modal Controls & Viewport Layout
+   ========================================================================== */
+
+.lightbox-top-bar {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2515;
+  pointer-events: auto;
+}
+
+.lightbox-counter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  color: #ffffff;
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Lightbox Prev / Next Navigation Buttons */
+.lightbox-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(18, 17, 16, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2510;
+  user-select: none;
+}
+
+.lightbox-nav-btn:hover {
+  background-color: rgba(179, 136, 56, 0.95);
+  border-color: #d4af37;
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox-nav-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.lightbox-prev-btn {
+  left: 1.5rem;
+}
+
+.lightbox-next-btn {
+  right: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .lightbox-top-bar {
+    top: 0.85rem;
+    left: 1rem;
+    right: 1rem;
+  }
+
+  .lightbox-counter-badge {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .lightbox-nav-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .lightbox-prev-btn {
+    left: 0.5rem;
+  }
+
+  .lightbox-next-btn {
+    right: 0.5rem;
+  }
+}
+
+.lightbox-caption-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.lightbox-caption-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.lightbox-caption-loc {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 /* Project Specifications & Scope Grid */

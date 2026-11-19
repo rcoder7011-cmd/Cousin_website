@@ -28,34 +28,51 @@ export function normalizeProject(raw) {
     : (typeof raw.category === 'string' ? raw.category.toLowerCase().replace(/\s+/g, '-') : 'all');
 
   // Normalize gallery images
-  let images = [];
+  let rawList = [];
   if (Array.isArray(raw.images) && raw.images.length > 0) {
-    images = raw.images.map((img, idx) => {
+    rawList = raw.images.map((img, idx) => {
       if (typeof img === 'string') {
         return {
           id: `img-${idx}`,
           url: resolveImageUrl(img),
-          alt: raw.title || 'Interior project photo - Saifi Interior Hub',
+          alt: raw.title ? `${raw.title} - View ${idx + 1}` : 'Interior project photo - Saifi Interior Hub',
           displayOrder: idx
         };
       }
       return {
         id: img.id || `img-${idx}`,
-        url: resolveImageUrl(img.image_url),
-        alt: img.alt_text || raw.title || 'Interior project photo - Saifi Interior Hub',
-        displayOrder: img.display_order ?? idx
+        url: resolveImageUrl(img.image_url || img.url),
+        alt: img.alt_text || img.alt || (raw.title ? `${raw.title} - View ${idx + 1}` : 'Interior project photo - Saifi Interior Hub'),
+        displayOrder: img.display_order ?? img.displayOrder ?? idx
       };
     });
-  } else if (raw.cover_image || raw.coverImage) {
-    images = [{
-      id: 'cover-0',
-      url: resolveImageUrl(raw.cover_image || raw.coverImage),
-      alt: raw.title || 'Interior project cover - Saifi Interior Hub',
-      displayOrder: 0
-    }];
   }
 
+  // Sort by display order
+  rawList.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
+
+  // Ensure cover image is placed at index 0 and deduplicated
   const coverUrl = resolveImageUrl(raw.cover_image || raw.coverImage);
+  let images = [];
+  if (coverUrl) {
+    const existingCoverIndex = rawList.findIndex(item => item.url === coverUrl);
+    if (existingCoverIndex !== -1) {
+      const [coverItem] = rawList.splice(existingCoverIndex, 1);
+      images = [coverItem, ...rawList];
+    } else {
+      images = [
+        {
+          id: 'cover-0',
+          url: coverUrl,
+          alt: raw.title ? `${raw.title} - Main Highlight View` : 'Interior project cover - Saifi Interior Hub',
+          displayOrder: -1
+        },
+        ...rawList
+      ];
+    }
+  } else {
+    images = rawList;
+  }
 
   return {
     id: raw.id,
@@ -326,6 +343,7 @@ export async function getProjectBySlug(slug, { allowDraft = false } = {}) {
         category:categories ( id, name, slug ),
         images:project_images ( id, image_url, alt_text, display_order )
       `)
+      .order('display_order', { foreignTable: 'project_images', ascending: true })
       .eq('slug', cleanSlug);
 
     if (!allowDraft) {

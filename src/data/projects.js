@@ -1299,6 +1299,13 @@ export const PROJECTS = PROJECT_PHOTOS.map((photo, idx) => {
   else if (photo.id === "living-room-07" || photo.filename === "4f7d5a2e-920d-47ae-8379-123563d80df4.png") id = "luxury-living-dining-delhi";
   else if (photo.id === "office-06" || photo.filename === "619a0583-75a7-4f10-a6b5-811d0b650f0a.png") id = "executive-office-suite-noida";
 
+  // Sibling detail photos from the same category (5-6 total images for multi-image portfolio gallery)
+  const siblingPhotos = PROJECT_PHOTOS.filter(p => p.category === cat && p.src !== photo.src);
+  const galleryImages = [
+    photo.src,
+    ...siblingPhotos.slice(0, 5).map(p => p.src)
+  ];
+
   return {
     id,
     title,
@@ -1311,7 +1318,7 @@ export const PROJECTS = PROJECT_PHOTOS.map((photo, idx) => {
     isFeatured: countInCat <= 2, // Top 2 of each category are featured
     isPublished: true,
     coverImage: photo.src,
-    images: [photo.src],
+    images: galleryImages,
     width: photo.width,
     height: photo.height,
     displayOrder: idx + 1,
