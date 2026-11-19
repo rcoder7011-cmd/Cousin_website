@@ -273,7 +273,7 @@ export default function AdminProjectsPage() {
             </p>
           </div>
 
-          <Link to="/admin/projects/new" className="add-project-btn">
+          <Link to="/nimda-portal/projects/new" className="add-project-btn">
             <Plus size={18} />
             <span>Add New Project</span>
           </Link>
@@ -468,7 +468,7 @@ export default function AdminProjectsPage() {
                     Reset Filters
                   </button>
                 ) : (
-                  <Link to="/admin/projects/new" className="add-project-btn">
+                  <Link to="/nimda-portal/projects/new" className="add-project-btn">
                     <Plus size={16} />
                     <span>Create Your First Project</span>
                   </Link>
@@ -505,7 +505,7 @@ export default function AdminProjectsPage() {
                           />
                           <div>
                             <Link
-                              to={`/admin/projects/${project.id}/edit`}
+                              to={`/nimda-portal/projects/${project.id}/edit`}
                               className="project-title-text"
                               title="Edit project details"
                             >
@@ -605,7 +605,7 @@ export default function AdminProjectsPage() {
 
                           {/* Edit Form */}
                           <Link
-                            to={`/admin/projects/${project.id}/edit`}
+                            to={`/nimda-portal/projects/${project.id}/edit`}
                             className="action-icon-btn"
                             title="Edit project details and images"
                             aria-label={`Edit ${project.title}`}

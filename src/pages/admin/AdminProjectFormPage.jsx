@@ -374,7 +374,7 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
           throw new Error(error?.message || 'Failed to create project in database.');
         }
 
-        navigate('/admin/projects', {
+        navigate('/nimda-portal/projects', {
           state: {
             toast: `Project "${title}" created successfully ${effectivePublished ? 'and published' : 'as draft'}.`
           }
@@ -405,7 +405,7 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
           throw new Error(error?.message || 'Failed to update project in database.');
         }
 
-        navigate('/admin/projects', {
+        navigate('/nimda-portal/projects', {
           state: {
             toast: `Project "${title}" updated successfully.`
           }
@@ -431,7 +431,7 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
     if (!success || error) {
       setGeneralError(error?.message || 'Failed to delete project.');
     } else {
-      navigate('/admin/projects', {
+      navigate('/nimda-portal/projects', {
         state: { toast: `Project "${title}" was permanently removed.` }
       });
     }
@@ -456,7 +456,7 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
         {/* Top Header Bar */}
         <div className="form-header-bar">
           <div>
-            <Link to="/admin/projects" className="form-back-link">
+            <Link to="/nimda-portal/projects" className="form-back-link">
               <ArrowLeft size={15} />
               <span>Back to Projects</span>
             </Link>
@@ -1015,7 +1015,7 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
 
                   <button
                     type="button"
-                    onClick={() => navigate('/admin/projects')}
+                    onClick={() => navigate('/nimda-portal/projects')}
                     disabled={isSubmitting}
                     style={{
                       background: 'none',

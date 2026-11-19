@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation, Link, Navigate } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import {
@@ -8,13 +8,55 @@ import {
   EyeOff,
   AlertCircle,
   ArrowLeft,
-  ArrowRight
+  ArrowRight,
+  ShieldAlert
 } from 'lucide-react';
 import { useAuth } from '../../context/useAuth';
 import { COMPANY_INFO } from '../../data/designer';
 import { BACKEND_CONFIG } from '../../config/backendConfig';
 import { gsap, isReducedMotion } from '../../utils/gsapConfig';
 import './AdminLoginPage.css';
+
+const RATE_LIMIT_KEY = 'saifi_admin_login_rate_limit_v1';
+const MAX_ATTEMPTS = 5;
+const LOCKOUT_MS = 60 * 1000; // 60 seconds lockout after 5 consecutive failures
+
+function getRateLimitState() {
+  try {
+    const raw = sessionStorage.getItem(RATE_LIMIT_KEY);
+    if (!raw) return { attempts: 0, lockUntil: 0 };
+    const parsed = JSON.parse(raw);
+    return {
+      attempts: Number(parsed.attempts) || 0,
+      lockUntil: Number(parsed.lockUntil) || 0
+    };
+  } catch {
+    return { attempts: 0, lockUntil: 0 };
+  }
+}
+
+function recordFailedAttempt() {
+  const current = getRateLimitState();
+  const newAttempts = current.attempts + 1;
+  let lockUntil = current.lockUntil;
+  if (newAttempts >= MAX_ATTEMPTS) {
+    lockUntil = Date.now() + LOCKOUT_MS;
+  }
+  try {
+    sessionStorage.setItem(RATE_LIMIT_KEY, JSON.stringify({ attempts: newAttempts, lockUntil }));
+  } catch {
+    // Ignore storage restrictions
+  }
+  return { attempts: newAttempts, lockUntil };
+}
+
+function clearRateLimit() {
+  try {
+    sessionStorage.removeItem(RATE_LIMIT_KEY);
+  } catch {
+    // Ignore storage restrictions
+  }
+}
 
 export default function AdminLoginPage() {
   const { login, user, isAdmin, isLoading } = useAuth();
@@ -28,9 +70,27 @@ export default function AdminLoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [generalError, setGeneralError] = useState('');
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
 
   // If already logged in as authorized admin, redirect immediately
-  const destination = location.state?.from?.pathname || '/admin/dashboard';
+  const destination = location.state?.from?.pathname || '/nimda-portal/dashboard';
+
+  // Check rate limit state on mount and update countdown
+  useEffect(() => {
+    const checkRateLimit = () => {
+      const state = getRateLimitState();
+      const remainingMs = state.lockUntil - Date.now();
+      if (remainingMs > 0) {
+        setCooldownSeconds(Math.ceil(remainingMs / 1000));
+      } else {
+        setCooldownSeconds(0);
+      }
+    };
+
+    checkRateLimit();
+    const interval = setInterval(checkRateLimit, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   // GSAP subtle entrance animation
   useGSAP(() => {
@@ -75,6 +135,11 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setGeneralError('');
 
+    if (cooldownSeconds > 0) {
+      setGeneralError(`Too many failed login attempts. Please wait ${cooldownSeconds} seconds before trying again.`);
+      return;
+    }
+
     if (!validate()) return;
 
     setIsSubmitting(true);
@@ -82,9 +147,17 @@ export default function AdminLoginPage() {
     setIsSubmitting(false);
 
     if (result.success) {
+      clearRateLimit();
       navigate(destination, { replace: true });
     } else {
-      setGeneralError(result.error?.message || 'Login failed. Please verify your credentials.');
+      const updated = recordFailedAttempt();
+      if (updated.lockUntil > Date.now()) {
+        const remaining = Math.ceil((updated.lockUntil - Date.now()) / 1000);
+        setCooldownSeconds(remaining);
+        setGeneralError(`Too many failed login attempts. For security, login is locked for ${remaining} seconds.`);
+      } else {
+        setGeneralError(result.error?.message || 'Invalid email address or password. Please try again.');
+      }
     }
   };
 
@@ -233,7 +306,7 @@ export default function AdminLoginPage() {
 
           {/* Forgot Password Link */}
           <div className="admin-form-options">
-            <Link to="/admin/forgot-password" className="admin-forgot-link">
+            <Link to="/nimda-portal/forgot-password" className="admin-forgot-link">
               Forgot your password?
             </Link>
           </div>
@@ -242,12 +315,17 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             className="admin-submit-btn"
-            disabled={isSubmitting}
+            disabled={isSubmitting || cooldownSeconds > 0}
           >
             {isSubmitting ? (
               <>
                 <div className="admin-btn-spinner" aria-hidden="true" />
                 <span>Verifying Credentials...</span>
+              </>
+            ) : cooldownSeconds > 0 ? (
+              <>
+                <ShieldAlert size={16} />
+                <span>Locked ({cooldownSeconds}s)</span>
               </>
             ) : (
               <>

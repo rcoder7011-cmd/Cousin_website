@@ -53,7 +53,7 @@ export default function AdminResetPasswordPage() {
     if (result.success) {
       setSuccess(true);
       setTimeout(() => {
-        navigate('/admin/dashboard');
+        navigate('/nimda-portal/dashboard');
       }, 2500);
     } else {
       setErrorMsg(result.error?.message || 'Unable to update password. Your recovery link may have expired.');
@@ -89,7 +89,7 @@ export default function AdminResetPasswordPage() {
               Your new password is now active. Redirecting you to the admin portal...
             </p>
             <div style={{ marginTop: '1.25rem' }}>
-              <Link to="/admin/dashboard" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+              <Link to="/nimda-portal/dashboard" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
                 <span>Continue to Dashboard</span>
                 <ArrowRight size={14} />
               </Link>

@@ -80,7 +80,7 @@ export default function AdminForgotPasswordPage() {
               If an authorized administrator account exists for <strong>{email}</strong>, a password reset link has been dispatched. Please check your inbox and spam folder.
             </p>
             <div style={{ marginTop: '1.25rem' }}>
-              <Link to="/admin/login" className="btn btn-outline" style={{ width: '100%', justifyContent: 'center' }}>
+              <Link to="/nimda-portal/login" className="btn btn-outline" style={{ width: '100%', justifyContent: 'center' }}>
                 <ArrowLeft size={14} />
                 <span>Return to Admin Login</span>
               </Link>
@@ -136,7 +136,7 @@ export default function AdminForgotPasswordPage() {
             </form>
 
             <footer className="admin-login-footer">
-              <Link to="/admin/login" className="admin-back-link">
+              <Link to="/nimda-portal/login" className="admin-back-link">
                 <ArrowLeft size={14} />
                 <span>Back to Admin Login</span>
               </Link>

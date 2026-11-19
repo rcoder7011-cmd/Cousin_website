@@ -1,13 +1,15 @@
 import React, { useEffect, Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import WhatsAppButton from './components/common/WhatsAppButton';
 import HomePage from './pages/HomePage';
+import NotFoundPage from './pages/NotFoundPage';
 import AdminRouteGuard from './components/admin/AdminRouteGuard';
 import { AuthProvider } from './context/AuthContext';
 import { SettingsProvider } from './context/SettingsContext';
 import { refreshScrollTrigger } from './utils/gsapConfig';
+import { ADMIN_ROUTES } from './config/adminRoutes';
 
 // Code-split Public Pages (Preloaded or on-demand to optimize initial bundle)
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
@@ -87,7 +89,7 @@ function PageLoadingFallback({ isAdmin }) {
  */
 function AppLayout({ children }) {
   const { pathname } = useLocation();
-  const isAdminRoute = pathname.startsWith('/admin');
+  const isAdminRoute = pathname.startsWith('/nimda-portal') || pathname.startsWith('/studio-portal');
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -114,107 +116,129 @@ export default function App() {
           <ScrollToTop />
           <AppLayout>
             <Routes>
-            {/* Public Portfolio Routes */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/projects/:slug" element={<ProjectDetailPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/contact" element={<ContactPage />} />
+              {/* Public Portfolio Routes */}
+              <Route path="/" element={<HomePage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
 
-            {/* Admin Authentication Routes */}
-            <Route path="/admin/login" element={<AdminLoginPage />} />
-            <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
-            <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
+              {/* Hardened Admin Portal Authentication Routes (/nimda-portal/*) */}
+              <Route path={ADMIN_ROUTES.LOGIN} element={<AdminLoginPage />} />
+              <Route path={ADMIN_ROUTES.FORGOT_PASSWORD} element={<AdminForgotPasswordPage />} />
+              <Route path={ADMIN_ROUTES.RESET_PASSWORD} element={<AdminResetPasswordPage />} />
 
-            {/* Protected Admin Routes */}
-            <Route
-              path="/admin"
-              element={
-                <AdminRouteGuard>
-                  <AdminDashboardPage />
-                </AdminRouteGuard>
-              }
-            />
-            <Route
-              path="/admin/dashboard"
-              element={
-                <AdminRouteGuard>
-                  <AdminDashboardPage />
-                </AdminRouteGuard>
-              }
-            />
-            <Route
-              path="/admin/projects"
-              element={
-                <AdminRouteGuard>
-                  <AdminProjectsPage />
-                </AdminRouteGuard>
-              }
-            />
-            <Route
-              path="/admin/projects/new"
-              element={
-                <AdminRouteGuard>
-                  <AdminProjectFormPage mode="create" />
-                </AdminRouteGuard>
-              }
-            />
-            <Route
-              path="/admin/projects/:id/edit"
-              element={
-                <AdminRouteGuard>
-                  <AdminProjectFormPage mode="edit" />
-                </AdminRouteGuard>
-              }
-            />
-            <Route
-              path="/admin/categories"
-              element={
-                <AdminRouteGuard>
-                  <AdminCategoriesPage />
-                </AdminRouteGuard>
-              }
-            />
-            <Route
-              path="/admin/categories/new"
-              element={
-                <AdminRouteGuard>
-                  <AdminCategoryFormPage mode="create" />
-                </AdminRouteGuard>
-              }
-            />
-            <Route
-              path="/admin/categories/:id/edit"
-              element={
-                <AdminRouteGuard>
-                  <AdminCategoryFormPage mode="edit" />
-                </AdminRouteGuard>
-              }
-            />
-            <Route
-              path="/admin/media"
-              element={
-                <AdminRouteGuard>
-                  <AdminMediaLibraryPage />
-                </AdminRouteGuard>
-              }
-            />
-            <Route
-              path="/admin/settings"
-              element={
-                <AdminRouteGuard>
-                  <AdminSettingsPage />
-                </AdminRouteGuard>
-              }
-            />
+              {/* Protected Admin Routes */}
+              <Route
+                path={ADMIN_ROUTES.BASE}
+                element={
+                  <AdminRouteGuard>
+                    <AdminDashboardPage />
+                  </AdminRouteGuard>
+                }
+              />
+              <Route
+                path={ADMIN_ROUTES.DASHBOARD}
+                element={
+                  <AdminRouteGuard>
+                    <AdminDashboardPage />
+                  </AdminRouteGuard>
+                }
+              />
+              <Route
+                path={ADMIN_ROUTES.PROJECTS}
+                element={
+                  <AdminRouteGuard>
+                    <AdminProjectsPage />
+                  </AdminRouteGuard>
+                }
+              />
+              <Route
+                path={ADMIN_ROUTES.PROJECTS_NEW}
+                element={
+                  <AdminRouteGuard>
+                    <AdminProjectFormPage mode="create" />
+                  </AdminRouteGuard>
+                }
+              />
+              <Route
+                path="/nimda-portal/projects/:id/edit"
+                element={
+                  <AdminRouteGuard>
+                    <AdminProjectFormPage mode="edit" />
+                  </AdminRouteGuard>
+                }
+              />
+              <Route
+                path={ADMIN_ROUTES.CATEGORIES}
+                element={
+                  <AdminRouteGuard>
+                    <AdminCategoriesPage />
+                  </AdminRouteGuard>
+                }
+              />
+              <Route
+                path={ADMIN_ROUTES.CATEGORIES_NEW}
+                element={
+                  <AdminRouteGuard>
+                    <AdminCategoryFormPage mode="create" />
+                  </AdminRouteGuard>
+                }
+              />
+              <Route
+                path="/nimda-portal/categories/:id/edit"
+                element={
+                  <AdminRouteGuard>
+                    <AdminCategoryFormPage mode="edit" />
+                  </AdminRouteGuard>
+                }
+              />
+              <Route
+                path={ADMIN_ROUTES.MEDIA}
+                element={
+                  <AdminRouteGuard>
+                    <AdminMediaLibraryPage />
+                  </AdminRouteGuard>
+                }
+              />
+              <Route
+                path={ADMIN_ROUTES.SETTINGS}
+                element={
+                  <AdminRouteGuard>
+                    <AdminSettingsPage />
+                  </AdminRouteGuard>
+                }
+              />
 
-            {/* Catch-all fallback */}
-            <Route path="*" element={<HomePage />} />
-          </Routes>
-        </AppLayout>
-      </BrowserRouter>
-    </SettingsProvider>
-  </AuthProvider>
-);
+              {/* Studio Portal Protection: Visiting /studio-portal without login MUST NOT show dashboard */}
+              <Route
+                path="/studio-portal"
+                element={
+                  <AdminRouteGuard>
+                    <Navigate to={ADMIN_ROUTES.DASHBOARD} replace />
+                  </AdminRouteGuard>
+                }
+              />
+              <Route
+                path="/studio-portal/*"
+                element={
+                  <AdminRouteGuard>
+                    <Navigate to={ADMIN_ROUTES.DASHBOARD} replace />
+                  </AdminRouteGuard>
+                }
+              />
+
+              {/* Old /admin Route Protection: Safely return 404 Response and never expose dashboard */}
+              <Route path="/admin" element={<NotFoundPage />} />
+              <Route path="/admin/*" element={<NotFoundPage />} />
+
+              {/* Catch-all 404 fallback for undefined routes */}
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </AppLayout>
+        </BrowserRouter>
+      </SettingsProvider>
+    </AuthProvider>
+  );
 }

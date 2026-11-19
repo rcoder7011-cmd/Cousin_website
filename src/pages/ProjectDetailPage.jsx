@@ -286,7 +286,7 @@ export default function ProjectDetailPage() {
           <FileEdit size={16} />
           <span>Admin Preview Mode: This project is currently saved as DRAFT and is not visible to public visitors.</span>
           <Link
-            to={`/admin/projects/${project.id}/edit`}
+            to={`/nimda-portal/projects/${project.id}/edit`}
             style={{
               color: '#d96509',
               textDecoration: 'underline',

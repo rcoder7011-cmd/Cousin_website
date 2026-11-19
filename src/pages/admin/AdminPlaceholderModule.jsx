@@ -195,7 +195,7 @@ export default function AdminPlaceholderModule({ moduleKey = 'projects' }) {
           </div>
 
           <Link
-            to="/admin/dashboard"
+            to="/nimda-portal/dashboard"
             className="btn btn-outline"
             style={{
               display: 'inline-flex',

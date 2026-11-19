@@ -306,7 +306,7 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
 
         showToast(`Category "${name.trim()}" created successfully!`);
         setTimeout(() => {
-          navigate('/admin/categories');
+          navigate('/nimda-portal/categories');
         }, 900);
       } else {
         const { error } = await updateCategory(id, categoryPayload, {
@@ -317,7 +317,7 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
 
         showToast(`Category "${name.trim()}" updated successfully!`);
         setTimeout(() => {
-          navigate('/admin/categories');
+          navigate('/nimda-portal/categories');
         }, 900);
       }
     } catch (err) {
@@ -349,7 +349,7 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
       showToast(`Category "${name}" deleted successfully.`);
       setShowDeleteModal(false);
       setTimeout(() => {
-        navigate('/admin/categories');
+        navigate('/nimda-portal/categories');
       }, 700);
     }
   };
@@ -382,7 +382,7 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
         {/* 1. TOP HEADER & NAVIGATION BAR */}
         <div className="form-header-bar">
           <div className="header-left">
-            <Link to="/admin/categories" className="back-link">
+            <Link to="/nimda-portal/categories" className="back-link">
               <ArrowLeft size={16} />
               <span>Back to Categories</span>
             </Link>
@@ -397,7 +397,7 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
           </div>
 
           <div className="header-actions">
-            <Link to="/admin/categories" className="btn btn-outline">
+            <Link to="/nimda-portal/categories" className="btn btn-outline">
               Cancel
             </Link>
 
@@ -791,7 +791,7 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
 
                       {projectsCount > 0 ? (
                         <Link
-                          to={`/admin/projects?category=${id}`}
+                          to={`/nimda-portal/projects?category=${id}`}
                           className="btn btn-outline view-projects-btn"
                         >
                           <FolderKanban size={15} />
@@ -840,7 +840,7 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
                   )}
                 </button>
 
-                <Link to="/admin/categories" className="btn btn-outline cancel-full-btn">
+                <Link to="/nimda-portal/categories" className="btn btn-outline cancel-full-btn">
                   Cancel
                 </Link>
               </div>
@@ -924,7 +924,7 @@ export default function AdminCategoryFormPage({ mode = 'create' }) {
 
                 {projectsCount > 0 ? (
                   <Link
-                    to={`/admin/projects?category=${id}`}
+                    to={`/nimda-portal/projects?category=${id}`}
                     onClick={() => setShowDeleteModal(false)}
                     className="btn btn-primary"
                   >

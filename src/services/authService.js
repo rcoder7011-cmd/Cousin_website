@@ -117,12 +117,16 @@ export async function loginAdmin(email, password) {
 
   } catch (err) {
     console.error('[authService] Login failure:', err.message);
-    // User-friendly error message mapping
-    let userMessage = err.message || 'Unable to log in. Please check your credentials.';
-    if (err.message?.includes('Invalid login credentials')) {
-      userMessage = 'Invalid email address or password. Please try again.';
-    } else if (err.message?.includes('Email not confirmed')) {
+    // User-friendly error message mapping (Sanitize internal messages to prevent account enumeration)
+    let userMessage = 'Invalid email address or password. Please try again.';
+    const errMsg = (err.message || '').toLowerCase();
+
+    if (errMsg.includes('rate limit') || errMsg.includes('too many requests') || err.status === 429) {
+      userMessage = 'Too many login attempts. Please wait a few minutes before trying again.';
+    } else if (errMsg.includes('email not confirmed')) {
       userMessage = 'Email address has not been confirmed in Supabase Auth.';
+    } else if (errMsg.includes('access denied')) {
+      userMessage = err.message;
     }
     return { user: null, session: null, profile: null, error: new Error(userMessage) };
   }
@@ -263,7 +267,7 @@ export async function checkAdminAuthorization() {
 
 /**
  * Send password recovery email via Supabase Auth
- * Redirects the admin back to `/admin/reset-password`
+ * Redirects the admin back to `/nimda-portal/reset-password`
  *
  * @param {string} email
  * @returns {Promise<{ success: boolean, error: Error | null }>}
@@ -284,7 +288,7 @@ export async function sendPasswordResetEmail(email) {
 
   try {
     const siteUrl = window.location.origin;
-    const redirectUrl = `${siteUrl}/admin/reset-password`;
+    const redirectUrl = `${siteUrl}/nimda-portal/reset-password`;
 
     const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
       redirectTo: redirectUrl,

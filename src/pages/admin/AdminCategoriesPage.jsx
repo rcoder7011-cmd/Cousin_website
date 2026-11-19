@@ -275,7 +275,7 @@ export default function AdminCategoriesPage() {
               <span>{isSeeding ? 'Checking...' : 'Seed Suggested'}</span>
             </button>
 
-            <Link to="/admin/categories/new" className="add-category-btn">
+            <Link to="/nimda-portal/categories/new" className="add-category-btn">
               <Plus size={18} />
               <span>+ Add New Category</span>
             </Link>
@@ -461,7 +461,7 @@ export default function AdminCategoriesPage() {
                       <Sparkles size={16} />
                       <span>{isSeeding ? 'Seeding...' : 'Seed Suggested Categories'}</span>
                     </button>
-                    <Link to="/admin/categories/new" className="add-category-btn">
+                    <Link to="/nimda-portal/categories/new" className="add-category-btn">
                       <Plus size={16} />
                       <span>+ Add New Category</span>
                     </Link>
@@ -548,7 +548,7 @@ export default function AdminCategoriesPage() {
                         <td style={{ textAlign: 'center' }}>
                           {hasProjects ? (
                             <Link
-                              to={`/admin/projects?category=${category.id}`}
+                              to={`/nimda-portal/projects?category=${category.id}`}
                               className="projects-count-badge has-count"
                               title={`View ${category.projects_count} project(s) assigned to ${category.name}`}
                             >
@@ -593,7 +593,7 @@ export default function AdminCategoriesPage() {
                           <div className="cat-action-group">
                             {/* View Projects */}
                             <Link
-                              to={`/admin/projects?category=${category.id}`}
+                              to={`/nimda-portal/projects?category=${category.id}`}
                               className="action-icon-btn"
                               title={`View projects assigned to ${category.name}`}
                               aria-label={`View projects assigned to ${category.name}`}
@@ -603,7 +603,7 @@ export default function AdminCategoriesPage() {
 
                             {/* Edit */}
                             <Link
-                              to={`/admin/categories/${category.id}/edit`}
+                              to={`/nimda-portal/categories/${category.id}/edit`}
                               className="action-icon-btn"
                               title={`Edit category ${category.name}`}
                               aria-label={`Edit category ${category.name}`}
@@ -709,7 +709,7 @@ export default function AdminCategoriesPage() {
 
                 {deleteTarget.projects_count > 0 ? (
                   <Link
-                    to={`/admin/projects?category=${deleteTarget.id}`}
+                    to={`/nimda-portal/projects?category=${deleteTarget.id}`}
                     onClick={() => setDeleteTarget(null)}
                     className="btn btn-primary"
                   >

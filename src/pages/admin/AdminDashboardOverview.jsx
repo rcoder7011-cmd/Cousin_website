@@ -295,7 +295,7 @@ export default function AdminDashboardOverview() {
       <section aria-label="Studio quick actions">
         <h2 className="admin-section-title">Quick Studio Actions</h2>
         <div className="admin-actions-grid">
-          <Link to="/admin/projects/new" className="action-tile-btn">
+          <Link to="/nimda-portal/projects/new" className="action-tile-btn">
             <div className="action-tile-icon">
               <PlusCircle size={22} />
             </div>
@@ -307,7 +307,7 @@ export default function AdminDashboardOverview() {
             <ArrowRight size={16} color="var(--color-text-light)" />
           </Link>
 
-          <Link to="/admin/projects" className="action-tile-btn">
+          <Link to="/nimda-portal/projects" className="action-tile-btn">
             <div className="action-tile-icon">
               <FolderKanban size={22} />
             </div>
@@ -319,7 +319,7 @@ export default function AdminDashboardOverview() {
             <ArrowRight size={16} color="var(--color-text-light)" />
           </Link>
 
-          <Link to="/admin/categories" className="action-tile-btn">
+          <Link to="/nimda-portal/categories" className="action-tile-btn">
             <div className="action-tile-icon">
               <Layers size={22} />
             </div>
@@ -383,7 +383,7 @@ export default function AdminDashboardOverview() {
             </button>
 
             <Link
-              to="/admin/projects"
+              to="/nimda-portal/projects"
               className="btn btn-primary"
               style={{
                 fontSize: '0.78rem',
@@ -517,7 +517,7 @@ export default function AdminDashboardOverview() {
                         </Link>
 
                         <Link
-                          to={`/admin/projects/${project.id}/edit`}
+                          to={`/nimda-portal/projects/${project.id}/edit`}
                           className="btn btn-outline"
                           style={{
                             fontSize: '0.75rem',

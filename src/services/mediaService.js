@@ -101,7 +101,7 @@ export async function getMediaItems({
                 type: 'project_cover',
                 title: proj.title,
                 id: proj.id,
-                url: `/admin/projects/${proj.id}/edit`
+                url: `/nimda-portal/projects/${proj.id}/edit`
               }
             ]
           });
@@ -110,7 +110,7 @@ export async function getMediaItems({
             type: 'project_cover',
             title: proj.title,
             id: proj.id,
-            url: `/admin/projects/${proj.id}/edit`
+            url: `/nimda-portal/projects/${proj.id}/edit`
           });
         }
       }
@@ -140,7 +140,7 @@ export async function getMediaItems({
                   type: 'project_gallery',
                   title: `${proj.title} (Gallery #${idx + 1})`,
                   id: proj.id,
-                  url: `/admin/projects/${proj.id}/edit`
+                  url: `/nimda-portal/projects/${proj.id}/edit`
                 }
               ]
             });
@@ -149,7 +149,7 @@ export async function getMediaItems({
               type: 'project_gallery',
               title: `${proj.title} (Gallery #${idx + 1})`,
               id: proj.id,
-              url: `/admin/projects/${proj.id}/edit`
+              url: `/nimda-portal/projects/${proj.id}/edit`
             });
           }
         });
@@ -179,7 +179,7 @@ export async function getMediaItems({
                 type: 'category_cover',
                 title: cat.name,
                 id: cat.id,
-                url: `/admin/categories/${cat.id}/edit`
+                url: `/nimda-portal/categories/${cat.id}/edit`
               }
             ]
           });
@@ -188,7 +188,7 @@ export async function getMediaItems({
             type: 'category_cover',
             title: cat.name,
             id: cat.id,
-            url: `/admin/categories/${cat.id}/edit`
+            url: `/nimda-portal/categories/${cat.id}/edit`
           });
         }
       }
@@ -273,7 +273,7 @@ export async function getMediaItems({
           type: 'project_cover',
           title: p.title,
           id: p.id,
-          url: `/admin/projects/${p.id}/edit`
+          url: `/nimda-portal/projects/${p.id}/edit`
         });
       }
     });
@@ -286,7 +286,7 @@ export async function getMediaItems({
           title: g.project?.title ? `${g.project.title} (Gallery)` : 'Project Gallery',
           id: g.project_id,
           galleryImageId: g.id,
-          url: `/admin/projects/${g.project_id}/edit`
+          url: `/nimda-portal/projects/${g.project_id}/edit`
         }, g.alt_text);
       }
     });
@@ -298,7 +298,7 @@ export async function getMediaItems({
           type: 'category_cover',
           title: c.name,
           id: c.id,
-          url: `/admin/categories/${c.id}/edit`
+          url: `/nimda-portal/categories/${c.id}/edit`
         });
       }
     });

@@ -6,11 +6,11 @@ import { COMPANY_INFO } from '../../data/designer';
 import './AdminRouteGuard.css';
 
 /**
- * Higher-order Route Guard for protecting /admin/* routes.
+ * Higher-order Route Guard for protecting /nimda-portal/* routes.
  *
  * Rules:
  * 1. While authentication/authorization is verifying: Displays loading spinner (no content flash).
- * 2. If unauthenticated: Redirects to /admin/login preserving redirect destination.
+ * 2. If unauthenticated: Redirects to /nimda-portal/login preserving redirect destination.
  * 3. If authenticated but NOT authorized in admin_profiles: Renders Access Denied view.
  * 4. If authenticated AND authorized in admin_profiles: Renders protected children.
  */
@@ -33,9 +33,9 @@ export default function AdminRouteGuard({ children }) {
     );
   }
 
-  // 2. Unauthenticated: Redirect to login
+  // 2. Unauthenticated: Redirect to obfuscated admin login route
   if (!user) {
-    return <Navigate to="/admin/login" state={{ from: location }} replace />;
+    return <Navigate to="/nimda-portal/login" state={{ from: location }} replace />;
   }
 
   // 3. Authenticated but NOT authorized in admin_profiles

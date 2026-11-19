@@ -50,7 +50,7 @@ export default function AdminLayout({ children, pageTitle = 'Dashboard Overview'
 
   const handleLogout = async () => {
     await logout();
-    navigate('/admin/login', { replace: true });
+    navigate('/nimda-portal/login', { replace: true });
   };
 
   const adminName = profile?.full_name || user?.email?.split('@')[0] || 'Administrator';
@@ -58,32 +58,32 @@ export default function AdminLayout({ children, pageTitle = 'Dashboard Overview'
 
   const navItems = [
     {
-      to: '/admin/dashboard',
-      alias: '/admin',
+      to: '/nimda-portal/dashboard',
+      alias: '/nimda-portal',
       label: 'Dashboard',
       icon: LayoutDashboard,
       badge: null
     },
     {
-      to: '/admin/projects',
+      to: '/nimda-portal/projects',
       label: 'Projects',
       icon: FolderKanban,
       badge: null
     },
     {
-      to: '/admin/categories',
+      to: '/nimda-portal/categories',
       label: 'Categories',
       icon: Layers,
       badge: null
     },
     {
-      to: '/admin/media',
+      to: '/nimda-portal/media',
       label: 'Media Library',
       icon: ImageIcon,
       badge: null
     },
     {
-      to: '/admin/settings',
+      to: '/nimda-portal/settings',
       label: 'Website Settings',
       icon: Settings,
       badge: null
@@ -106,7 +106,7 @@ export default function AdminLayout({ children, pageTitle = 'Dashboard Overview'
         aria-label="Admin Navigation Sidebar"
       >
         <div className="admin-sidebar-header">
-          <Link to="/admin/dashboard" className="admin-sidebar-brand" onClick={() => setMobileNavOpen(false)}>
+          <Link to="/nimda-portal/dashboard" className="admin-sidebar-brand" onClick={() => setMobileNavOpen(false)}>
             <img
               src="/Website_Logo.png"
               alt="Saifi Interior Hub"
@@ -186,7 +186,7 @@ export default function AdminLayout({ children, pageTitle = 'Dashboard Overview'
             </button>
 
             <nav className="admin-page-breadcrumbs" aria-label="Admin breadcrumbs">
-              <Link to="/admin/dashboard" className="admin-breadcrumb-home">Admin</Link>
+              <Link to="/nimda-portal/dashboard" className="admin-breadcrumb-home">Admin</Link>
               <ChevronRight size={13} aria-hidden="true" />
               <span className="admin-breadcrumb-current">{pageTitle}</span>
             </nav>
