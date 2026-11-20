@@ -28,10 +28,10 @@ export const PROJECT_PHOTOS = [
     id: "bedroom-01",
     category: "Bedroom",
     folder: "Bedroom",
-    src: "/images/projects/Bedroom/0406c2c1d7eca7e5b398595aa81b3d41.jpg",
-    filename: "0406c2c1d7eca7e5b398595aa81b3d41.jpg",
-    width: 718,
-    height: 1200,
+    src: "/images/projects/Bedroom/0406c2c1d7eca7e5b398595aa81b3d41.png",
+    filename: "0406c2c1d7eca7e5b398595aa81b3d41.png",
+    width: 1536,
+    height: 1024,
     alt: "Bedroom interior design photograph 1"
   },
   {
