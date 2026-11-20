@@ -383,7 +383,7 @@ values
     'years_of_experience', 10,
     'phone', '+91 84498 02502',
     'whatsapp_number', '918449802502',
-    'email', 'enquiry@saifiinteriorhub.in',
+    'email', 'saifiinteriorhub@gmail.com',
     'service_areas', jsonb_build_array('Gurugram', 'Delhi', 'Noida')
   ))
 on conflict (setting_key) do update set

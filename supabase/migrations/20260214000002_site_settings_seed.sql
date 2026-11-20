@@ -16,7 +16,7 @@ values (
     'logo_url', null,
     'favicon_url', null,
     'default_language', 'en',
-    'contact_email', 'enquiry@saifiinteriorhub.in',
+    'contact_email', 'saifiinteriorhub@gmail.com',
     'maintenance_mode', false
   )
 )
@@ -35,7 +35,7 @@ values (
     'state', 'Delhi',
     'postal_code', '110001',
     'country', 'India',
-    'business_email', 'enquiry@saifiinteriorhub.in',
+    'business_email', 'saifiinteriorhub@gmail.com',
     'business_phone', '+91 84498 02502',
     'whatsapp_number', '918449802502',
     'working_hours', 'Mon – Sat: 9:00 AM – 8:00 PM (Sunday Closed)'
@@ -51,7 +51,7 @@ values (
     'primary_phone', '+91 84498 02502',
     'secondary_phone', '',
     'whatsapp_number', '918449802502',
-    'email', 'enquiry@saifiinteriorhub.in',
+    'email', 'saifiinteriorhub@gmail.com',
     'address', 'Gurugram • Delhi • Noida (Delhi NCR, India)',
     'google_maps_url', 'https://maps.google.com/?q=Delhi+NCR',
     'contact_description', 'Connect directly with Saifi Interior Hub for on-site visits, architectural space discussions, and transparent cost estimates across Gurugram, Delhi, and Noida.'
@@ -151,7 +151,7 @@ values (
     'copyright_text', '© {year} Saifi Interior Hub. All Rights Reserved.',
     'footer_address', 'Gurugram • Delhi • Noida',
     'footer_phone', '+91 84498 02502',
-    'footer_email', 'enquiry@saifiinteriorhub.in',
+    'footer_email', 'saifiinteriorhub@gmail.com',
     'show_social', true
   )
 )

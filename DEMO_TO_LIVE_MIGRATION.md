@@ -87,7 +87,7 @@ Run the three migration scripts in order using the **SQL Editor** in the Supabas
 3. Paste into the SQL Editor and click **Run**.
    - *This seeds:*
      - Verified official branding for **Saifi Interior Hub**.
-     - Official contact info (`+91-84498-02502`, `enquiry@saifiinteriorhub.in`).
+     - Official contact info (`+91-84498-02502`, `saifiinteriorhub@gmail.com`).
      - **10+ Years Experience** company background and metrics.
      - Core services, stats, socials, and SEO metadata.
 

@@ -11,7 +11,7 @@
 **Company:** Saifi Interior Hub  
 **Industry:** Premium Interior Design & Execution Studio  
 **Experience:** 10+ Years • Delhi NCR (Gurugram, Delhi, Noida, Greater Noida)  
-**Direct Site Contact:** `+91-84498-02502` • `enquiry@saifiinteriorhub.in`
+**Direct Site Contact:** `+91-84498-02502` • `saifiinteriorhub@gmail.com`
 
 ---
 
@@ -197,5 +197,5 @@ When deploying to Vercel/Netlify/Cloudflare, set the following environment varia
 - **Experience:** 10+ Years of Craftsmanship & Execution
 - **Service Region:** Gurugram, Delhi, Noida, Greater Noida (Delhi NCR)
 - **Phone:** `+91-84498-02502`
-- **Email:** `enquiry@saifiinteriorhub.in`
+- **Email:** `saifiinteriorhub@gmail.com`
 - **Copyright:** &copy; 2026 Saifi Interior Hub. All rights reserved.

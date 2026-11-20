@@ -365,7 +365,7 @@ export default function AdminSettingsPage() {
                       type="email"
                       value={general.contact_email || ''}
                       onChange={(e) => handleFieldChange('general_settings', 'contact_email', e.target.value)}
-                      placeholder="enquiry@saifiinteriorhub.in"
+                      placeholder="saifiinteriorhub@gmail.com"
                       className={`settings-input ${fieldErrors.contact_email ? 'has-error' : ''}`}
                     />
                     {fieldErrors.contact_email && (
@@ -606,7 +606,7 @@ export default function AdminSettingsPage() {
                       type="email"
                       value={business.business_email || ''}
                       onChange={(e) => handleFieldChange('business_info', 'business_email', e.target.value)}
-                      placeholder="enquiry@saifiinteriorhub.in"
+                      placeholder="saifiinteriorhub@gmail.com"
                       className={`settings-input ${fieldErrors.business_email ? 'has-error' : ''}`}
                     />
                     {fieldErrors.business_email && (
@@ -759,7 +759,7 @@ export default function AdminSettingsPage() {
                       type="email"
                       value={contact.email || ''}
                       onChange={(e) => handleFieldChange('contact_info', 'email', e.target.value)}
-                      placeholder="enquiry@saifiinteriorhub.in"
+                      placeholder="saifiinteriorhub@gmail.com"
                       className={`settings-input ${fieldErrors.email ? 'has-error' : ''}`}
                     />
                     {fieldErrors.email && (

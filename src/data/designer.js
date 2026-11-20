@@ -32,7 +32,7 @@ export const COMPANY_INFO = {
   contact: {
     phone: "+91 84498 02502",
     whatsappNumber: "918449802502",
-    email: "enquiry@saifiinteriorhub.in",
+    email: "saifiinteriorhub@gmail.com",
     location: "Delhi NCR, India",
     domain: "saifiinteriorhub.in"
   },
